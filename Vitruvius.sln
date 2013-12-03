@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightBuzz.Vitruvius.WPF", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightBuzz.Vitruvius", "LightBuzz.Vitruvius\LightBuzz.Vitruvius.csproj", "{89E39683-D56D-4604-971B-587C22C62934}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Externals", "Externals", "{D0398E15-7A55-4A91-810F-B2E8FDA34192}"
+	ProjectSection(SolutionItems) = preProject
+		Externals\Microsoft.Kinect.dll = Externals\Microsoft.Kinect.dll
+		Externals\Microsoft.Kinect.Toolkit.BackgroundRemoval.dll = Externals\Microsoft.Kinect.Toolkit.BackgroundRemoval.dll
+		Externals\Microsoft.Kinect.Toolkit.dll = Externals\Microsoft.Kinect.Toolkit.dll
+		Externals\Microsoft.Kinect.xml = Externals\Microsoft.Kinect.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
