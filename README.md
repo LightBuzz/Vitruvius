@@ -81,7 +81,7 @@ Examples
 
 Prerequisites
 ---
-* [Kinect for Windows]() or [Kinect for XBOX]() sensor
+* [Kinect for Windows](http://amzn.to/1k7rquZ) or [Kinect for XBOX](http://amzn.to/1dO0R0s) sensor
 * [Kinect for Windows SDK v1.8](http://go.microsoft.com/fwlink/?LinkID=323588)
 
 License
