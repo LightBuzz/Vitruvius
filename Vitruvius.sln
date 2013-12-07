@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Externals", "Externals", "{
 		Externals\Microsoft.Kinect.xml = Externals\Microsoft.Kinect.xml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VitruviusTest", "VitruviusTest\VitruviusTest.csproj", "{0D503AEB-8658-4031-86E5-B460986E7179}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{89E39683-D56D-4604-971B-587C22C62934}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89E39683-D56D-4604-971B-587C22C62934}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89E39683-D56D-4604-971B-587C22C62934}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D503AEB-8658-4031-86E5-B460986E7179}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D503AEB-8658-4031-86E5-B460986E7179}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D503AEB-8658-4031-86E5-B460986E7179}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D503AEB-8658-4031-86E5-B460986E7179}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
