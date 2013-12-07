@@ -57,7 +57,7 @@ Examples
             }
         }
         
-3. Getting the user height:
+3. Drawing a skeleton and getting its height:
 
         void Sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
@@ -65,15 +65,23 @@ Examples
             {
                 if (frame != null)
                 {
-                    var skeletons = new Skeleton[6];
-                    var users = skeletons.Where(s => s.TrackingState == SkeletonTrackingState.Tracked);
+                    canvas.Children.Clear();
                     
-                    foreach (var user in users)
+                    var skeletons = frame.Skeletons();
+                    
+                    foreach (var skeleton in skeletons)
                     {
-                        double height = user.Height();
-                        
-                        Console.WriteLine("User ID: " + user.TrackingId);
-                        Console.WriteLine("User height: " + height);
+                        if (skeleton != null)
+                        {
+                            if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
+                            {
+                                // Draw the skeleton.
+                                canvas.DrawSkeleton(skeleton, Colors.LightCyan);
+                                
+                                // Get the skeleton height.
+                                double height = skeleton.Height();
+                            }
+                        }
                     }
                 }
             }
