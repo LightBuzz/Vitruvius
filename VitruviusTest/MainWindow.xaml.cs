@@ -87,7 +87,10 @@ namespace VitruviusTest
                     {
                         if (skeleton != null)
                         {
-                            canvas.DrawSkeleton(skeleton, Colors.LightCyan);
+                            if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
+                            {
+                                canvas.DrawSkeleton(skeleton, Colors.LightCyan);
+                            }
                         }
                     }
                 }
