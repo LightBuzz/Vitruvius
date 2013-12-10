@@ -89,7 +89,11 @@ namespace VitruviusTest
                         {
                             if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
                             {
+                                // Draw skeleton.
                                 canvas.DrawSkeleton(skeleton, Colors.LightCyan);
+
+                                // Display user height.
+                                tblHeights.Text += string.Format("\nUser {0}: {1}cm", skeleton.TrackingId, skeleton.Height());
                             }
                         }
                     }

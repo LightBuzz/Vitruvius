@@ -3,6 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
         <Style x:Key="StackPanelStyle" TargetType="StackPanel">
             <Setter Property="Orientation" Value="Horizontal" />
             <Setter Property="Margin" Value="5" />

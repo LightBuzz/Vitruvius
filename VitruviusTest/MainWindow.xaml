@@ -5,6 +5,7 @@
     <Grid>
         <Image Name="camera" />
         <Canvas Name="canvas" />
+        <TextBlock Name="tblHeights" Style="{StaticResource TextBlockStyle}" Text="User heights" />
         <StackPanel Style="{StaticResource StackPanelStyle}">
             <Button Content="Color" Style="{StaticResource ButtonStyle}" Click="Color_Click" />
             <Button Content="Depth" Style="{StaticResource ButtonStyle}" Click="Depth_Click" />
