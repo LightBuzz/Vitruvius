@@ -20,6 +20,22 @@ Features
 * Gesture support
 * Posture support
 
+Installation
+---
+You can install Vitruvius using one of the following methods:
+
+1. Easiest way: Create a new WPF project in Visual Studio and select
+
+        Tools ➙ Library Package Manager ➙ Manage NuGet Packages for Solution
+
+then search for Vitruvius and click Install.
+
+2. Install via NuGet command-line
+
+        PM> Install-Package Vitruvius
+
+3. Download project and build the solution
+
 Examples
 ---
 
