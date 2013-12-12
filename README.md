@@ -108,6 +108,10 @@ Examples
             }
         }
 
+Credits
+---
+* Developed by [Vangos Pterneas](http://pterneas.com) for [LightBuzz](http://lightbuzz.com).
+
 License
 ---
 You are free to use these libraries in personal and commercial projects by attributing the original creator of Vitruvius. Licensed under [Apache v2 License](https://github.com/LightBuzz/Vitruvius/blob/master/LICENSE).
