@@ -110,7 +110,7 @@ Examples
 
 Credits
 ---
-* Developed by [Vangos Pterneas](http://pterneas.com) for [LightBuzz](http://lightbuzz.com).
+* Developed by [Vangos Pterneas](http://pterneas.com) for [LightBuzz](http://lightbuzz.com)
 
 License
 ---
