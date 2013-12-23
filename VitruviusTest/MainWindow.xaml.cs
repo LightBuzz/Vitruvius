@@ -25,6 +25,8 @@ namespace VitruviusTest
     {
         Mode _mode = Mode.Color;
 
+        GestureController _gestureController;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -40,6 +42,9 @@ namespace VitruviusTest
                 sensor.ColorFrameReady += Sensor_ColorFrameReady;
                 sensor.DepthFrameReady += Sensor_DepthFrameReady;
                 sensor.SkeletonFrameReady += Sensor_SkeletonFrameReady;
+
+                _gestureController = new GestureController(GestureType.All);
+                _gestureController.GestureRecognized += GestureController_GestureRecognized;
 
                 sensor.Start();
             }
@@ -79,25 +84,59 @@ namespace VitruviusTest
             {
                 if (frame != null)
                 {
-                    canvas.Children.Clear();
+                    canvas.ClearSkeletons();
+                    tblHeights.Text = string.Empty;
 
-                    var skeletons = frame.Skeletons();
+                    var skeletons = frame.Skeletons().Where(s => s.TrackingState == SkeletonTrackingState.Tracked);
 
                     foreach (var skeleton in skeletons)
                     {
                         if (skeleton != null)
                         {
-                            if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
-                            {
-                                // Draw skeleton.
-                                canvas.DrawSkeleton(skeleton, Colors.LightCyan);
+                            // Update skeleton gestures.
+                            _gestureController.Update(skeleton);
 
-                                // Display user height.
-                                tblHeights.Text += string.Format("\nUser {0}: {1}cm", skeleton.TrackingId, skeleton.Height());
-                            }
+                            // Draw skeleton.
+                            canvas.DrawSkeleton(skeleton);
+
+                            // Display user height.
+                            tblHeights.Text += string.Format("\nUser {0}: {1}cm", skeleton.TrackingId, skeleton.Height());
                         }
                     }
                 }
+            }
+        }
+
+        void GestureController_GestureRecognized(object sender, GestureEventArgs e)
+        {
+            // Display the gesture type.
+            tblGestures.Text = e.Name;
+
+            // Do something according to the type of the gesture.
+            switch (e.Type)
+            {
+                case GestureType.JoinedHands:
+                    break;
+                case GestureType.Menu:
+                    break;
+                case GestureType.SwipeDown:
+                    break;
+                case GestureType.SwipeLeft:
+                    break;
+                case GestureType.SwipeRight:
+                    break;
+                case GestureType.SwipeUp:
+                    break;
+                case GestureType.WaveLeft:
+                    break;
+                case GestureType.WaveRight:
+                    break;
+                case GestureType.ZoomIn:
+                    break;
+                case GestureType.ZoomOut:
+                    break;
+                default:
+                    break;
             }
         }
 
