@@ -2,7 +2,6 @@ Vitruvius
 =========
 
 Vitruvius is a set of easy-to-use Kinect utilities that will speed-up the development of your projects.
-
 **Vitruvius now supports gesture detection and complex skeleton drawing in WPF.**
 
 Features
