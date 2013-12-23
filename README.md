@@ -3,6 +3,8 @@ Vitruvius
 
 Vitruvius is a set of easy-to-use Kinect utilities that will speed-up the development of your projects.
 
+**Vitruvius now supports gesture detection and complex skeleton drawing in WPF.**
+
 Features
 ---
 
@@ -17,10 +19,21 @@ Features
 * Save Kinect frames as bitmap images
 * One-line skeleton drawing
 
+*Gestures*
+* WaveLeft
+* WaveRight
+* SwipeLeft
+* SwipeRight
+* JoinedHands
+* SwipeUp
+* SwipeDown
+* ZoomIn
+* ZoomOut
+* Menu
+
 *Coming soon*
 * Kinect for Windows v2 support
-* Gesture support
-* Posture support
+* Posture support (jumping, dancing, etc)
 
 Prerequisites
 ---
@@ -88,31 +101,64 @@ Examples
             {
                 if (frame != null)
                 {
-                    canvas.Children.Clear();
+                    canvas.ClearSkeletons();
                     
-                    var skeletons = frame.Skeletons();
+                    var skeletons = frame.Skeletons().Where(s => s.TrackingState == SkeletonTrackingState.Tracked);
                     
                     foreach (var skeleton in skeletons)
                     {
                         if (skeleton != null)
                         {
-                            if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
-                            {
-                                // Draw the skeleton.
-                                canvas.DrawSkeleton(skeleton, Colors.LightCyan);
+                            // Draw the skeleton.
+                            canvas.DrawSkeleton(skeleton);
                                 
-                                // Get the skeleton height.
-                                double height = skeleton.Height();
-                            }
+                            // Get the skeleton height.
+                            double height = skeleton.Height();
                         }
                     }
                 }
             }
         }
 
+4. Detecting gestures:
+
+        GestureController gestureController = new GestureController(GestureType.All);
+        gestureController.GestureRecognized += GestureController_GestureRecognized;
+        
+        // ...
+        
+        void Sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
+        {
+            using (var frame = e.OpenSkeletonFrame())
+            {
+                if (frame != null)
+                {
+                    var skeletons = frame.Skeletons().Where(s => s.TrackingState == SkeletonTrackingState.Tracked);
+                    
+                    foreach (var skeleton in skeletons)
+                    {
+                        if (skeleton != null)
+                        {
+                            // Update skeleton gestures.
+                            gestureController.Update(skeleton);
+                        }
+                    }
+                }
+            }
+        }
+        
+        // ...
+        
+        void GestureController_GestureRecognized(object sender, GestureEventArgs e)
+        {
+            // Display the recognized gesture's name.
+            Debug.WriteLine(e.Name);
+        }
+
 Credits
 ---
 * Developed by [Vangos Pterneas](http://pterneas.com) for [LightBuzz](http://lightbuzz.com)
+* Gesture detection partly based on [Fizbin](https://github.com/EvilClosetMonkey/Fizbin.Kinect.Gestures) library, by [Nicholas Pappas](http://www.exceptontuesdays.com/)
 
 License
 ---
