@@ -11,12 +11,12 @@ Features
 * Joint scaling, proper for on-screen display
 * User height
 * Distance between joints
-* One-line skeleton tracking (**new**)
+* One-line skeleton tracking (new)
 
 *WPF & WinForms utilities*
 * Easily display color and depth frames
 * Save Kinect frames as bitmap images
-* One-line skeleton drawing (*WPF-only*)
+* One-line skeleton drawing (WPF-only)
 
 *Gestures (new)*
 * WaveLeft
