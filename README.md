@@ -2,7 +2,7 @@ Vitruvius
 =========
 
 Vitruvius is a set of easy-to-use Kinect utilities that will speed-up the development of your projects.
-**Vitruvius now supports gesture detection and complex skeleton drawing in WPF.**
+**Vitruvius now supports gesture detection, complex skeleton drawing, voice recognition and much more.**
 
 Features
 ---
@@ -13,10 +13,10 @@ Features
 * Distance between joints
 * One-line skeleton tracking (**new**)
 
-*WPF extensions*
-* Easily display color and depth frames in WPF
+*WPF & WinForms utilities*
+* Easily display color and depth frames
 * Save Kinect frames as bitmap images
-* One-line skeleton drawing (**new**)
+* One-line skeleton drawing (*WPF-only*)
 
 *Gestures (new)*
 * WaveLeft
@@ -30,7 +30,11 @@ Features
 * ZoomOut
 * Menu
 
-*Coming soon*
+*Voice recognition & text-to-speech (new)*
+* Recognize voice commands
+* Speech synthesis
+
+*Coming very soon*
 * Kinect for Windows v2 support
 * Posture support (jumping, dancing, etc)
 
@@ -152,6 +156,25 @@ Examples
         {
             // Display the recognized gesture's name.
             Debug.WriteLine(e.Name);
+        }
+
+5. Recognizing and synthesizing voice:
+
+        VoiceController voiceController = new VoiceController();
+        voiceController.SpeechRecognized += VoiceController_SpeechRecognized;
+        
+        KinectSensor sensor = SensorExtensions.DefaultSensor();
+        List<string> phrases = new List<string> { "Hello", "Goodbye" };
+        
+        voiceController.StartRecognition(sensor, phrases);
+        
+        // ...
+        
+        void VoiceController_SpeechRecognized(object sender, Microsoft.Speech.Recognition.SpeechRecognizedEventArgs e)
+        {
+            string text = e.Result.Text;
+            
+            voiceController.Speak("I recognized the words: " + text);
         }
 
 Credits
