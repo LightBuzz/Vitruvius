@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightBuzz.Vitruvius", "Ligh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VitruviusTest", "VitruviusTest\VitruviusTest.csproj", "{0D503AEB-8658-4031-86E5-B460986E7179}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightBuzz.Vitruvius.WinForms", "LightBuzz.Vitruvius.WinForms\LightBuzz.Vitruvius.WinForms.csproj", "{4E33A969-0CB9-46CE-A530-1F5C3E9D6847}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{0D503AEB-8658-4031-86E5-B460986E7179}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D503AEB-8658-4031-86E5-B460986E7179}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D503AEB-8658-4031-86E5-B460986E7179}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E33A969-0CB9-46CE-A530-1F5C3E9D6847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E33A969-0CB9-46CE-A530-1F5C3E9D6847}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E33A969-0CB9-46CE-A530-1F5C3E9D6847}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E33A969-0CB9-46CE-A530-1F5C3E9D6847}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
