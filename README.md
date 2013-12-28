@@ -1,8 +1,7 @@
 Vitruvius
 =========
 
-Vitruvius is a set of easy-to-use Kinect utilities that will speed-up the development of your projects.
-**Vitruvius now supports gesture detection, complex skeleton drawing, voice recognition and much more.**
+Vitruvius is a set of easy-to-use Kinect utilities that will speed-up the development of your projects. Supports gesture detection, skeleton drawing, frame capturing, voice recognition and much more.
 
 Features
 ---
