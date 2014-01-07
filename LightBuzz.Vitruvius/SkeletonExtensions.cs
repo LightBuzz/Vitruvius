@@ -32,6 +32,16 @@ namespace LightBuzz.Vitruvius
         }
 
         /// <summary>
+        /// Returns the default skeleton, aka the one that is currently in front of the Kinect sensor.
+        /// </summary>
+        /// <param name="skeletons">A list of skeletons to look at.</param>
+        /// <returns>The first tracked skeleton.</returns>
+        public static Skeleton Default(this Skeleton[] skeletons)
+        {
+            return skeletons.Where(s => s.TrackingState == SkeletonTrackingState.Tracked).FirstOrDefault();
+        }
+
+        /// <summary>
         /// Retruns the height of the specified skeleton.
         /// </summary>
         /// <param name="skeleton">The specified user skeleton.</param>
