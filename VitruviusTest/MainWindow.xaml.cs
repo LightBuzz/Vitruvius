@@ -34,7 +34,7 @@ namespace VitruviusTest
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            KinectSensor sensor = SensorExtensions.DefaultSensor();
+            KinectSensor sensor = SensorExtensions.Default();
 
             if (sensor != null)
             {

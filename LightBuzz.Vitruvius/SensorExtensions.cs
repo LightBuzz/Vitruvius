@@ -28,7 +28,7 @@ namespace LightBuzz.Vitruvius
         /// Gets the default Kinect sensor.
         /// </summary>
         /// <returns>The default connected Kinect sensor, or null if no properly connected devices are found.</returns>
-        public static KinectSensor DefaultSensor()
+        public static KinectSensor Default()
         {
             return KinectSensor.KinectSensors.Where(s => s.Status == KinectStatus.Connected).FirstOrDefault();
         }
