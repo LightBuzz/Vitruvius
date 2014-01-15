@@ -183,20 +183,6 @@ namespace LightBuzz.Vitruvius
             return ScaleTo(joint, width, height, 1.0f, 1.0f);
         }
 
-        public static object SerializeJoint(this Skeleton skeleton, JointType joint)
-        {
-            Vector4 q = skeleton.BoneOrientations[joint].HierarchicalRotation.Quaternion;
-            return new
-            {
-                X = skeleton.Joints[joint].Position.X,
-                Y = skeleton.Joints[joint].Position.Y,
-                Z = skeleton.Joints[joint].Position.Z,
-                state = skeleton.Joints[joint].TrackingState.ToString(),
-                rotationFrom = skeleton.BoneOrientations[joint].StartJoint.ToString(),
-                rotationQuaternion = new[] {q.X, q.Y, q.Z, q.W}
-            };
-        }
-
         #endregion
 
         #region Helpers

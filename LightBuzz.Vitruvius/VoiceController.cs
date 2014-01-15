@@ -119,13 +119,13 @@ namespace LightBuzz.Vitruvius
             {
                 _synthesizer.SetOutputToDefaultAudioDevice();
                 _synthesizer.SpeakCompleted += Synthesizer_SpeakCompleted;
+
+                IsSynthesisCapable = true;
             }
             catch
             {
                 Debug.WriteLine("No audio output device found.");
             }
-
-            IsSynthesisCapable = true;
         }
 
         /// <summary>
