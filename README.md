@@ -162,7 +162,7 @@ Examples
         VoiceController voiceController = new VoiceController();
         voiceController.SpeechRecognized += VoiceController_SpeechRecognized;
         
-        KinectSensor sensor = SensorExtensions.DefaultSensor();
+        KinectSensor sensor = SensorExtensions.Default();
         List<string> phrases = new List<string> { "Hello", "Goodbye" };
         
         voiceController.StartRecognition(sensor, phrases);
