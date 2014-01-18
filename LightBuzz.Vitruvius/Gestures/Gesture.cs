@@ -8,6 +8,20 @@ namespace LightBuzz.Vitruvius
     /// </summary>
     class Gesture
     {
+        #region Constants
+
+        /// <summary>
+        /// The window size.
+        /// </summary>
+        readonly int WINDOW_SIZE = 50;
+
+        /// <summary>
+        /// The maximum number of frames allowed for a paused gesture.
+        /// </summary>
+        readonly int MAX_PAUSE_COUNT = 10;
+
+        #endregion
+
         #region Members
 
         /// <summary>
@@ -98,13 +112,14 @@ namespace LightBuzz.Vitruvius
             }
 
             GesturePartResult result = _segments[_currentSegment].Update(skeleton);
-            if (result == GesturePartResult.Succeed)
+
+            if (result == GesturePartResult.Succeeded)
             {
                 if (_currentSegment + 1 < _segments.Length)
                 {
                     _currentSegment++;
                     _frameCount = 0;
-                    _pausedFrameCount = 10;
+                    _pausedFrameCount = MAX_PAUSE_COUNT;
                     _paused = true;
                 }
                 else
@@ -116,17 +131,14 @@ namespace LightBuzz.Vitruvius
                     }
                 }
             }
-            else if (result == GesturePartResult.Fail || _frameCount == 50)
+            else if (result == GesturePartResult.Failed || _frameCount == WINDOW_SIZE)
             {
-                _currentSegment = 0;
-                _frameCount = 0;
-                _pausedFrameCount = 5;
-                _paused = true;
+                Reset();
             }
             else
             {
                 _frameCount++;
-                _pausedFrameCount = 5;
+                _pausedFrameCount = MAX_PAUSE_COUNT / 2;
                 _paused = true;
             }
         }
@@ -138,7 +150,7 @@ namespace LightBuzz.Vitruvius
         {
             _currentSegment = 0;
             _frameCount = 0;
-            _pausedFrameCount = 5;
+            _pausedFrameCount = MAX_PAUSE_COUNT / 2;
             _paused = true;
         }
 

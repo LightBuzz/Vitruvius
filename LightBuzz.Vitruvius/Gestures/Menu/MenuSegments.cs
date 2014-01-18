@@ -23,14 +23,14 @@ namespace LightBuzz.Vitruvius.Gestures
                     // left hand 0.2 to left of left elbow
                     if (skeleton.Joints[JointType.HandLeft].Position.X < skeleton.Joints[JointType.ElbowLeft].Position.X - 0.2)
                     {
-                        return GesturePartResult.Succeed;
+                        return GesturePartResult.Succeeded;
                     }
                 }
 
                 return GesturePartResult.Undetermined;
             }
 
-            return GesturePartResult.Fail;
+            return GesturePartResult.Failed;
         }
     }
 }

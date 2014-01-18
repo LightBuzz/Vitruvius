@@ -23,17 +23,17 @@ namespace LightBuzz.Vitruvius.Gestures
                     // right hand right of right shoulder
                     if (skeleton.Joints[JointType.HandRight].Position.X > skeleton.Joints[JointType.ShoulderRight].Position.X)
                     {
-                        return GesturePartResult.Succeed;
+                        return GesturePartResult.Succeeded;
                     }
                     return GesturePartResult.Undetermined;
                 }
 
                 // Debug.WriteLine("GesturePart 2 - right hand below shoulder height but above hip height - FAIL");
-                return GesturePartResult.Fail;
+                return GesturePartResult.Failed;
             }
 
             // Debug.WriteLine("GesturePart 2 - Right hand in front of right Shoulder - FAIL");
-            return GesturePartResult.Fail;
+            return GesturePartResult.Failed;
         }
     }
 }

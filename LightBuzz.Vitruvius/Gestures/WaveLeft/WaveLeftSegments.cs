@@ -17,7 +17,7 @@ namespace LightBuzz.Vitruvius.Gestures
                 // hand right of elbow
                 if (skeleton.Joints[JointType.HandLeft].Position.X > skeleton.Joints[JointType.ElbowLeft].Position.X)
                 {
-                    return GesturePartResult.Succeed;
+                    return GesturePartResult.Succeeded;
                 }
 
                 // hand has not dropped but is not quite where we expect it to be, pausing till next frame
@@ -25,7 +25,7 @@ namespace LightBuzz.Vitruvius.Gestures
             }
 
             // hand dropped - no gesture fails
-            return GesturePartResult.Fail;
+            return GesturePartResult.Failed;
         }
     }
 
@@ -44,7 +44,7 @@ namespace LightBuzz.Vitruvius.Gestures
                 // hand right of elbow
                 if (skeleton.Joints[JointType.HandLeft].Position.X < skeleton.Joints[JointType.ElbowLeft].Position.X)
                 {
-                    return GesturePartResult.Succeed;
+                    return GesturePartResult.Succeeded;
                 }
 
                 // hand has not dropped but is not quite where we expect it to be, pausing till next frame
@@ -52,7 +52,7 @@ namespace LightBuzz.Vitruvius.Gestures
             }
 
             // hand dropped - no gesture fails
-            return GesturePartResult.Fail;
+            return GesturePartResult.Failed;
         }
     }
 

@@ -50,7 +50,7 @@
     <Compile Include="Gestures\GesturePartResult.cs" />
     <Compile Include="Gestures\GestureEventArgs.cs" />
     <Compile Include="Gestures\GestureType.cs" />
-    <Compile Include="Gestures\IRelativeGestureSegment.cs" />
+    <Compile Include="Gestures\IGestureSegment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Gestures\JoinedHands\JoinedHandsSegment.cs" />
     <Compile Include="Gestures\Menu\MenuSegments.cs" />

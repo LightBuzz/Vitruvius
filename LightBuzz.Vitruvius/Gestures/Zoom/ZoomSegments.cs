@@ -19,16 +19,16 @@ namespace LightBuzz.Vitruvius.Gestures
                     if (skeleton.Joints[JointType.HandRight].Position.X < skeleton.Joints[JointType.ShoulderRight].Position.X && skeleton.Joints[JointType.HandRight].Position.X > skeleton.Joints[JointType.ShoulderLeft].Position.X &&
                         skeleton.Joints[JointType.HandLeft].Position.X > skeleton.Joints[JointType.ShoulderLeft].Position.X && skeleton.Joints[JointType.HandLeft].Position.X < skeleton.Joints[JointType.ShoulderRight].Position.X)
                     {
-                        return GesturePartResult.Succeed;
+                        return GesturePartResult.Succeeded;
                     }
 
                     return GesturePartResult.Undetermined;
                 }
 
-                return GesturePartResult.Fail;
+                return GesturePartResult.Failed;
             }
 
-            return GesturePartResult.Fail;
+            return GesturePartResult.Failed;
         }
     }
 
@@ -46,16 +46,16 @@ namespace LightBuzz.Vitruvius.Gestures
                     // Hands outside shoulders
                     if (skeleton.Joints[JointType.HandRight].Position.X > skeleton.Joints[JointType.ShoulderRight].Position.X && skeleton.Joints[JointType.HandLeft].Position.X < skeleton.Joints[JointType.ShoulderLeft].Position.X)
                     {
-                        return GesturePartResult.Succeed;
+                        return GesturePartResult.Succeeded;
                     }
 
                     return GesturePartResult.Undetermined;
                 }
 
-                return GesturePartResult.Fail;
+                return GesturePartResult.Failed;
             }
 
-            return GesturePartResult.Fail;
+            return GesturePartResult.Failed;
         }
     }
 
@@ -73,16 +73,16 @@ namespace LightBuzz.Vitruvius.Gestures
                     // Hands outside elbows
                     if (skeleton.Joints[JointType.HandRight].Position.X > skeleton.Joints[JointType.ElbowRight].Position.X && skeleton.Joints[JointType.HandLeft].Position.X < skeleton.Joints[JointType.ElbowLeft].Position.X)
                     {
-                        return GesturePartResult.Succeed;
+                        return GesturePartResult.Succeeded;
                     }
 
                     return GesturePartResult.Undetermined;
                 }
 
-                return GesturePartResult.Fail;
+                return GesturePartResult.Failed;
             }
 
-            return GesturePartResult.Fail;
+            return GesturePartResult.Failed;
         }
     }
 }

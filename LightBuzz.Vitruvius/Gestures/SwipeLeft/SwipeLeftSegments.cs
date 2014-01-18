@@ -24,13 +24,13 @@ namespace LightBuzz.Vitruvius.Gestures
                     // right hand right of right shoulder
                     if (skeleton.Joints[JointType.HandRight].Position.X > skeleton.Joints[JointType.ShoulderRight].Position.X)
                     {
-                        return GesturePartResult.Succeed;
+                        return GesturePartResult.Succeeded;
                     }
                     return GesturePartResult.Undetermined;
                 }
-                return GesturePartResult.Fail;
+                return GesturePartResult.Failed;
             }
-            return GesturePartResult.Fail;
+            return GesturePartResult.Failed;
         }
     }
 
@@ -55,13 +55,13 @@ namespace LightBuzz.Vitruvius.Gestures
                     // right hand left of right shoulder & right of left shoulder
                     if (skeleton.Joints[JointType.HandRight].Position.X < skeleton.Joints[JointType.ShoulderRight].Position.X && skeleton.Joints[JointType.HandRight].Position.X > skeleton.Joints[JointType.ShoulderLeft].Position.X)
                     {
-                        return GesturePartResult.Succeed;
+                        return GesturePartResult.Succeeded;
                     }
                     return GesturePartResult.Undetermined;
                 }
-                return GesturePartResult.Fail;
+                return GesturePartResult.Failed;
             }
-            return GesturePartResult.Fail;
+            return GesturePartResult.Failed;
         }
     }
 
@@ -86,16 +86,16 @@ namespace LightBuzz.Vitruvius.Gestures
                     // //right hand left of center hip
                     if (skeleton.Joints[JointType.HandRight].Position.X < skeleton.Joints[JointType.ShoulderLeft].Position.X)
                     {
-                        return GesturePartResult.Succeed;
+                        return GesturePartResult.Succeeded;
                     }
 
                     return GesturePartResult.Undetermined;
                 }
 
-                return GesturePartResult.Fail;
+                return GesturePartResult.Failed;
             }
 
-            return GesturePartResult.Fail;
+            return GesturePartResult.Failed;
         }
     }
 }

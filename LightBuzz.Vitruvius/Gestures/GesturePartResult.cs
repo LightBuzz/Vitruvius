@@ -10,12 +10,12 @@ namespace LightBuzz.Vitruvius
         /// <summary>
         /// Gesture part failed.
         /// </summary>
-        Fail,
+        Failed,
 
         /// <summary>
         /// Gesture part succeeded.
         /// </summary>
-        Succeed,
+        Succeeded,
 
         /// <summary>
         /// Gesture part result undetermined.

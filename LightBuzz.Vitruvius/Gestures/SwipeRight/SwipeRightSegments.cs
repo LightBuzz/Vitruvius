@@ -26,7 +26,7 @@ namespace LightBuzz.Vitruvius.Gestures
                     if (skeleton.Joints[JointType.HandLeft].Position.X < skeleton.Joints[JointType.ShoulderLeft].Position.X)
                     {
                         // Debug.WriteLine("GesturePart 0 - left hand left of left Shoulder - PASS");
-                        return GesturePartResult.Succeed;
+                        return GesturePartResult.Succeeded;
                     }
 
                     // Debug.WriteLine("GesturePart 0 - left hand left of left Shoulder - UNDETERMINED");
@@ -34,11 +34,11 @@ namespace LightBuzz.Vitruvius.Gestures
                 }
 
                 // Debug.WriteLine("GesturePart 0 - left hand below shoulder height but above hip height - FAIL");
-                return GesturePartResult.Fail;
+                return GesturePartResult.Failed;
             }
 
             // Debug.WriteLine("GesturePart 0 - left hand in front of left Shoulder - FAIL");
-            return GesturePartResult.Fail;
+            return GesturePartResult.Failed;
         }
     }
 
@@ -66,7 +66,7 @@ namespace LightBuzz.Vitruvius.Gestures
                     if (skeleton.Joints[JointType.HandLeft].Position.X < skeleton.Joints[JointType.ShoulderRight].Position.X && skeleton.Joints[JointType.HandLeft].Position.X > skeleton.Joints[JointType.ShoulderLeft].Position.X)
                     {
                         // Debug.WriteLine("GesturePart 1 - left hand left of left Shoulder - PASS");
-                        return GesturePartResult.Succeed;
+                        return GesturePartResult.Succeeded;
                     }
 
                     // Debug.WriteLine("GesturePart 1 - left hand left of left Shoulder - UNDETERMINED");
@@ -74,11 +74,11 @@ namespace LightBuzz.Vitruvius.Gestures
                 }
 
                 // Debug.WriteLine("GesturePart 1 - left hand below shoulder height but above hip height - FAIL");
-                return GesturePartResult.Fail;
+                return GesturePartResult.Failed;
             }
 
             // Debug.WriteLine("GesturePart 1 - left hand in front of left Shoulder - FAIL");
-            return GesturePartResult.Fail;
+            return GesturePartResult.Failed;
         }
     }
 
@@ -103,16 +103,16 @@ namespace LightBuzz.Vitruvius.Gestures
                     // //left hand left of left Shoulder
                     if (skeleton.Joints[JointType.HandLeft].Position.X > skeleton.Joints[JointType.ShoulderRight].Position.X)
                     {
-                        return GesturePartResult.Succeed;
+                        return GesturePartResult.Succeeded;
                     }
 
                     return GesturePartResult.Undetermined;
                 }
 
-                return GesturePartResult.Fail;
+                return GesturePartResult.Failed;
             }
 
-            return GesturePartResult.Fail;
+            return GesturePartResult.Failed;
         }
     }
 }

@@ -11,21 +11,21 @@ namespace LightBuzz.Vitruvius.Gestures
         /// <returns>A GesturePartResult based on whether the gesture part has been completed.</returns>
         public GesturePartResult Update(Skeleton skeleton)
         {
-            // hand above elbow
+            // Hand above elbow
             if (skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.ElbowRight].Position.Y)
             {
-                // hand right of elbow
+                // Hand right of elbow
                 if (skeleton.Joints[JointType.HandRight].Position.X > skeleton.Joints[JointType.ElbowRight].Position.X)
                 {
-                    return GesturePartResult.Succeed;
+                    return GesturePartResult.Succeeded;
                 }
 
-                // hand has not dropped but is not quite where we expect it to be, pausing till next frame
+                // Hand has not dropped but is not quite where we expect it to be, pausing till next frame
                 return GesturePartResult.Undetermined;
             }
 
-            // hand dropped - no gesture fails
-            return GesturePartResult.Fail;
+            // Hand dropped - no gesture fails
+            return GesturePartResult.Failed;
         }
     }
 
@@ -38,21 +38,21 @@ namespace LightBuzz.Vitruvius.Gestures
         /// <returns>A GesturePartResult based on whether the gesture part has been completed.</returns>
         public GesturePartResult Update(Skeleton skeleton)
         {
-            // hand above elbow
+            // Hand above elbow
             if (skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.ElbowRight].Position.Y)
             {
-                // hand right of elbow
+                // Hand left of elbow
                 if (skeleton.Joints[JointType.HandRight].Position.X < skeleton.Joints[JointType.ElbowRight].Position.X)
                 {
-                    return GesturePartResult.Succeed;
+                    return GesturePartResult.Succeeded;
                 }
 
-                // hand has not dropped but is not quite where we expect it to be, pausing till next frame
+                // Hand has not dropped but is not quite where we expect it to be, pausing till next frame
                 return GesturePartResult.Undetermined;
             }
 
-            // hand dropped - no gesture fails
-            return GesturePartResult.Fail;
+            // Hand dropped - no gesture fails
+            return GesturePartResult.Failed;
         }
     }
 }

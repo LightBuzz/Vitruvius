@@ -25,19 +25,19 @@ namespace LightBuzz.Vitruvius.Gestures
                         // Hands very close
                         if (skeleton.Joints[JointType.HandRight].Position.X - skeleton.Joints[JointType.HandLeft].Position.X < 0)
                         {
-                            return GesturePartResult.Succeed;
+                            return GesturePartResult.Succeeded;
                         }
 
                         return GesturePartResult.Undetermined;
                     }
 
-                    return GesturePartResult.Fail;
+                    return GesturePartResult.Failed;
                 }
 
-                return GesturePartResult.Fail;
+                return GesturePartResult.Failed;
             }
 
-            return GesturePartResult.Fail;
+            return GesturePartResult.Failed;
         }
 
     }
