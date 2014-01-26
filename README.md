@@ -41,7 +41,7 @@ Features
 Prerequisites
 ---
 * [Kinect for Windows](http://amzn.to/1k7rquZ) or [Kinect for XBOX](http://amzn.to/1dO0R0s) sensor
-* [Kinect for Windows SDK v1.8](http://go.microsoft.com/fwlink/?LinkID=323588)\
+* [Kinect for Windows SDK v1.8](http://go.microsoft.com/fwlink/?LinkID=323588)
 
 If you are developing using the developer preview Kinect SDK v2, you need the appropriate hardware and software provided by Microsoft.
 
