@@ -14,12 +14,12 @@ Features
 * Distance between joints
 * One-line skeleton tracking
 
-*WPF & WinForms utilities*
+### WPF & WinForms utilities
 * Easily display color, depth and infrared frames
 * Save Kinect frames as bitmap images
 * One-line skeleton drawing (WPF-only)
 
-*Gestures (new)*
+### Gestures (new)
 * WaveLeft
 * WaveRight
 * SwipeLeft
@@ -31,11 +31,11 @@ Features
 * ZoomOut
 * Menu
 
-*Voice recognition & text-to-speech (v1 only)*
+### Voice recognition & text-to-speech (v1 only)
 * Recognize voice commands
 * Speech synthesis
 
-*Coming very soon*
+### Coming very soon
 * Posture support (jumping, dancing, etc)
 
 Prerequisites
