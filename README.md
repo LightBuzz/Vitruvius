@@ -3,6 +3,8 @@ Vitruvius
 
 Vitruvius is a set of easy-to-use Kinect utilities that will speed-up the development of your projects. Supports gesture detection, skeleton drawing, frame capturing, voice recognition and much more.
 
+Great news for early-access developers: Vitruvius now supports Kinect for Windows version 2 sensor!
+
 Features
 ---
 
@@ -10,10 +12,10 @@ Features
 * Joint scaling, proper for on-screen display
 * User height
 * Distance between joints
-* One-line skeleton tracking (new)
+* One-line skeleton tracking
 
 *WPF & WinForms utilities*
-* Easily display color and depth frames
+* Easily display color, depth and infrared frames
 * Save Kinect frames as bitmap images
 * One-line skeleton drawing (WPF-only)
 
@@ -29,18 +31,19 @@ Features
 * ZoomOut
 * Menu
 
-*Voice recognition & text-to-speech (new)*
+*Voice recognition & text-to-speech (v1 only)*
 * Recognize voice commands
 * Speech synthesis
 
 *Coming very soon*
-* Kinect for Windows v2 support
 * Posture support (jumping, dancing, etc)
 
 Prerequisites
 ---
 * [Kinect for Windows](http://amzn.to/1k7rquZ) or [Kinect for XBOX](http://amzn.to/1dO0R0s) sensor
-* [Kinect for Windows SDK v1.8](http://go.microsoft.com/fwlink/?LinkID=323588)
+* [Kinect for Windows SDK v1.8](http://go.microsoft.com/fwlink/?LinkID=323588)\
+
+If you are developing using the developer preview Kinect SDK v2, you need the appropriate hardware and software provided by Microsoft.
 
 Installation
 ---
