@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using Microsoft.Kinect;
 
-namespace Vitruvius.WinForms
+namespace LightBuzz.Vitruvius.WinForms
 {
     /// <summary>
     /// Provides some common functionality for manipulating color frames.

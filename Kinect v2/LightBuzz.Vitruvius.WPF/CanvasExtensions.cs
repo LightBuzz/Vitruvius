@@ -10,7 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace LightBuzz.Vitruvius
+namespace LightBuzz.Vitruvius.WPF
 {
     /// <summary>
     /// Provides some common fnctionality for drawing Kinect skeleton data on a WPF canvas element.
@@ -52,7 +52,7 @@ namespace LightBuzz.Vitruvius
         /// <param name="radius">The desired length for the ellipse.</param>
         public static void DrawPoint(this Canvas canvas, Joint joint, Color color, double radius)
         {
-            if (joint.TrackingState == JointTrackingState.NotTracked) return;
+            if (joint.TrackingState == TrackingState.NotTracked) return;
 
             joint = joint.ScaleTo(canvas.ActualWidth, canvas.ActualHeight);
 
@@ -101,7 +101,7 @@ namespace LightBuzz.Vitruvius
         /// <param name="thickness">The desired line thickness.</param>
         public static void DrawLine(this Canvas canvas, Joint first, Joint second, Color color, double thickness)
         {
-            if (first.TrackingState == JointTrackingState.NotTracked || second.TrackingState == JointTrackingState.NotTracked) return;
+            if (first.TrackingState == TrackingState.NotTracked || second.TrackingState == TrackingState.NotTracked) return;
 
             first = first.ScaleTo(canvas.ActualWidth, canvas.ActualHeight);
             second = second.ScaleTo(canvas.ActualWidth, canvas.ActualHeight);
@@ -144,49 +144,49 @@ namespace LightBuzz.Vitruvius
         }
 
         /// <summary>
-        /// Clears the canvas element and draws the specified skeleton on it.
+        /// Clears the canvas element and draws the specified body on it.
         /// </summary>
         /// <param name="canvas">The Canvas element to draw the skeleton.</param>
-        /// <param name="skeleton">The skeleton to draw.</param>
+        /// <param name="body">The body to draw.</param>
         /// <param name="color">The desired color for the skeleton.</param>
-        public static void DrawSkeleton(this Canvas canvas, Skeleton skeleton, Color color)
+        public static void DrawSkeleton(this Canvas canvas, Body body, Color color)
         {
-            if (skeleton == null) return;
+            if (body == null) return;
             
-            foreach (Joint joint in skeleton.Joints)
+            foreach (Joint joint in body.Joints.Values)
             {
                 canvas.DrawPoint(joint, color);
             }
 
-            canvas.DrawLine(skeleton.Joints[JointType.Head], skeleton.Joints[JointType.ShoulderCenter], color);
-            canvas.DrawLine(skeleton.Joints[JointType.ShoulderCenter], skeleton.Joints[JointType.ShoulderLeft], color);
-            canvas.DrawLine(skeleton.Joints[JointType.ShoulderCenter], skeleton.Joints[JointType.ShoulderRight], color);
-            canvas.DrawLine(skeleton.Joints[JointType.ShoulderCenter], skeleton.Joints[JointType.Spine], color);
-            canvas.DrawLine(skeleton.Joints[JointType.ShoulderLeft], skeleton.Joints[JointType.ElbowLeft], color);
-            canvas.DrawLine(skeleton.Joints[JointType.ShoulderRight], skeleton.Joints[JointType.ElbowRight], color);
-            canvas.DrawLine(skeleton.Joints[JointType.ElbowLeft], skeleton.Joints[JointType.WristLeft], color);
-            canvas.DrawLine(skeleton.Joints[JointType.ElbowRight], skeleton.Joints[JointType.WristRight], color);
-            canvas.DrawLine(skeleton.Joints[JointType.WristLeft], skeleton.Joints[JointType.HandLeft], color);
-            canvas.DrawLine(skeleton.Joints[JointType.WristRight], skeleton.Joints[JointType.HandRight], color);
-            canvas.DrawLine(skeleton.Joints[JointType.Spine], skeleton.Joints[JointType.HipCenter], color);
-            canvas.DrawLine(skeleton.Joints[JointType.HipCenter], skeleton.Joints[JointType.HipLeft], color);
-            canvas.DrawLine(skeleton.Joints[JointType.HipCenter], skeleton.Joints[JointType.HipRight], color);
-            canvas.DrawLine(skeleton.Joints[JointType.HipLeft], skeleton.Joints[JointType.KneeLeft], color);
-            canvas.DrawLine(skeleton.Joints[JointType.HipRight], skeleton.Joints[JointType.KneeRight], color);
-            canvas.DrawLine(skeleton.Joints[JointType.KneeLeft], skeleton.Joints[JointType.AnkleLeft], color);
-            canvas.DrawLine(skeleton.Joints[JointType.KneeRight], skeleton.Joints[JointType.AnkleRight], color);
-            canvas.DrawLine(skeleton.Joints[JointType.AnkleLeft], skeleton.Joints[JointType.FootLeft], color);
-            canvas.DrawLine(skeleton.Joints[JointType.AnkleRight], skeleton.Joints[JointType.FootRight], color);
+            canvas.DrawLine(body.Joints[JointType.Head], body.Joints[JointType.SpineShoulder], color);
+            canvas.DrawLine(body.Joints[JointType.SpineShoulder], body.Joints[JointType.ShoulderLeft], color);
+            canvas.DrawLine(body.Joints[JointType.SpineShoulder], body.Joints[JointType.ShoulderRight], color);
+            canvas.DrawLine(body.Joints[JointType.SpineShoulder], body.Joints[JointType.SpineMid], color);
+            canvas.DrawLine(body.Joints[JointType.ShoulderLeft], body.Joints[JointType.ElbowLeft], color);
+            canvas.DrawLine(body.Joints[JointType.ShoulderRight], body.Joints[JointType.ElbowRight], color);
+            canvas.DrawLine(body.Joints[JointType.ElbowLeft], body.Joints[JointType.WristLeft], color);
+            canvas.DrawLine(body.Joints[JointType.ElbowRight], body.Joints[JointType.WristRight], color);
+            canvas.DrawLine(body.Joints[JointType.WristLeft], body.Joints[JointType.HandLeft], color);
+            canvas.DrawLine(body.Joints[JointType.WristRight], body.Joints[JointType.HandRight], color);
+            canvas.DrawLine(body.Joints[JointType.SpineMid], body.Joints[JointType.SpineBase], color);
+            canvas.DrawLine(body.Joints[JointType.SpineBase], body.Joints[JointType.HipLeft], color);
+            canvas.DrawLine(body.Joints[JointType.SpineBase], body.Joints[JointType.HipRight], color);
+            canvas.DrawLine(body.Joints[JointType.HipLeft], body.Joints[JointType.KneeLeft], color);
+            canvas.DrawLine(body.Joints[JointType.HipRight], body.Joints[JointType.KneeRight], color);
+            canvas.DrawLine(body.Joints[JointType.KneeLeft], body.Joints[JointType.AnkleLeft], color);
+            canvas.DrawLine(body.Joints[JointType.KneeRight], body.Joints[JointType.AnkleRight], color);
+            canvas.DrawLine(body.Joints[JointType.AnkleLeft], body.Joints[JointType.FootLeft], color);
+            canvas.DrawLine(body.Joints[JointType.AnkleRight], body.Joints[JointType.FootRight], color);
         }
 
         /// <summary>
-        /// Clears the canvas element and draws the specified skeleton on it.
+        /// Clears the canvas element and draws the specified body on it.
         /// </summary>
         /// <param name="canvas">The Canvas element to draw the skeleton.</param>
-        /// <param name="skeleton">The skeleton to draw.</param>
-        public static void DrawSkeleton(this Canvas canvas, Skeleton skeleton)
+        /// <param name="body">The body to draw.</param>
+        public static void DrawSkeleton(this Canvas canvas, Body body)
         {
-            DrawSkeleton(canvas, skeleton, DEFAULT_COLOR);
+            DrawSkeleton(canvas, body, DEFAULT_COLOR);
         }
 
         /// <summary>
