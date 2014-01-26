@@ -8,7 +8,7 @@ Great news for early-access developers: Vitruvius now supports Kinect for Window
 Features
 ---
 
-*Skeletal extensions*
+### Skeletal extensions
 * Joint scaling, proper for on-screen display
 * User height
 * Distance between joints
