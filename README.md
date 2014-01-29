@@ -47,18 +47,6 @@ If you are developing using the developer preview Kinect SDK v2, you need the ap
 
 Installation
 ---
-You can install Vitruvius using **either** of the following methods:
-
-* Easiest way: Create a new WPF project in Visual Studio and select
-
-        Tools ➙ Library Package Manager ➙ Manage NuGet Packages for Solution
-
-then search for Vitruvius and click Install.
-
-* Install via NuGet command-line
-
-        PM> Install-Package Vitruvius
-
 * Download project's source code and build the solution.
 
 Examples
