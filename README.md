@@ -47,7 +47,7 @@ If you are developing using the developer preview Kinect SDK v2, you need the ap
 
 Installation
 ---
-* Download project's source code and build the solution.
+* Download project's source code and build the solution that matches the version of your sensor. Version 2 refers to the private Developer Preview Kinect for Windows sensor.
 
 Examples
 ---
