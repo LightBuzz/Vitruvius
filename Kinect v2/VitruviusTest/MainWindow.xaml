@@ -1,7 +1,7 @@
 ﻿<Window x:Class="VitruviusTest.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="580" Width="920" Loaded="Window_Loaded">
+        Title="MainWindow" Height="580" Width="920" Loaded="Window_Loaded" Closed="Window_Closed">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="670" />
@@ -14,7 +14,7 @@
         <StackPanel Grid.Column="0" Style="{StaticResource StackPanelButtonsStyle}">
             <Button Content="Color" Style="{StaticResource ButtonStyle}" Click="Color_Click" />
             <Button Content="Depth" Style="{StaticResource ButtonStyle}" Click="Depth_Click" />
-            <Button Content="InfraRed" Style="{StaticResource ButtonStyle}" Click="Infrared_Click" />
+            <Button Content="Infrared" Style="{StaticResource ButtonStyle}" Click="Infrared_Click" />
         </StackPanel>
         <Grid Grid.Column="1">
             <StackPanel>

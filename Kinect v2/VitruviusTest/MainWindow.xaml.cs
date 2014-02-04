@@ -3,6 +3,7 @@ using LightBuzz.Vitruvius.WPF;
 using Microsoft.Kinect;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,8 +26,11 @@ namespace VitruviusTest
     {
         Mode _mode = Mode.Color;
 
+        KinectSensor _sensor;
+        MultiSourceFrameReader _reader;
+        IEnumerable<Body> _bodies;
         GestureController _gestureController;
-
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -34,24 +38,51 @@ namespace VitruviusTest
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            KinectSensor sensor = KinectSensor.Default;
+            Process.Start(@"C:\Windows\System32\KinectService.exe");
 
-            if (sensor != null)
+            _sensor = KinectSensor.Default;
+
+            if (_sensor != null)
             {
-                sensor.Open();
+                _sensor.Open();
 
-                MultiSourceFrameReader reader = sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Depth | FrameSourceTypes.Infrared | FrameSourceTypes.Body);
-                reader.MultiSourceFrameArrived += reader_MultiSourceFrameArrived;
+                _reader = _sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Depth | FrameSourceTypes.Infrared | FrameSourceTypes.Body);
+                _reader.MultiSourceFrameArrived += Reader_MultiSourceFrameArrived;
 
                 _gestureController = new GestureController(GestureType.All);
                 _gestureController.GestureRecognized += GestureController_GestureRecognized;
             }
         }
 
-        void reader_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if (_reader != null)
+            {
+                _reader.Dispose();
+            }
+
+            if (_bodies != null)
+            {
+                if (_bodies.Count() > 0)
+                {
+                    foreach (var body in _bodies)
+                    {
+                        body.Dispose();
+                    }
+                }
+            }
+
+            if (_sensor != null)
+            {
+                _sensor.Close();
+            }
+        }
+
+        void Reader_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
         {
             var reference = e.FrameReference.AcquireFrame();
 
+            // Color
             using (var frame = reference.ColorFrameReference.AcquireFrame())
             {
                 if (frame != null)
@@ -63,6 +94,7 @@ namespace VitruviusTest
                 }
             }
 
+            // Depth
             using (var frame = reference.DepthFrameReference.AcquireFrame())
             {
                 if (frame != null)
@@ -74,14 +106,19 @@ namespace VitruviusTest
                 }
             }
 
+            // Infrared
             using (var frame = reference.InfraredFrameReference.AcquireFrame())
             {
                 if (frame != null)
                 {
-                    // TODO
+                    if (_mode == Mode.Infrared)
+                    {
+                        camera.Source = frame.ToBitmap();
+                    }
                 }
             }
 
+            // Body
             using (var frame = reference.BodyFrameReference.AcquireFrame())
             {
                 if (frame != null)
@@ -89,9 +126,9 @@ namespace VitruviusTest
                     canvas.ClearSkeletons();
                     tblHeights.Text = string.Empty;
 
-                    var bodies = frame.Bodies().Where(body => body.IsTracked);
+                    _bodies = frame.Bodies().Where(body => body.IsTracked);
 
-                    foreach (var body in bodies)
+                    foreach (var body in _bodies)
                     {
                         if (body != null)
                         {
