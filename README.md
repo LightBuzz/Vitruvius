@@ -3,21 +3,23 @@ Vitruvius
 
 Vitruvius is a set of easy-to-use Kinect utilities that will speed-up the development of your projects. Supports gesture detection, skeleton drawing, frame capturing, voice recognition and much more.
 
+Great news for early-access developers: Vitruvius now supports Kinect for Windows version 2 sensor!
+
 Features
 ---
 
-*Skeletal extensions*
+### Skeletal extensions
 * Joint scaling, proper for on-screen display
 * User height
 * Distance between joints
-* One-line skeleton tracking (new)
+* One-line skeleton tracking
 
-*WPF & WinForms utilities*
-* Easily display color and depth frames
+### WPF & WinForms utilities
+* Easily display color, depth and infrared frames
 * Save Kinect frames as bitmap images
 * One-line skeleton drawing (WPF-only)
 
-*Gestures (new)*
+### Gestures (new)
 * WaveLeft
 * WaveRight
 * SwipeLeft
@@ -29,12 +31,11 @@ Features
 * ZoomOut
 * Menu
 
-*Voice recognition & text-to-speech (new)*
+### Voice recognition & text-to-speech (v1 only)
 * Recognize voice commands
 * Speech synthesis
 
-*Coming very soon*
-* Kinect for Windows v2 support
+### Coming very soon
 * Posture support (jumping, dancing, etc)
 
 Prerequisites
@@ -42,21 +43,11 @@ Prerequisites
 * [Kinect for Windows](http://amzn.to/1k7rquZ) or [Kinect for XBOX](http://amzn.to/1dO0R0s) sensor
 * [Kinect for Windows SDK v1.8](http://go.microsoft.com/fwlink/?LinkID=323588)
 
+If you are developing using the developer preview Kinect SDK v2, you need the appropriate hardware and software provided by Microsoft.
+
 Installation
 ---
-You can install Vitruvius using **either** of the following methods:
-
-* Easiest way: Create a new WPF project in Visual Studio and select
-
-        Tools ➙ Library Package Manager ➙ Manage NuGet Packages for Solution
-
-then search for Vitruvius and click Install.
-
-* Install via NuGet command-line
-
-        PM> Install-Package Vitruvius
-
-* Download project's source code and build the solution.
+* Download project's source code and build the solution that matches the version of your sensor. Version 2 refers to the private Developer Preview Kinect for Windows sensor.
 
 Examples
 ---
