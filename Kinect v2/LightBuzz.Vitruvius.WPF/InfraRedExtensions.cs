@@ -20,40 +20,36 @@ namespace LightBuzz.Vitruvius.WPF
         /// <returns>The specified frame in a System.media.ImageSource format.</returns>
         public static ImageSource ToBitmap(this InfraredFrame frame)
         {
-            ushort[] frameData = new ushort[frame.FrameDescription.Width * frame.FrameDescription.Height];
-            byte[] pixels = new byte[frame.FrameDescription.Width * frame.FrameDescription.Height * (PixelFormats.Bgr32.BitsPerPixel + 7) / 8];
+            int width = frame.FrameDescription.Width;
+            int height = frame.FrameDescription.Height;
+
+            ushort[] frameData = new ushort[width * height];
+            byte[] pixels = new byte[width * height * (PixelFormats.Bgr32.BitsPerPixel + 7) / 8];
 
             frame.CopyFrameDataToArray(frameData);
 
             // Convert the infrared to RGB.
-            int colorPixelIndex = 0;
-            for (int i = 0; i < frameData.Length; ++i)
+            int colorIndex = 0;
+            for (int infraredIndex = 0; infraredIndex < frameData.Length; ++infraredIndex)
             {
                 // Get the infrared value for this pixel
-                ushort ir = frameData[i];
+                ushort ir = frameData[infraredIndex];
 
                 // To convert to a byte, we're discarding the most-significant
                 // rather than least-significant bits.
                 // We're preserving detail, although the intensity will "wrap."
-
-                // To convert to a byte, we're discarding the least-significant bits.
                 byte intensity = (byte)(ir >> 8);
 
-                // Write out blue byte
-                pixels[colorPixelIndex++] = intensity;
-
-                // Write out green byte
-                pixels[colorPixelIndex++] = intensity;
-
-                // Write out red byte                        
-                pixels[colorPixelIndex++] = intensity;
+                pixels[colorIndex++] = intensity; // Blue
+                pixels[colorIndex++] = intensity; // Green   
+                pixels[colorIndex++] = intensity; // Red
 
                 // We're outputting BGR, the last byte in the 32 bits is unused so skip it
                 // If we were outputting BGRA, we would write alpha here.
-                ++colorPixelIndex;
+                ++colorIndex;
             }
 
-            return pixels.ToBitmap(frame.FrameDescription.Width, frame.FrameDescription.Height);
+            return pixels.ToBitmap(width, height);
         }
 
         #endregion

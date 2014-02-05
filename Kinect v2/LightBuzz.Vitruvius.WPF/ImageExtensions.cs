@@ -118,12 +118,25 @@ namespace LightBuzz.Vitruvius.WPF
         }
 
         /// <summary>
-        /// Captures the specified Kinect color frame and saves it to the specified location.
+        /// Captures the specified Kinect depth frame and saves it to the specified location.
         /// </summary>
         /// <param name="frame">The depth frame to capture.</param>
         /// <param name="path">The desired file path, including file name and extension, for the new image. Currently, JPEG, PNG and BMP formats are supported.</param>
         /// <returns>True if the bitmap file was successfully saved. False otherwise.</returns>
         public static bool Capture(this DepthFrame frame, string path)
+        {
+            if (frame == null) return false;
+
+            return Capture(frame.ToBitmap(), path);
+        }
+
+        /// <summary>
+        /// Captures the specified Kinect infrared frame and saves it to the specified location.
+        /// </summary>
+        /// <param name="frame">The infrared frame to capture.</param>
+        /// <param name="path">The desired file path, including file name and extension, for the new image. Currently, JPEG, PNG and BMP formats are supported.</param>
+        /// <returns>True if the bitmap file was successfully saved. False otherwise.</returns>
+        public static bool Capture(this InfraredFrame frame, string path)
         {
             if (frame == null) return false;
 

@@ -20,7 +20,10 @@ namespace LightBuzz.Vitruvius.WPF
         /// <returns>The specified frame in a System.media.ImageSource format.</returns>
         public static ImageSource ToBitmap(this ColorFrame frame)
         {
-            byte[] pixels = new byte[frame.FrameDescription.Width * frame.FrameDescription.Height * ((PixelFormats.Bgr32.BitsPerPixel + 7) / 8)];
+            int width = frame.FrameDescription.Width;
+            int height = frame.FrameDescription.Height;
+
+            byte[] pixels = new byte[width * height * ((PixelFormats.Bgr32.BitsPerPixel + 7) / 8)];
 
             if (frame.RawColorImageFormat == ColorImageFormat.Bgra)
             {
@@ -31,7 +34,7 @@ namespace LightBuzz.Vitruvius.WPF
                 frame.CopyConvertedFrameDataToArray(pixels, ColorImageFormat.Bgra);
             }
 
-            return pixels.ToBitmap(frame.FrameDescription.Width, frame.FrameDescription.Height);
+            return pixels.ToBitmap(width, height);
         }
 
         #endregion

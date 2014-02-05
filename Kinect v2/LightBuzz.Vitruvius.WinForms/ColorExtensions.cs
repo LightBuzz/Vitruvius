@@ -19,6 +19,9 @@ namespace LightBuzz.Vitruvius.WinForms
         /// <returns>The specified frame in a System.Drawing.Bitmap format.</returns>
         public static Bitmap ToBitmap(this ColorFrame frame)
         {
+            int width = frame.FrameDescription.Width;
+            int height = frame.FrameDescription.Height;
+
             byte[] pixels = new byte[frame.FrameDescription.LengthInPixels];
 
             if (frame.RawColorImageFormat == ColorImageFormat.Bgra)
@@ -30,7 +33,7 @@ namespace LightBuzz.Vitruvius.WinForms
                 frame.CopyConvertedFrameDataToArray(pixels, ColorImageFormat.Bgra);
             }
 
-            return pixels.ToBitmap(frame.FrameDescription.Width, frame.FrameDescription.Height);
+            return pixels.ToBitmap(width, height);
         }
 
         #endregion

@@ -33,21 +33,23 @@ namespace LightBuzz.Vitruvius.WPF
         /// <returns>The corresponding System.Windows.Media.ImageSource representation of the depth frame.</returns>
         public static ImageSource ToBitmap(this DepthFrame frame)
         {
-            ushort[] pixelData = new ushort[frame.FrameDescription.Width * frame.FrameDescription.Height];
-            byte[] pixels = new byte[frame.FrameDescription.Width * frame.FrameDescription.Height * (PixelFormats.Bgr32.BitsPerPixel + 7) / 8];
+            int width = frame.FrameDescription.Width;
+            int height = frame.FrameDescription.Height;
 
-            frame.CopyFrameDataToArray(pixelData);
-
-            // Get the min and max reliable depth for the current frame
             ushort minDepth = frame.DepthMinReliableDistance;
             ushort maxDepth = frame.DepthMaxReliableDistance;
 
-            // Convert the depth to RGB
-            int colorPixelIndex = 0;
-            for (int i = 0; i < pixelData.Length; ++i)
+            ushort[] pixelData = new ushort[width * height];
+            byte[] pixels = new byte[width * height * (PixelFormats.Bgr32.BitsPerPixel + 7) / 8];
+
+            frame.CopyFrameDataToArray(pixelData);
+
+            // Convert the depth to RGB.
+            int colorIndex = 0;
+            for (int depthIndex = 0; depthIndex < pixelData.Length; ++depthIndex)
             {
                 // Get the depth for this pixel
-                ushort depth = pixelData[i];
+                ushort depth = pixelData[depthIndex];
 
                 // To convert to a byte, we're discarding the most-significant
                 // rather than least-significant bits.
@@ -55,21 +57,16 @@ namespace LightBuzz.Vitruvius.WPF
                 // Values outside the reliable depth range are mapped to 0 (black).
                 byte intensity = (byte)(depth >= minDepth && depth <= maxDepth ? depth : 0);
 
-                // Write out blue byte
-                pixels[colorPixelIndex++] = intensity;
-
-                // Write out green byte
-                pixels[colorPixelIndex++] = intensity;
-
-                // Write out red byte                        
-                pixels[colorPixelIndex++] = intensity;
+                pixels[colorIndex++] = intensity; // Blue
+                pixels[colorIndex++] = intensity; // Green
+                pixels[colorIndex++] = intensity; // Red
 
                 // We're outputting BGR, the last byte in the 32 bits is unused so skip it
                 // If we were outputting BGRA, we would write alpha here.
-                ++colorPixelIndex;
+                ++colorIndex;
             }
 
-            return pixels.ToBitmap(frame.FrameDescription.Width, frame.FrameDescription.Height);
+            return pixels.ToBitmap(width, height);
         }
 
         #endregion
