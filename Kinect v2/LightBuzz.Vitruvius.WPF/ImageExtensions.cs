@@ -69,18 +69,18 @@ namespace LightBuzz.Vitruvius.WPF
 
                 switch (Path.GetExtension(path))
                 {
-                    case "jpg":
-                    case "JPG":
-                    case "jpeg":
-                    case "JPEG":
+                    case ".jpg":
+                    case ".JPG":
+                    case ".jpeg":
+                    case ".JPEG":
                         encoder = new JpegBitmapEncoder();
                         break;
-                    case "png":
-                    case "PNG":
+                    case ".png":
+                    case ".PNG":
                         encoder = new PngBitmapEncoder();
                         break;
-                    case "bmp":
-                    case "BMP":
+                    case ".bmp":
+                    case ".BMP":
                         encoder = new BmpBitmapEncoder();
                         break;
                     default:
