@@ -158,7 +158,8 @@ namespace LightBuzz.Vitruvius.WPF
                 canvas.DrawPoint(joint, color);
             }
 
-            canvas.DrawLine(body.Joints[JointType.Head], body.Joints[JointType.SpineShoulder], color);
+            canvas.DrawLine(body.Joints[JointType.Head], body.Joints[JointType.Neck], color);
+            canvas.DrawLine(body.Joints[JointType.Neck], body.Joints[JointType.SpineShoulder], color);
             canvas.DrawLine(body.Joints[JointType.SpineShoulder], body.Joints[JointType.ShoulderLeft], color);
             canvas.DrawLine(body.Joints[JointType.SpineShoulder], body.Joints[JointType.ShoulderRight], color);
             canvas.DrawLine(body.Joints[JointType.SpineShoulder], body.Joints[JointType.SpineMid], color);
@@ -168,6 +169,10 @@ namespace LightBuzz.Vitruvius.WPF
             canvas.DrawLine(body.Joints[JointType.ElbowRight], body.Joints[JointType.WristRight], color);
             canvas.DrawLine(body.Joints[JointType.WristLeft], body.Joints[JointType.HandLeft], color);
             canvas.DrawLine(body.Joints[JointType.WristRight], body.Joints[JointType.HandRight], color);
+            canvas.DrawLine(body.Joints[JointType.HandLeft], body.Joints[JointType.HandTipLeft], color);
+            canvas.DrawLine(body.Joints[JointType.HandRight], body.Joints[JointType.HandTipRight], color);
+            canvas.DrawLine(body.Joints[JointType.HandTipLeft], body.Joints[JointType.ThumbLeft], color);
+            canvas.DrawLine(body.Joints[JointType.HandTipRight], body.Joints[JointType.ThumbRight], color);
             canvas.DrawLine(body.Joints[JointType.SpineMid], body.Joints[JointType.SpineBase], color);
             canvas.DrawLine(body.Joints[JointType.SpineBase], body.Joints[JointType.HipLeft], color);
             canvas.DrawLine(body.Joints[JointType.SpineBase], body.Joints[JointType.HipRight], color);

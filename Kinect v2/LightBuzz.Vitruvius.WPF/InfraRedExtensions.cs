@@ -30,7 +30,7 @@ namespace LightBuzz.Vitruvius.WPF
 
             // Convert the infrared to RGB.
             int colorIndex = 0;
-            for (int infraredIndex = 0; infraredIndex < frameData.Length; ++infraredIndex)
+            for (int infraredIndex = 0; infraredIndex < frameData.Length; infraredIndex++)
             {
                 // Get the infrared value for this pixel
                 ushort ir = frameData[infraredIndex];
@@ -38,7 +38,7 @@ namespace LightBuzz.Vitruvius.WPF
                 // To convert to a byte, we're discarding the most-significant
                 // rather than least-significant bits.
                 // We're preserving detail, although the intensity will "wrap."
-                byte intensity = (byte)(ir >> 8);
+                byte intensity = (byte)(ir >> 6);
 
                 pixels[colorIndex++] = intensity; // Blue
                 pixels[colorIndex++] = intensity; // Green   
@@ -46,7 +46,7 @@ namespace LightBuzz.Vitruvius.WPF
 
                 // We're outputting BGR, the last byte in the 32 bits is unused so skip it
                 // If we were outputting BGRA, we would write alpha here.
-                ++colorIndex;
+                colorIndex++;
             }
 
             return pixels.ToBitmap(width, height);
