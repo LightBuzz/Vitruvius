@@ -136,7 +136,7 @@ namespace VitruviusTest
                             _gestureController.Update(body);
 
                             // Draw skeleton.
-                            canvas.DrawSkeleton(body);
+                            canvas.DrawBody(body);
 
                             // Display user height.
                             tblHeights.Text += string.Format("\nUser {0}: {1}cm", body.TrackingId, body.Height());

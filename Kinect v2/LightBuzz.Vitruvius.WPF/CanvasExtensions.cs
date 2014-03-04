@@ -27,17 +27,17 @@ namespace LightBuzz.Vitruvius.WPF
         /// <summary>
         /// The default drawing color.
         /// </summary>
-        static Color DEFAULT_COLOR = Colors.LightCyan;
+        static readonly Color DEFAULT_COLOR = Colors.LightCyan;
 
         /// <summary>
         /// The default circle radius.
         /// </summary>
-        static double DEFAULT_ELLIPSE_RADIUS = 20;
+        static readonly double DEFAULT_ELLIPSE_RADIUS = 20;
 
         /// <summary>
         /// The default line thickness.
         /// </summary>
-        static double DEFAULT_LINE_THICKNESS = 8;
+        static readonly double DEFAULT_LINE_THICKNESS = 8;
 
         #endregion
 
@@ -50,7 +50,7 @@ namespace LightBuzz.Vitruvius.WPF
         /// <param name="joint">The joint represented by the ellipse.</param>
         /// <param name="color">The desired color for the ellipse.</param>
         /// <param name="radius">The desired length for the ellipse.</param>
-        public static void DrawPoint(this Canvas canvas, Joint joint, Color color, double radius)
+        public static void DrawJoint(this Canvas canvas, Joint joint, Color color, double radius)
         {
             if (joint.TrackingState == TrackingState.NotTracked) return;
 
@@ -76,9 +76,9 @@ namespace LightBuzz.Vitruvius.WPF
         /// <param name="canvas">The Canvas element to draw the ellipse.</param>
         /// <param name="joint">The joint represented by the ellipse.</param>
         /// <param name="color">The desired color for the ellipse.</param>
-        public static void DrawPoint(this Canvas canvas, Joint joint, Color color)
+        public static void DrawJoint(this Canvas canvas, Joint joint, Color color)
         {
-            DrawPoint(canvas, joint, color, DEFAULT_ELLIPSE_RADIUS);
+            DrawJoint(canvas, joint, color, DEFAULT_ELLIPSE_RADIUS);
         }
 
         /// <summary>
@@ -86,9 +86,9 @@ namespace LightBuzz.Vitruvius.WPF
         /// </summary>
         /// <param name="canvas">The Canvas element to draw the ellipse.</param>
         /// <param name="joint">The joint represented by the ellipse.</param>
-        public static void DrawPoint(this Canvas canvas, Joint joint)
+        public static void DrawJoint(this Canvas canvas, Joint joint)
         {
-            DrawPoint(canvas, joint, DEFAULT_COLOR, DEFAULT_ELLIPSE_RADIUS);
+            DrawJoint(canvas, joint, DEFAULT_COLOR, DEFAULT_ELLIPSE_RADIUS);
         }
 
         /// <summary>
@@ -149,13 +149,13 @@ namespace LightBuzz.Vitruvius.WPF
         /// <param name="canvas">The Canvas element to draw the skeleton.</param>
         /// <param name="body">The body to draw.</param>
         /// <param name="color">The desired color for the skeleton.</param>
-        public static void DrawSkeleton(this Canvas canvas, Body body, Color color)
+        public static void DrawBody(this Canvas canvas, Body body, Color color)
         {
             if (body == null) return;
             
             foreach (Joint joint in body.Joints.Values)
             {
-                canvas.DrawPoint(joint, color);
+                canvas.DrawJoint(joint, color);
             }
 
             canvas.DrawLine(body.Joints[JointType.Head], body.Joints[JointType.Neck], color);
@@ -189,9 +189,9 @@ namespace LightBuzz.Vitruvius.WPF
         /// </summary>
         /// <param name="canvas">The Canvas element to draw the skeleton.</param>
         /// <param name="body">The body to draw.</param>
-        public static void DrawSkeleton(this Canvas canvas, Body body)
+        public static void DrawBody(this Canvas canvas, Body body)
         {
-            DrawSkeleton(canvas, body, DEFAULT_COLOR);
+            DrawBody(canvas, body, DEFAULT_COLOR);
         }
 
         /// <summary>
