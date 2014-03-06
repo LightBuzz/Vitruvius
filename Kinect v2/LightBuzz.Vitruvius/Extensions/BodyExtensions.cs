@@ -8,9 +8,9 @@ using System.Collections.Generic;
 namespace LightBuzz.Vitruvius
 {
     /// <summary>
-    /// Provides some common functionality for manupulating skeletal data.
+    /// Provides some common functionality for manupulating body data.
     /// </summary>
-    public static class SkeletonExtensions
+    public static class BodyExtensions
     {
         #region Public methods
 

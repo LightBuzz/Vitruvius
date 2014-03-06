@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Gestures\Gesture.cs" />
-    <Compile Include="GestureController.cs" />
+    <Compile Include="Gestures\GestureController.cs" />
     <Compile Include="Gestures\GesturePartResult.cs" />
     <Compile Include="Gestures\GestureEventArgs.cs" />
     <Compile Include="Gestures\GestureType.cs" />
@@ -66,10 +66,12 @@
     <Compile Include="Gestures\WaveLeft\WaveLeftSegments.cs" />
     <Compile Include="Gestures\WaveRight\WaveRightSegments.cs" />
     <Compile Include="Gestures\Zoom\ZoomSegments.cs" />
-    <Compile Include="SkeletonExtensions.cs" />
+    <Compile Include="Extensions\BodyExtensions.cs" />
+    <Compile Include="Voice\VoiceController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Postures\" />
+    <Folder Include="Core\" />
+    <Folder Include="HandTracking\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Gestures\LICENSE" />
