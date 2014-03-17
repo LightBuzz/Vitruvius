@@ -36,6 +36,7 @@ Features
 * Speech synthesis
 
 ### Coming very soon
+* Complete finger tracking
 * Posture support (jumping, dancing, etc)
 
 Prerequisites
