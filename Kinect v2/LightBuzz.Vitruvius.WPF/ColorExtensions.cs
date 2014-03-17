@@ -3,6 +3,7 @@ using System.Windows.Media;
 using Microsoft.Kinect;
 using System.IO;
 using System.Windows.Media.Imaging;
+using System.Windows;
 
 namespace LightBuzz.Vitruvius.WPF
 {
@@ -11,30 +12,50 @@ namespace LightBuzz.Vitruvius.WPF
     /// </summary>
     public static class ColorExtensions
     {
+        #region Members
+
+        /// <summary>
+        /// The bitmap source.
+        /// </summary>
+        static WriteableBitmap _bitmap = null;
+
+        /// <summary>
+        /// The RGB pixel values.
+        /// </summary>
+        static byte[] _pixels = null;
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
-        /// Converts a color frame to a System.Media.ImageSource.
+        /// Converts a color frame to a System.Media.Imaging.BitmapSource.
         /// </summary>
         /// <param name="frame">The specified color frame.</param>
-        /// <returns>The specified frame in a System.media.ImageSource format.</returns>
-        public static ImageSource ToBitmap(this ColorFrame frame)
+        /// <returns>The specified frame in a System.Media.Imaging.BitmapSource representation of the color frame.</returns>
+        public static BitmapSource ToBitmap(this ColorFrame frame)
         {
             int width = frame.FrameDescription.Width;
             int height = frame.FrameDescription.Height;
 
-            byte[] pixels = new byte[width * height * ((PixelFormats.Bgr32.BitsPerPixel + 7) / 8)];
+            if (_bitmap == null)
+            {
+                _pixels = new byte[width * height * Constants.BYTES_PER_PIXEL];
+                _bitmap = new WriteableBitmap(width, height, Constants.DPI, Constants.DPI, Constants.FORMAT, null);
+            }
 
             if (frame.RawColorImageFormat == ColorImageFormat.Bgra)
             {
-                frame.CopyRawFrameDataToArray(pixels);
+                frame.CopyRawFrameDataToArray(_pixels);
             }
             else
             {
-                frame.CopyConvertedFrameDataToArray(pixels, ColorImageFormat.Bgra);
+                frame.CopyConvertedFrameDataToArray(_pixels, ColorImageFormat.Bgra);
             }
 
-            return pixels.ToBitmap(width, height);
+            _bitmap.WritePixels(new Int32Rect(0, 0, width, height), _pixels, width * Constants.BYTES_PER_PIXEL, 0);
+
+            return _bitmap;
         }
 
         #endregion

@@ -12,46 +12,9 @@ namespace LightBuzz.Vitruvius.WPF
     /// <summary>
     /// Provides some common functionality for manipulating WPF bitmap images.
     /// </summary>
-    public static class ImageExtensions
+    public static class BitmapExtensions
     {
-        #region Constants
-
-        /// <summary>
-        /// Kinect DPI.
-        /// </summary>
-        static readonly double DPI = 96;
-
-        #endregion
-
         #region Public methods
-
-        /// <summary>
-        /// Creates a System.Windows.Media.ImageSource image.
-        /// </summary>
-        /// <param name="pixels">Image byte array representation.</param>
-        /// <param name="width">Image width.</param>
-        /// <param name="height">Image height.</param>
-        /// <param name="format">Image pixel format.</param>
-        /// <returns>The corresponding System.Windows.Media.ImageSource.</returns>
-        public static ImageSource ToBitmap(this byte[] pixels, int width, int height, System.Windows.Media.PixelFormat format)
-        {
-            //int stride = (width * format.BitsPerPixel + 7) / 8;
-            int stride = width * format.BitsPerPixel / 8;
-
-            return BitmapSource.Create(width, height, DPI, DPI, format, null, pixels, stride);
-        }
-
-        /// <summary>
-        /// Creates a System.Windows.Media.ImageSource image.
-        /// </summary>
-        /// <param name="pixels">Image byte array representation.</param>
-        /// <param name="width">Image width.</param>
-        /// <param name="height">Image height.</param>
-        /// <returns>The corresponding System.Windows.Media.ImageSource.</returns>
-        public static ImageSource ToBitmap(this byte[] pixels, int width, int height)
-        {
-            return pixels.ToBitmap(width, height, PixelFormats.Bgr32);
-        }
 
         /// <summary>
         /// Captures the specified image source and saves it to the specified location.
