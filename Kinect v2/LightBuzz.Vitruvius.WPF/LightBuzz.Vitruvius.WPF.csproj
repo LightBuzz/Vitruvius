@@ -50,6 +50,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackgroundRemovalTool.cs" />
     <Compile Include="CanvasExtensions.cs" />
     <Compile Include="ColorExtensions.cs" />
     <Compile Include="Constants.cs" />

@@ -21,6 +21,16 @@ namespace LightBuzz.Vitruvius.WPF
         static WriteableBitmap _bitmap = null;
 
         /// <summary>
+        /// Frame width.
+        /// </summary>
+        static int _width;
+
+        /// <summary>
+        /// Frame height.
+        /// </summary>
+        static int _height;
+
+        /// <summary>
         /// The RGB pixel values.
         /// </summary>
         static byte[] _pixels = null;
@@ -36,13 +46,12 @@ namespace LightBuzz.Vitruvius.WPF
         /// <returns>The specified frame in a System.Media.Imaging.BitmapSource representation of the color frame.</returns>
         public static BitmapSource ToBitmap(this ColorFrame frame)
         {
-            int width = frame.FrameDescription.Width;
-            int height = frame.FrameDescription.Height;
-
             if (_bitmap == null)
             {
-                _pixels = new byte[width * height * Constants.BYTES_PER_PIXEL];
-                _bitmap = new WriteableBitmap(width, height, Constants.DPI, Constants.DPI, Constants.FORMAT, null);
+                _width = frame.FrameDescription.Width;
+                _height = frame.FrameDescription.Height;
+                _pixels = new byte[_width * _height * Constants.BYTES_PER_PIXEL];
+                _bitmap = new WriteableBitmap(_width, _height, Constants.DPI, Constants.DPI, Constants.FORMAT, null);
             }
 
             if (frame.RawColorImageFormat == ColorImageFormat.Bgra)
@@ -57,7 +66,7 @@ namespace LightBuzz.Vitruvius.WPF
             _bitmap.Lock();
 
             Marshal.Copy(_pixels, 0, _bitmap.BackBuffer, _pixels.Length);
-            _bitmap.AddDirtyRect(new Int32Rect(0, 0, width, height));
+            _bitmap.AddDirtyRect(new Int32Rect(0, 0, _width, _height));
 
             _bitmap.Unlock();
 

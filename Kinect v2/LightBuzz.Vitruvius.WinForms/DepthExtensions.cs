@@ -2,20 +2,43 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using Microsoft.Kinect;
+using System.Runtime.InteropServices;
 
 namespace LightBuzz.Vitruvius.WinForms
 {
     public static class DepthExtensions
     {
-        #region Constants
+        #region Members
 
-        static readonly int BLUE_INDEX = 0;
-        static readonly int GREEN_INDEX = 1;
-        static readonly int RED_INDEX = 2;
+        /// <summary>
+        /// The bitmap source.
+        /// </summary>
+        static Bitmap _bitmap = null;
 
-        static readonly float MAX_DEPTH_DISTANCE = 4095;
-        static readonly float MIN_DEPTH_DISTANCE = 850;
-        static readonly float MAX_DEPTH_DISTANCE_OFFSET = MAX_DEPTH_DISTANCE - MIN_DEPTH_DISTANCE;
+        /// <summary>
+        /// Frame width.
+        /// </summary>
+        static int _width;
+
+        /// <summary>
+        /// Frame height.
+        /// </summary>
+        static int _height;
+
+        /// <summary>
+        /// The depth values.
+        /// </summary>
+        static ushort[] _depthData = null;
+
+        /// <summary>
+        /// The body index values.
+        /// </summary>
+        static byte[] _bodyData = null;
+
+        /// <summary>
+        /// The RGB pixel values.
+        /// </summary>
+        static byte[] _pixels = null;
 
         #endregion
 
@@ -28,23 +51,26 @@ namespace LightBuzz.Vitruvius.WinForms
         /// <returns>The corresponding System.Drawing.Bitmap representation of the depth frame.</returns>
         public static Bitmap ToBitmap(this DepthFrame frame)
         {
-            int width = frame.FrameDescription.Width;
-            int height = frame.FrameDescription.Height;
-
             ushort minDepth = frame.DepthMinReliableDistance;
             ushort maxDepth = frame.DepthMaxReliableDistance;
 
-            ushort[] pixelData = new ushort[width * height];
-            byte[] pixels = new byte[width * height * 4];
+            if (_bitmap == null)
+            {
+                _width = frame.FrameDescription.Width;
+                _height = frame.FrameDescription.Height;
+                _depthData = new ushort[_width * _height];
+                _pixels = new byte[_width * _height * Constants.BYTES_PER_PIXEL];
+                _bitmap = new Bitmap(_width, _height, Constants.FORMAT);
+            }
 
-            frame.CopyFrameDataToArray(pixelData);
+            frame.CopyFrameDataToArray(_depthData);
 
             // Convert the depth to RGB.
             int colorIndex = 0;
-            for (int depthIndex = 0; depthIndex < pixelData.Length; ++depthIndex)
+            for (int depthIndex = 0; depthIndex < _depthData.Length; ++depthIndex)
             {
                 // Get the depth for this pixel
-                ushort depth = pixelData[depthIndex];
+                ushort depth = _depthData[depthIndex];
 
                 // To convert to a byte, we're discarding the most-significant
                 // rather than least-significant bits.
@@ -52,16 +78,21 @@ namespace LightBuzz.Vitruvius.WinForms
                 // Values outside the reliable depth range are mapped to 0 (black).
                 byte intensity = (byte)(depth >= minDepth && depth <= maxDepth ? depth : 0);
 
-                pixels[colorIndex++] = intensity; // Blue
-                pixels[colorIndex++] = intensity; // Green
-                pixels[colorIndex++] = intensity; // Red
+                _pixels[colorIndex++] = intensity; // Blue
+                _pixels[colorIndex++] = intensity; // Green
+                _pixels[colorIndex++] = intensity; // Red
 
                 // We're outputting BGR, the last byte in the 32 bits is unused so skip it
                 // If we were outputting BGRA, we would write alpha here.
                 ++colorIndex;
             }
 
-            return pixels.ToBitmap(frame.FrameDescription.Width, frame.FrameDescription.Height);
+            BitmapData bitmapData = _bitmap.LockBits(new Rectangle(0, 0, _width, _height), ImageLockMode.ReadWrite, _bitmap.PixelFormat);
+            Marshal.Copy(_pixels, 0, bitmapData.Scan0, _pixels.Length);
+
+            _bitmap.UnlockBits(bitmapData);
+
+            return _bitmap;
         }
 
         #endregion

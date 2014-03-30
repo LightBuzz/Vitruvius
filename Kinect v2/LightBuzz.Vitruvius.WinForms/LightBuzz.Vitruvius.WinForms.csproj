@@ -47,9 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackgroundRemovalTool.cs" />
     <Compile Include="ColorExtensions.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="DepthExtensions.cs" />
-    <Compile Include="ImageExtensions.cs" />
+    <Compile Include="BitmapExtensions.cs" />
     <Compile Include="InfraredExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

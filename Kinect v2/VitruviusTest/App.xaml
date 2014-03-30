@@ -5,8 +5,8 @@
     <Application.Resources>
         <Style x:Key="GridStyle" TargetType="Grid">
             <Setter Property="Background" Value="LightGray" />
-            <Setter Property="Width" Value="640" />
-            <Setter Property="Height" Value="480" />
+            <Setter Property="Width" Value="1024" />
+            <Setter Property="Height" Value="848" />
             <Setter Property="Margin" Value="0,15" />
             <Setter Property="VerticalAlignment" Value="Top" />
         </Style>

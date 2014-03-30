@@ -11,41 +11,9 @@ namespace LightBuzz.Vitruvius.WinForms
     /// <summary>
     /// Provides some common functionality for manipulating WinForms bitmap images.
     /// </summary>
-    public static class ImageExtensions
+    public static class BitmapExtensions
     {                
         #region Public methods
-
-        /// <summary>
-        /// Creates a System.Drawing.Bitmap image.
-        /// </summary>
-        /// <param name="pixels">Image byte array representation.</param>
-        /// <param name="width">Image width.</param>
-        /// <param name="height">Image height.</param>
-        /// <param name="format">Image pixel format.</param>
-        /// <returns>The corresponding System.Drawing.Bitmap.</returns>
-        public static Bitmap ToBitmap(this byte[] pixels, int width, int height, System.Drawing.Imaging.PixelFormat format)
-        {
-            Bitmap bitmap = new Bitmap(width, height, format);
-
-            BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
-            Marshal.Copy(pixels, 0, bitmapData.Scan0, pixels.Length);
-
-            bitmap.UnlockBits(bitmapData);
-
-            return bitmap;
-        }
-
-        /// <summary>
-        /// Creates a System.Drawing.Bitmap image.
-        /// </summary>
-        /// <param name="pixels">Image byte array representation.</param>
-        /// <param name="width">Image width.</param>
-        /// <param name="height">Image height.</param>
-        /// <returns>The corresponding System.Drawing.Bitmap.</returns>
-        public static Bitmap ToBitmap(this byte[] pixels, int width, int height)
-        {
-            return pixels.ToBitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
-        }
 
         /// <summary>
         /// Captures the specified image source and saves it to the specified location.

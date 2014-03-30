@@ -21,6 +21,16 @@ namespace LightBuzz.Vitruvius.WPF
         static WriteableBitmap _bitmap = null;
 
         /// <summary>
+        /// Frame width.
+        /// </summary>
+        static int _width;
+
+        /// <summary>
+        /// Frame height.
+        /// </summary>
+        static int _height;
+
+        /// <summary>
         /// The infrared values.
         /// </summary>
         static ushort[] _infraredData = null;
@@ -41,14 +51,13 @@ namespace LightBuzz.Vitruvius.WPF
         /// <returns>The specified frame in a System.media.Imaging.BitmapSource representation of the infrared frame.</returns>
         public static ImageSource ToBitmap(this InfraredFrame frame)
         {
-            int width = frame.FrameDescription.Width;
-            int height = frame.FrameDescription.Height;
-
             if (_bitmap == null)
             {
-                _infraredData = new ushort[width * height];
-                _pixels = new byte[width * height * Constants.BYTES_PER_PIXEL];
-                _bitmap = new WriteableBitmap(width, height, Constants.DPI, Constants.DPI, Constants.FORMAT, null);
+                _width = frame.FrameDescription.Width;
+                _height = frame.FrameDescription.Height;
+                _infraredData = new ushort[_width * _height];
+                _pixels = new byte[_width * _height * Constants.BYTES_PER_PIXEL];
+                _bitmap = new WriteableBitmap(_width, _height, Constants.DPI, Constants.DPI, Constants.FORMAT, null);
             }
 
             frame.CopyFrameDataToArray(_infraredData);
@@ -77,7 +86,7 @@ namespace LightBuzz.Vitruvius.WPF
             _bitmap.Lock();
 
             Marshal.Copy(_pixels, 0, _bitmap.BackBuffer, _pixels.Length);
-            _bitmap.AddDirtyRect(new Int32Rect(0, 0, width, height));
+            _bitmap.AddDirtyRect(new Int32Rect(0, 0, _width, _height));
 
             _bitmap.Unlock();
 
