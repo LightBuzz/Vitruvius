@@ -1,6 +1,7 @@
 ﻿using Microsoft.Kinect;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -47,7 +48,7 @@ namespace LightBuzz.Vitruvius.WPF
             {
                 _infraredData = new ushort[width * height];
                 _pixels = new byte[width * height * Constants.BYTES_PER_PIXEL];
-                _bitmap = new WriteableBitmap(width, height, 96.0, 96.0, Constants.FORMAT, null);
+                _bitmap = new WriteableBitmap(width, height, Constants.DPI, Constants.DPI, Constants.FORMAT, null);
             }
 
             frame.CopyFrameDataToArray(_infraredData);
@@ -73,7 +74,12 @@ namespace LightBuzz.Vitruvius.WPF
                 colorIndex++;
             }
 
-            _bitmap.WritePixels(new Int32Rect(0, 0, width, height), _pixels, width * Constants.BYTES_PER_PIXEL, 0);
+            _bitmap.Lock();
+
+            Marshal.Copy(_pixels, 0, _bitmap.BackBuffer, _pixels.Length);
+            _bitmap.AddDirtyRect(new Int32Rect(0, 0, width, height));
+
+            _bitmap.Unlock();
 
             return _bitmap;
         }

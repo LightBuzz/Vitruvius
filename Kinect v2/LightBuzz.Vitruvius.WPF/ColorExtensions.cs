@@ -4,6 +4,7 @@ using Microsoft.Kinect;
 using System.IO;
 using System.Windows.Media.Imaging;
 using System.Windows;
+using System.Runtime.InteropServices;
 
 namespace LightBuzz.Vitruvius.WPF
 {
@@ -53,7 +54,12 @@ namespace LightBuzz.Vitruvius.WPF
                 frame.CopyConvertedFrameDataToArray(_pixels, ColorImageFormat.Bgra);
             }
 
-            _bitmap.WritePixels(new Int32Rect(0, 0, width, height), _pixels, width * Constants.BYTES_PER_PIXEL, 0);
+            _bitmap.Lock();
+
+            Marshal.Copy(_pixels, 0, _bitmap.BackBuffer, _pixels.Length);
+            _bitmap.AddDirtyRect(new Int32Rect(0, 0, width, height));
+
+            _bitmap.Unlock();
 
             return _bitmap;
         }
