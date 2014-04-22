@@ -4,6 +4,8 @@ using Microsoft.Kinect;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Windows;
 
 namespace LightBuzz.Vitruvius.WPF
 {
@@ -24,185 +26,194 @@ namespace LightBuzz.Vitruvius.WPF
 
         #endregion
 
+        #region Members
+
+        /// <summary>
+        /// The bitmap source.
+        /// </summary>
+        static WriteableBitmap _bitmap = null;
+
+        /// <summary>
+        /// Frame width.
+        /// </summary>
+        static int _width;
+
+        /// <summary>
+        /// Frame height.
+        /// </summary>
+        static int _height;
+
+        /// <summary>
+        /// The depth values.
+        /// </summary>
+        static short[] _depthData = null;
+
+        /// <summary>
+        /// The RGB pixel values.
+        /// </summary>
+        static byte[] _pixels = null;
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
         /// Converts a depth frame to the corresponding System.Windows.Media.ImageSource.
         /// </summary>
         /// <param name="frame">The specified depth frame.</param>
-        /// <param name="format">Pixel format of the depth frame.</param>
+        /// <returns>The corresponding System.Windows.Media.ImageSource representation of the depth frame.</returns>
+        public static BitmapSource ToBitmap(this DepthImageFrame frame)
+        {
+            return ToBitmap(frame, DepthImageMode.Raw);
+        }
+
+        /// <summary>
+        /// Converts a depth frame to the corresponding System.Windows.Media.ImageSource.
+        /// </summary>
+        /// <param name="frame">The specified depth frame.</param>
         /// <param name="mode">Depth frame mode.</param>
         /// <returns>The corresponding System.Windows.Media.ImageSource representation of the depth frame.</returns>
-        public static ImageSource ToBitmap(this DepthImageFrame frame, PixelFormat format, DepthImageMode mode)
+        public static BitmapSource ToBitmap(this DepthImageFrame frame, DepthImageMode mode)
         {
-            short[] pixelData = new short[frame.PixelDataLength];
-            frame.CopyPixelDataTo(pixelData);
+            if (_bitmap == null)
+            {
+                _width = frame.Width;
+                _height = frame.Height;
+                _depthData = new short[frame.PixelDataLength];
+                _pixels = new byte[_width * _height * Constants.BYTES_PER_PIXEL];
+                _bitmap = new WriteableBitmap(_width, _height, Constants.DPI, Constants.DPI, Constants.FORMAT, null);
+            }
 
-            byte[] pixels;
+            frame.CopyPixelDataTo(_depthData);
 
             switch (mode)
             {
                 case DepthImageMode.Raw:
-                    pixels = GenerateRawFrame(frame, pixelData);
+                    GenerateRawFrame();
                     break;
                 case DepthImageMode.Dark:
-                    pixels = GenerateDarkFrame(frame, pixelData);
+                    GenerateDarkFrame();
                     break;
                 case DepthImageMode.Colors:
-                    pixels = GenerateColoredFrame(frame, pixelData);
+                    GenerateColoredFrame();
                     break;
                 case DepthImageMode.Player:
-                    pixels = GeneratePlayerFrame(frame, pixelData);
+                    GeneratePlayerFrame();
                     break;
                 default:
-                    pixels = GenerateRawFrame(frame, pixelData);
+                    GenerateRawFrame();
                     break;
             }
 
-            return pixels.ToBitmap(frame.Width, frame.Height, format);
-        }
+            _bitmap.Lock();
 
-        /// <summary>
-        /// Converts a depth frame to the corresponding System.Windows.Media.ImageSource.
-        /// </summary>
-        /// <param name="frame">The specified depth frame.</param>
-        /// <param name="format"></param>
-        /// <returns>The corresponding System.Windows.Media.ImageSource representation of the depth frame.</returns>
-        public static ImageSource ToBitmap(this DepthImageFrame frame, PixelFormat format)
-        {
-            return frame.ToBitmap(format, DepthImageMode.Raw);
-        }
+            Marshal.Copy(_pixels, 0, _bitmap.BackBuffer, _pixels.Length);
+            _bitmap.AddDirtyRect(new Int32Rect(0, 0, _width, _height));
 
-        /// <summary>
-        /// Converts a depth frame to the corresponding System.Windows.Media.ImageSource.
-        /// </summary>
-        /// <param name="frame">The specified depth frame.</param>
-        /// <param name="mode">Depth frame mode.</param>
-        /// <returns>The corresponding System.Windows.Media.ImageSource representation of the depth frame.</returns>
-        public static ImageSource ToBitmap(this DepthImageFrame frame, DepthImageMode mode)
-        {
-            return frame.ToBitmap(PixelFormats.Bgr32, mode);
-        }
+            _bitmap.Unlock();
 
-        /// <summary>
-        /// Converts a depth frame to the corresponding System.Windows.Media.ImageSource.
-        /// </summary>
-        /// <param name="frame">The specified depth frame.</param>
-        /// <returns>The corresponding System.Windows.Media.ImageSource representation of the depth frame.</returns>
-        public static ImageSource ToBitmap(this DepthImageFrame frame)
-        {
-            return frame.ToBitmap(PixelFormats.Bgr32, DepthImageMode.Raw);
+            return _bitmap;
         }
 
         #endregion
 
         #region Helpers
 
-        private static byte[] GenerateRawFrame(DepthImageFrame frame, short[] pixelData)
+        private static void GenerateRawFrame()
         {
-            byte[] pixels = new byte[frame.Height * frame.Width * 4];
-
             // Bgr32  - Blue, Green, Red, empty byte
             // Bgra32 - Blue, Green, Red, transparency 
             // You must set transparency for Bgra as .NET defaults a byte to 0 = fully transparent
 
             // Loop through all distances and pick a RGB color based on distance
-            for (int depthIndex = 0, colorIndex = 0; depthIndex < pixelData.Length && colorIndex < pixels.Length; depthIndex++, colorIndex += 4)
+            for (int depthIndex = 0, colorIndex = 0; depthIndex < _depthData.Length && colorIndex < _pixels.Length; depthIndex++, colorIndex += 4)
             {
                 // Get the player (requires skeleton tracking enabled for values).
-                int player = pixelData[depthIndex] & DepthImageFrame.PlayerIndexBitmask;
+                int player = _depthData[depthIndex] & DepthImageFrame.PlayerIndexBitmask;
 
                 // Get the depth value.
-                int depth = pixelData[depthIndex] >> DepthImageFrame.PlayerIndexBitmaskWidth;
+                int depth = _depthData[depthIndex] >> DepthImageFrame.PlayerIndexBitmaskWidth;
 
                 // .9M or 2.95'
                 if (depth <= 900) // ---> We are very close.
                 {
-                    pixels[colorIndex + BLUE_INDEX] = 255;
-                    pixels[colorIndex + GREEN_INDEX] = 0;
-                    pixels[colorIndex + RED_INDEX] = 0;
+                    _pixels[colorIndex + BLUE_INDEX] = 255;
+                    _pixels[colorIndex + GREEN_INDEX] = 0;
+                    _pixels[colorIndex + RED_INDEX] = 0;
 
                 }
                 // .9M - 2M or 2.95' - 6.56'
                 else if (depth > 900 && depth < 2000) // ---> We are a bit further away.
                 {
-                    pixels[colorIndex + BLUE_INDEX] = 0;
-                    pixels[colorIndex + GREEN_INDEX] = 255;
-                    pixels[colorIndex + RED_INDEX] = 0;
+                    _pixels[colorIndex + BLUE_INDEX] = 0;
+                    _pixels[colorIndex + GREEN_INDEX] = 255;
+                    _pixels[colorIndex + RED_INDEX] = 0;
                 }
                 // 2M+ or 6.56'+
                 else if (depth > 2000) // ---> We are the farthest.
                 {
-                    pixels[colorIndex + BLUE_INDEX] = 0;
-                    pixels[colorIndex + GREEN_INDEX] = 0;
-                    pixels[colorIndex + RED_INDEX] = 255;
+                    _pixels[colorIndex + BLUE_INDEX] = 0;
+                    _pixels[colorIndex + GREEN_INDEX] = 0;
+                    _pixels[colorIndex + RED_INDEX] = 255;
                 }
 
                 // Equal coloring for monochromatic histogram.
                 byte intensity = CalculateIntensityFromDepth(depth);
-                pixels[colorIndex + BLUE_INDEX] = intensity;
-                pixels[colorIndex + GREEN_INDEX] = intensity;
-                pixels[colorIndex + RED_INDEX] = intensity;
+                _pixels[colorIndex + BLUE_INDEX] = intensity;
+                _pixels[colorIndex + GREEN_INDEX] = intensity;
+                _pixels[colorIndex + RED_INDEX] = intensity;
 
                 // Color all players "gold".
                 if (player > 0)
                 {
-                    pixels[colorIndex + BLUE_INDEX] = Colors.Gold.B;
-                    pixels[colorIndex + GREEN_INDEX] = Colors.Gold.G;
-                    pixels[colorIndex + RED_INDEX] = Colors.Gold.R;
+                    _pixels[colorIndex + BLUE_INDEX] = Colors.Gold.B;
+                    _pixels[colorIndex + GREEN_INDEX] = Colors.Gold.G;
+                    _pixels[colorIndex + RED_INDEX] = Colors.Gold.R;
                 }
             }
-
-            return pixels;
         }
 
-        private static byte[] GeneratePlayerFrame(DepthImageFrame frame, short[] pixelData)
+        private static void GeneratePlayerFrame()
         {
-            byte[] pixels = new byte[frame.Height * frame.Width * 4];
-
             // Bgr32  - Blue, Green, Red, empty byte
             // Bgra32 - Blue, Green, Red, transparency 
             // You must set transparency for Bgra as .NET defaults a byte to 0 = fully transparent
 
             // Loop through all distances and pick a RGB color based on distance
-            for (int depthIndex = 0, colorIndex = 0; depthIndex < pixelData.Length && colorIndex < pixels.Length; depthIndex++, colorIndex += 4)
+            for (int depthIndex = 0, colorIndex = 0; depthIndex < _depthData.Length && colorIndex < _pixels.Length; depthIndex++, colorIndex += 4)
             {
                 // Get the player (requires skeleton tracking enabled for values).
-                int player = pixelData[depthIndex] & DepthImageFrame.PlayerIndexBitmask;
+                int player = _depthData[depthIndex] & DepthImageFrame.PlayerIndexBitmask;
 
                 // Get the depth value.
-                int depth = pixelData[depthIndex] >> DepthImageFrame.PlayerIndexBitmaskWidth;
+                int depth = _depthData[depthIndex] >> DepthImageFrame.PlayerIndexBitmaskWidth;
 
                 // Color all players "gold".
                 if (player > 0)
                 {
-                    pixels[colorIndex + BLUE_INDEX] = Colors.Gold.B;
-                    pixels[colorIndex + GREEN_INDEX] = Colors.Gold.G;
-                    pixels[colorIndex + RED_INDEX] = Colors.Gold.R;
+                    _pixels[colorIndex + BLUE_INDEX] = Colors.Gold.B;
+                    _pixels[colorIndex + GREEN_INDEX] = Colors.Gold.G;
+                    _pixels[colorIndex + RED_INDEX] = Colors.Gold.R;
                 }
                 else
                 {
-                    pixels[colorIndex + BLUE_INDEX] = 0;
-                    pixels[colorIndex + GREEN_INDEX] = 0;
-                    pixels[colorIndex + RED_INDEX] = 0;
+                    _pixels[colorIndex + BLUE_INDEX] = 0;
+                    _pixels[colorIndex + GREEN_INDEX] = 0;
+                    _pixels[colorIndex + RED_INDEX] = 0;
                 }
             }
-
-            return pixels;
         }
 
-        private static byte[] GenerateDarkFrame(DepthImageFrame depthFrame, short[] pixelData)
+        private static void GenerateDarkFrame()
         {
             int depth;
             int gray;
             int loThreshold = 1220;
             int hiThreshold = 3048;
-            int bytesPerPixel = 4;
-            byte[] enhPixelData = new byte[depthFrame.Width * depthFrame.Height * bytesPerPixel];
 
-            for (int i = 0, j = 0; i < pixelData.Length; i++, j += bytesPerPixel)
+            for (int i = 0, j = 0; i < _depthData.Length; i++, j += Constants.BYTES_PER_PIXEL)
             {
-                depth = pixelData[i] >> DepthImageFrame.PlayerIndexBitmaskWidth;
+                depth = _depthData[i] >> DepthImageFrame.PlayerIndexBitmaskWidth;
 
                 if (depth < loThreshold || depth > hiThreshold)
                 {
@@ -213,15 +224,13 @@ namespace LightBuzz.Vitruvius.WPF
                     gray = (255 * depth / 0xFFF);
                 }
 
-                enhPixelData[j] = (byte)gray;
-                enhPixelData[j + 1] = (byte)gray;
-                enhPixelData[j + 2] = (byte)gray;
+                _pixels[j] = (byte)gray;
+                _pixels[j + 1] = (byte)gray;
+                _pixels[j + 2] = (byte)gray;
             }
-
-            return enhPixelData;
         }
 
-        private static byte[] GenerateColoredFrame(DepthImageFrame depthFrame, short[] pixelData)
+        private static void GenerateColoredFrame()
         {
             int depth;
             double hue;
@@ -229,30 +238,27 @@ namespace LightBuzz.Vitruvius.WPF
             int hiThreshold = 3048;
             int bytesPerPixel = 4;
             byte[] rgb = new byte[3];
-            byte[] enhPixelData = new byte[depthFrame.Width * depthFrame.Height * bytesPerPixel];
 
-            for (int i = 0, j = 0; i < pixelData.Length; i++, j += bytesPerPixel)
+            for (int i = 0, j = 0; i < _depthData.Length; i++, j += bytesPerPixel)
             {
-                depth = pixelData[i] >> DepthImageFrame.PlayerIndexBitmaskWidth;
+                depth = _depthData[i] >> DepthImageFrame.PlayerIndexBitmaskWidth;
 
                 if (depth < loThreshold || depth > hiThreshold)
                 {
-                    enhPixelData[j] = 0x00;
-                    enhPixelData[j + 1] = 0x00;
-                    enhPixelData[j + 2] = 0x00;
+                    _pixels[j] = 0x00;
+                    _pixels[j + 1] = 0x00;
+                    _pixels[j + 2] = 0x00;
                 }
                 else
                 {
                     hue = ((360 * depth / 0xFFF) + loThreshold);
                     ConvertHslToRgb(hue, 100, 100, rgb);
 
-                    enhPixelData[j] = rgb[2];  //Blue
-                    enhPixelData[j + 1] = rgb[1];  //Green
-                    enhPixelData[j + 2] = rgb[0];  //Red
+                    _pixels[j] = rgb[2];  //Blue
+                    _pixels[j + 1] = rgb[1];  //Green
+                    _pixels[j + 2] = rgb[0];  //Red
                 }
             }
-
-            return enhPixelData;
         }
 
         private static void ConvertHslToRgb(double hue, double saturation, double lightness, byte[] rgb)

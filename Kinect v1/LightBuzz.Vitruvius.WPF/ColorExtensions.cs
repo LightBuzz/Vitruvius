@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows.Media;
 using Microsoft.Kinect;
-using Microsoft.Kinect.Toolkit.BackgroundRemoval;
 using System.IO;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Windows;
 
 namespace LightBuzz.Vitruvius.WPF
 {
@@ -13,54 +14,57 @@ namespace LightBuzz.Vitruvius.WPF
     /// </summary>
     public static class ColorExtensions
     {
+        #region Members
+
+        /// <summary>
+        /// The bitmap source.
+        /// </summary>
+        static WriteableBitmap _bitmap = null;
+
+        /// <summary>
+        /// Frame width.
+        /// </summary>
+        static int _width;
+
+        /// <summary>
+        /// Frame height.
+        /// </summary>
+        static int _height;
+
+        /// <summary>
+        /// The RGB pixel values.
+        /// </summary>
+        static byte[] _pixels = null;
+        
+        #endregion
+
         #region Public methods
 
         /// <summary>
         /// Converts a color frame to a System.Media.ImageSource.
         /// </summary>
         /// <param name="frame">A ColorImageFrame generated from a Kinect sensor.</param>
-        /// <param name="format">The pixel format.</param>
         /// <returns>The specified frame in a System.media.ImageSource format.</returns>
-        public static ImageSource ToBitmap(this ColorImageFrame frame, System.Windows.Media.PixelFormat format)
+        public static BitmapSource ToBitmap(this ColorImageFrame frame)
         {
-            byte[] pixels = new byte[frame.PixelDataLength];
-            frame.CopyPixelDataTo(pixels);
+            if (_bitmap == null)
+            {
+                _width = frame.Width;
+                _height = frame.Height;
+                _pixels = new byte[_width * _height * Constants.BYTES_PER_PIXEL];
+                _bitmap = new WriteableBitmap(_width, _height, Constants.DPI, Constants.DPI, Constants.FORMAT, null);
+            }
 
-            return pixels.ToBitmap(frame.Width, frame.Height, format);
-        }
+            frame.CopyPixelDataTo(_pixels);
 
-        /// <summary>
-        /// Converts a color frame to a System.Media.ImageSource.
-        /// </summary>
-        /// <param name="frame">A ColorImageFrame generated from a Kinect sensor.</param>
-        /// <returns>The specified frame in a System.media.ImageSource format.</returns>
-        public static ImageSource ToBitmap(this ColorImageFrame frame)
-        {
-            return frame.ToBitmap(PixelFormats.Bgr32);
-        }
+            _bitmap.Lock();
 
-        /// <summary>
-        /// Converts a color frame to a System.Media.ImageSource with its background removed.
-        /// </summary>
-        /// <param name="frame">A BackgroundRemovedColorFrame generated from a Kinect sensor.</param>
-        /// <param name="format">The pixel format.</param>
-        /// <returns>The specified frame in a System.media.ImageSource format.</returns>
-        public static ImageSource ToBitmap(this BackgroundRemovedColorFrame frame, System.Windows.Media.PixelFormat format)
-        {
-            byte[] pixels = new byte[frame.PixelDataLength];
-            frame.CopyPixelDataTo(pixels);
+            Marshal.Copy(_pixels, 0, _bitmap.BackBuffer, _pixels.Length);
+            _bitmap.AddDirtyRect(new Int32Rect(0, 0, _width, _height));
 
-            return pixels.ToBitmap(frame.Width, frame.Height, format);
-        }
+            _bitmap.Unlock();
 
-        /// <summary>
-        /// Converts a color frame to a System.Media.ImageSource with its background removed.
-        /// </summary>
-        /// <param name="frame">A BackgroundRemovedColorFrame generated from a Kinect sensor.</param>
-        /// <returns>The specified frame in a System.media.ImageSource format.</returns>
-        public static ImageSource ToBitmap(this BackgroundRemovedColorFrame frame)
-        {
-            return frame.ToBitmap(PixelFormats.Bgra32);
+            return _bitmap;
         }
 
         #endregion
