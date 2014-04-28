@@ -50,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\CameraExtensions.cs" />
+    <Compile Include="Extensions\JointExtensions.cs" />
     <Compile Include="Gestures\Gesture.cs" />
     <Compile Include="Gestures\GestureController.cs" />
     <Compile Include="Gestures\GesturePartResult.cs" />

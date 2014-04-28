@@ -12,6 +12,12 @@ namespace LightBuzz.Vitruvius
     /// </summary>
     public static class BodyExtensions
     {
+        #region Members
+
+        static IList<Body> _bodies = null;
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -21,11 +27,14 @@ namespace LightBuzz.Vitruvius
         /// <returns>An array of bodies or an empty array if no bodies were found.</returns>
         public static IEnumerable<Body> Bodies(this BodyFrame frame)
         {
-            IList<Body> bodies = new Body[frame.BodyFrameSource.BodyCount];
+            if (_bodies == null)
+            {
+                _bodies = new Body[frame.BodyFrameSource.BodyCount];
+            }
 
-            frame.GetAndRefreshBodyData(bodies);
+            frame.GetAndRefreshBodyData(_bodies);
 
-            return bodies;
+            return _bodies;
         }
 
         /// <summary>
@@ -62,12 +71,12 @@ namespace LightBuzz.Vitruvius
             var footRight = body.Joints[JointType.FootRight];
 
             // Find which leg is tracked more accurately.
-            int legLeftTrackedJoints = NumberOfTrackedJoints(hipLeft, kneeLeft, ankleLeft, footLeft);
-            int legRightTrackedJoints = NumberOfTrackedJoints(hipRight, kneeRight, ankleRight, footRight);
+            int legLeftTrackedJoints = JointExtensions.NumberOfTrackedJoints(hipLeft, kneeLeft, ankleLeft, footLeft);
+            int legRightTrackedJoints = JointExtensions.NumberOfTrackedJoints(hipRight, kneeRight, ankleRight, footRight);
 
-            double legLength = legLeftTrackedJoints > legRightTrackedJoints ? Distance(hipLeft, kneeLeft, ankleLeft, footLeft) : Distance(hipRight, kneeRight, ankleRight, footRight);            
+            double legLength = legLeftTrackedJoints > legRightTrackedJoints ? JointExtensions.Distance(hipLeft, kneeLeft, ankleLeft, footLeft) : JointExtensions.Distance(hipRight, kneeRight, ankleRight, footRight);
 
-            return Distance(head, neck, shoulders, spine, waist) + legLength + HEAD_DIVERGENCE;
+            return JointExtensions.Distance(head, neck, shoulders, spine, waist) + legLength + HEAD_DIVERGENCE;
         }
 
         /// <summary>
@@ -83,132 +92,19 @@ namespace LightBuzz.Vitruvius
             var spine = body.Joints[JointType.SpineMid];
             var waist = body.Joints[JointType.SpineBase];
 
-            return Distance(head, neck, shoulders, spine, waist);
+            return JointExtensions.Distance(head, neck, shoulders, spine, waist);
         }
-
-        /// <summary>
-        /// Returns the length of the segment defined by the specified joints.
-        /// </summary>
-        /// <param name="p1">The first joint (start of the segment).</param>
-        /// <param name="p2">The second joint (end of the segment).</param>
-        /// <returns>The length of the segment in meters.</returns>
-        public static double Distance(Joint p1, Joint p2)
-        {
-            return Math.Sqrt(
-                Math.Pow(p1.Position.X - p2.Position.X, 2) +
-                Math.Pow(p1.Position.Y - p2.Position.Y, 2) +
-                Math.Pow(p1.Position.Z - p2.Position.Z, 2));
-        }
-
-        /// <summary>
-        /// Returns the length of the segments defined by the specified joints.
-        /// </summary>
-        /// <param name="joints">A collection of two or more joints.</param>
-        /// <returns>The length of all the segments in meters.</returns>
-        public static double Distance(params Joint[] joints)
-        {
-            double length = 0;
-
-            for (int index = 0; index < joints.Length - 1; index++)
-            {
-                length += Distance(joints[index], joints[index + 1]);
-            }
-
-            return length;
-        }
-
-        /// <summary>
-        /// Returns the distance of the specified joints.
-        /// </summary>
-        /// <param name="p1">The first joint (start of the segment).</param>
-        /// <param name="p2">The second joint (end of the segment).</param>
-        /// <returns>The length of the segment in meters.</returns>
-        public static double DistanceFrom(this Joint p1, Joint p2)
-        {
-            return Distance(p1, p2);
-        }
-
+                
         /// <summary>
         /// Given a collection of joints, calculates the number of the joints that are tracked accurately.
         /// </summary>
         /// <param name="joints">A collection of joints.</param>
         /// <returns>The number of the accurately tracked joints.</returns>
-        public static int NumberOfTrackedJoints(params Joint[] joints)
+        public static int NumberOfTrackedJoints(this Body body)
         {
-            int trackedJoints = 0;
-
-            foreach (var joint in joints)
-            {
-                if (joint.TrackingState == TrackingState.Tracked)
-                {
-                    trackedJoints++;
-                }
-            }
-
-            return trackedJoints;
+            return JointExtensions.NumberOfTrackedJoints(body.Joints.Values);
         }
-
-        /// <summary>
-        /// Scales the specified joint according to the specified dimensions.
-        /// </summary>
-        /// <param name="joint">The joint to scale.</param>
-        /// <param name="width">Width.</param>
-        /// <param name="height">Height.</param>
-        /// <param name="skeletonMaxX">Maximum X.</param>
-        /// <param name="skeletonMaxY">Maximum Y.</param>
-        /// <returns>The scaled version of the joint.</returns>
-        public static Joint ScaleTo(this Joint joint, double width, double height, float skeletonMaxX, float skeletonMaxY)
-        {
-            joint.Position = new CameraSpacePoint
-            {
-                X = Scale(width, skeletonMaxX, joint.Position.X),
-                Y = Scale(height, skeletonMaxY, -joint.Position.Y),
-                Z = joint.Position.Z
-            };
-
-            return joint;
-        }
-
-        /// <summary>
-        /// Scales the specified joint according to the specified dimensions.
-        /// </summary>
-        /// <param name="joint">The joint to scale.</param>
-        /// <param name="width">Width.</param>
-        /// <param name="height">Height.</param>
-        /// <returns>The scaled version of the joint.</returns>
-        public static Joint ScaleTo(this Joint joint, double width, double height)
-        {
-            return ScaleTo(joint, width, height, 1.0f, 1.0f);
-        }
-
-        #endregion
-
-        #region Helpers
-
-        /// <summary>
-        /// Returns the scaled value of the specified position.
-        /// </summary>
-        /// <param name="maxPixel">Width or height.</param>
-        /// <param name="maxSkeleton">Border (X or Y).</param>
-        /// <param name="position">Original position (X or Y).</param>
-        /// <returns>The scaled value of the specified position.</returns>
-        private static float Scale(double maxPixel, double maxSkeleton, float position)
-        {
-            float value = (float)((((maxPixel / maxSkeleton) / 2) * position) + (maxPixel / 2));
-            
-            if (value > maxPixel)
-            {
-                return (float)maxPixel;
-            }
-
-            if (value < 0)
-            {
-                return 0;
-            }
-
-            return value;
-        }
-
+        
         #endregion
     }
 }
