@@ -24,7 +24,7 @@ namespace VitruviusTest
     /// </summary>
     public partial class MainWindow : Window
     {
-        Mode _mode = Mode.Color;
+        VisualizationMode _mode = VisualizationMode.Color;
 
         KinectSensor _sensor;
         MultiSourceFrameReader _reader;
@@ -87,7 +87,7 @@ namespace VitruviusTest
             {
                 if (frame != null)
                 {
-                    if (_mode == Mode.Color)
+                    if (_mode == VisualizationMode.Color)
                     {
                         camera.Source = frame.ToBitmap();
                     }
@@ -99,7 +99,7 @@ namespace VitruviusTest
             {
                 if (frame != null)
                 {
-                    if (_mode == Mode.Depth)
+                    if (_mode == VisualizationMode.Depth)
                     {
                         camera.Source = frame.ToBitmap();
                     }
@@ -111,7 +111,7 @@ namespace VitruviusTest
             {
                 if (frame != null)
                 {
-                    if (_mode == Mode.Infrared)
+                    if (_mode == VisualizationMode.Infrared)
                     {
                         camera.Source = frame.ToBitmap();
                     }
@@ -123,23 +123,22 @@ namespace VitruviusTest
             {
                 if (frame != null)
                 {
-                    canvas.ClearSkeletons();
                     tblHeights.Text = string.Empty;
 
                     _bodies = frame.Bodies().Where(body => body.IsTracked);
 
                     foreach (var body in _bodies)
                     {
-                        if (body != null)
+                        if (body.IsTracked)
                         {
-                            // Update skeleton gestures.
+                            // Update body gestures.
                             _gestureController.Update(body);
 
-                            // Draw skeleton.
-                            canvas.DrawBody(body);
+                            // Draw body.
+                            canvas.Source = body.ToBitmap(_mode);
 
                             // Display user height.
-                            tblHeights.Text += string.Format("\nUser {0}: {1}cm", body.TrackingId, body.Height());
+                            tblHeights.Text += string.Format("\nUser {0}: {1}cm", body.TrackingId, Math.Round(body.Height(), 2));
                         }
                     }
                 }
@@ -181,24 +180,17 @@ namespace VitruviusTest
 
         private void Color_Click(object sender, RoutedEventArgs e)
         {
-            _mode = Mode.Color;
+            _mode = VisualizationMode.Color;
         }
 
         private void Depth_Click(object sender, RoutedEventArgs e)
         {
-            _mode = Mode.Depth;
+            _mode = VisualizationMode.Depth;
         }
 
         private void Infrared_Click(object sender, RoutedEventArgs e)
         {
-            _mode = Mode.Infrared;
+            _mode = VisualizationMode.Infrared;
         }
-    }
-    
-    public enum Mode
-    {
-        Color,
-        Depth,
-        Infrared
     }
 }

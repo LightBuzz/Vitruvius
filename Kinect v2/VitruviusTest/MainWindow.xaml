@@ -9,7 +9,7 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0" Style="{StaticResource GridStyle}">
             <Image Name="camera" />
-            <Canvas Name="canvas" />
+            <Image Name="canvas" />
         </Grid>
         <StackPanel Grid.Column="0" Style="{StaticResource StackPanelButtonsStyle}">
             <Button Content="Color" Style="{StaticResource ButtonStyle}" Click="Color_Click" />

@@ -67,10 +67,14 @@ namespace LightBuzz.Vitruvius.WPF
         /// </summary>
         ColorSpacePoint[] _colorPoints = null;
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// The coordinate mapper for the background removal (green-screen) effect.
         /// </summary>
-        CoordinateMapper _coordinateMapper = null;
+        public CoordinateMapper CoordinateMapper { get; set; }
 
         #endregion
 
@@ -79,10 +83,21 @@ namespace LightBuzz.Vitruvius.WPF
         /// <summary>
         /// Creates a new instance of BackgroundRemovalTool.
         /// </summary>
+        public BackgroundRemovalTool()
+        {
+            if (CoordinateMapper == null)
+            {
+                CoordinateMapper = KinectSensor.Default.CoordinateMapper;
+            }
+        }
+
+        /// <summary>
+        /// Creates a new instance of BackgroundRemovalTool.
+        /// </summary>
         /// <param name="mapper">The coordinate mapper used for the background removal.</param>
         public BackgroundRemovalTool(CoordinateMapper mapper)
         {
-            _coordinateMapper = mapper;
+            CoordinateMapper = mapper;
         }
 
         #endregion
@@ -132,7 +147,7 @@ namespace LightBuzz.Vitruvius.WPF
 
                 bodyIndexFrame.CopyFrameDataToArray(_bodyData);
 
-                _coordinateMapper.MapDepthFrameToColorSpace(_depthData, _colorPoints);
+                CoordinateMapper.MapDepthFrameToColorSpace(_depthData, _colorPoints);
 
                 Array.Clear(_displayPixels, 0, _displayPixels.Length);
 

@@ -10,6 +10,7 @@ namespace LightBuzz.Vitruvius
     public static class CameraExtensions
     {
         #region Methods
+
         /// <summary>
         /// Returns the length of the segment defined by the specified points.
         /// </summary>
