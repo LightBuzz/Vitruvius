@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
+  <Identity Name="36b49361-4c11-48a1-b6df-7a8474e5d606" Publisher="CN=Vangos" Version="1.0.0.0" />
+  <Properties>
+    <DisplayName>VitruviusTest</DisplayName>
+    <PublisherDisplayName>Vangos</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.2.1</OSMinVersion>
+    <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="VitruviusTest.App">
+      <m2:VisualElements DisplayName="VitruviusTest" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="VitruviusTest" ForegroundText="light" BackgroundColor="#464646">
+        <m2:SplashScreen Image="Assets\SplashScreen.png" />
+      </m2:VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <DeviceCapability Name="microphone" />
+    <DeviceCapability Name="webcam" />
+  </Capabilities>
+  <!--<Extensions>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>WindowsPreview.Kinect.dll</Path>
+        <ActivatableClass ActivatableClassId="WindowsPreview.Kinect.KinectSensorFactory" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="WindowsPreview.Kinect.EventQueue" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+  </Extensions>-->
+</Package>
