@@ -38,8 +38,6 @@ namespace VitruviusTest
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Process.Start(@"C:\Windows\System32\KinectService.exe");
-
             _sensor = KinectSensor.Default;
 
             if (_sensor != null)
