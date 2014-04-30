@@ -3,7 +3,9 @@ Vitruvius
 
 Vitruvius is a set of easy-to-use Kinect utilities that will speed-up the development of your projects. Supports gesture detection, skeleton drawing, frame capturing, voice recognition and much more.
 
-Great news for early-access developers: Vitruvius now supports Kinect for Windows version 2 sensor!
+Great news for early-access developers: Vitruvius supports Kinect for Windows version 2 sensor!
+
+NEW: Vitruvius now supports WinRT for Windows Store apps.
 
 Features
 ---
