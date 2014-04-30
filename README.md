@@ -16,12 +16,12 @@ Features
 * Distance between joints
 * One-line skeleton tracking
 
-### WPF & WinForms utilities
+### WPF, WinForms & WinRT utilities
 * Easily display color, depth and infrared frames
 * Save Kinect frames as bitmap images
-* One-line skeleton drawing (WPF-only)
+* One-line skeleton drawing
 
-### Gestures (new)
+### Gestures
 * WaveLeft
 * WaveRight
 * SwipeLeft
