@@ -61,6 +61,10 @@
     <Compile Include="Extensions\InfraredExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\VisualizationMode.cs" />
+    <Compile Include="Video\ColorVideoRecorder.cs" />
+    <Compile Include="Video\DepthVideoRecorder.cs" />
+    <Compile Include="Video\InfraredVideoRecorder.cs" />
+    <Compile Include="Video\IVideoRecorder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LightBuzz.Vitruvius\LightBuzz.Vitruvius.csproj">
