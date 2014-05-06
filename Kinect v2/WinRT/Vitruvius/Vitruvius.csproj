@@ -127,6 +127,10 @@
     <Compile Include="Gestures\WaveRight\WaveRightSegments.cs" />
     <Compile Include="Gestures\Zoom\ZoomSegments.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Recorders\ColorRecorder.cs" />
+    <Compile Include="Recorders\DepthRecorder.cs" />
+    <Compile Include="Recorders\InfraredRecorder.cs" />
+    <Compile Include="Recorders\IRecorder.cs" />
     <Compile Include="Tools\BackgroundRemovalTool.cs" />
     <Compile Include="Tools\VisualizationMode.cs" />
     <Compile Include="Voice\VoiceController.cs" />
@@ -140,6 +144,7 @@
     <None Include="Gestures\LICENSE" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Bitmaps\" />
     <Folder Include="HandTracking\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
