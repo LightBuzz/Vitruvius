@@ -10,7 +10,7 @@ namespace LightBuzz.Vitruvius.WPF
     /// <summary>
     /// NOT YET AVAILABLE!
     /// </summary>
-    public interface IVideoRecorder<T>
+    public interface IRecorder<T>
     {
         void Start();
 

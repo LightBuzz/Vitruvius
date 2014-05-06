@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LightBuzz.Vitruvius.WPF.Video
+namespace LightBuzz.Vitruvius.WPF
 {
     /// <summary>
     /// NOT YET AVAILABLE!
     /// </summary>
-    public class InfraredVideoRecorder : IVideoRecorder<InfraredFrame>
+    public class DepthRecorder : IRecorder<DepthFrame>
     {
         public void Start()
         {
@@ -20,7 +20,7 @@ namespace LightBuzz.Vitruvius.WPF.Video
         {
         }
 
-        public void Update(InfraredFrame frame)
+        public void Update(DepthFrame frame)
         {
         }
     }

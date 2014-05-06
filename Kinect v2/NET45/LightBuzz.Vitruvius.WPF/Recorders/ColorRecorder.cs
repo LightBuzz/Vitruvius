@@ -10,7 +10,7 @@ namespace LightBuzz.Vitruvius.WPF
     /// <summary>
     /// NOT YET AVAILABLE!
     /// </summary>
-    public class ColorVideoRecorder : IVideoRecorder<ColorFrame>
+    public class ColorRecorder : IRecorder<ColorFrame>
     {
         public void Start()
         {

@@ -65,10 +65,10 @@
     <Compile Include="Bitmaps\ColorBitmapCreator.cs" />
     <Compile Include="Bitmaps\IBitmapCreator.cs" />
     <Compile Include="Tools\VisualizationMode.cs" />
-    <Compile Include="Video\ColorVideoRecorder.cs" />
-    <Compile Include="Video\DepthVideoRecorder.cs" />
-    <Compile Include="Video\InfraredVideoRecorder.cs" />
-    <Compile Include="Video\IVideoRecorder.cs" />
+    <Compile Include="Recorders\ColorRecorder.cs" />
+    <Compile Include="Recorders\DepthRecorder.cs" />
+    <Compile Include="Recorders\InfraredRecorder.cs" />
+    <Compile Include="Recorders\IRecorder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LightBuzz.Vitruvius\LightBuzz.Vitruvius.csproj">
