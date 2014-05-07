@@ -20,6 +20,7 @@ Features
 * Easily display color, depth and infrared frames
 * Save Kinect frames as bitmap images
 * One-line skeleton drawing
+* Record color, depth and infrared streams and save into video files (WinRT only)
 
 ### Gestures
 * WaveLeft
