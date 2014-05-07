@@ -6,11 +6,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E4099C51-2569-49C1-814E-9D34727030C5}</ProjectGuid>
+    <ProjectGuid>{648FB806-08FE-45B3-B400-00B0C653776B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Vitruvius</RootNamespace>
-    <AssemblyName>Vitruvius</AssemblyName>
+    <RootNamespace>LightBuzz.Vitruvius</RootNamespace>
+    <AssemblyName>LightBuzz.Vitruvius</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
     <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
@@ -25,7 +25,6 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -102,12 +101,28 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <ProjectReference Include="..\LightBuzz.Vitruvius.Video\LightBuzz.Vitruvius.Video.vcxproj">
+      <Project>{2c0ebd30-1b81-4ea0-8bb2-7aecf0d04bb6}</Project>
+      <Name>LightBuzz.Vitruvius.Video</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsPreview.Kinect, Version=2.0">
+      <Name>WindowsPreview.Kinect</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bitmaps\ColorBitmapGenerator.cs" />
+    <Compile Include="Bitmaps\DepthBitmapGenerator.cs" />
+    <Compile Include="Bitmaps\IBitmapGenerator.cs" />
+    <Compile Include="Bitmaps\InfraredBitmapGenerator.cs" />
     <Compile Include="Extensions\BitmapExtensions.cs" />
     <Compile Include="Extensions\BodyExtensions.cs" />
     <Compile Include="Extensions\CameraExtensions.cs" />
     <Compile Include="Extensions\CanvasExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
-    <Compile Include="Extensions\Constants.cs" />
+    <Compile Include="Bitmaps\Constants.cs" />
     <Compile Include="Extensions\DepthExtensions.cs" />
     <Compile Include="Extensions\InfraredExtensions.cs" />
     <Compile Include="Extensions\JointExtensions.cs" />
@@ -136,22 +151,10 @@
     <Compile Include="Voice\VoiceController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="WindowsPreview.Kinect, Version=2.0">
-      <Name>WindowsPreview.Kinect</Name>
-    </SDKReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Gestures\LICENSE" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Bitmaps\" />
     <Folder Include="HandTracking\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Vitruvius.Video\Vitruvius.Video.vcxproj">
-      <Project>{194c4d9a-3fff-4eaa-a7da-959955e8394b}</Project>
-      <Name>Vitruvius.Video</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>

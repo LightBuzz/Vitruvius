@@ -5,7 +5,7 @@
 #pragma comment(lib, "mfplat")
 #pragma comment(lib, "mfuuid")
 
-using namespace Vitruvius_Video;
+using namespace LightBuzz_Vitruvius_Video;
 
 VideoGenerator::VideoGenerator(UINT32 width, UINT32 height, Windows::Storage::Streams::IRandomAccessStream^ stream, UINT32 delay)
 {

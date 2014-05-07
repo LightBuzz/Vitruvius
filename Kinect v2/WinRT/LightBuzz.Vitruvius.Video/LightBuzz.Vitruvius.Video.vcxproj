@@ -27,10 +27,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{194c4d9a-3fff-4eaa-a7da-959955e8394b}</ProjectGuid>
+    <ProjectGuid>{2c0ebd30-1b81-4ea0-8bb2-7aecf0d04bb6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>Vitruvius.Video</ProjectName>
-    <RootNamespace>Vitruvius_Video</RootNamespace>
+    <ProjectName>LightBuzz.Vitruvius.Video</ProjectName>
+    <RootNamespace>LightBuzz_Vitruvius_Video</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <AppContainerApplication>true</AppContainerApplication>

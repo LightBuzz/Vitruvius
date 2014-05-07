@@ -10,7 +10,7 @@
 using namespace Platform;
 using namespace Microsoft::WRL;
 
-namespace Vitruvius_Video
+namespace LightBuzz_Vitruvius_Video
 {
 	public ref class VideoGenerator sealed
 	{
