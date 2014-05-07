@@ -13,7 +13,7 @@ namespace LightBuzz.Vitruvius.WPF
     /// <summary>
     /// Creates a bitmap representation of a Kinect color frame.
     /// </summary>
-    public class ColorBitmapCreator : IBitmapCreator<ColorFrame>
+    public class ColorBitmapGenerator : IBitmapGenerator<ColorFrame>
     {
         #region Properties
 

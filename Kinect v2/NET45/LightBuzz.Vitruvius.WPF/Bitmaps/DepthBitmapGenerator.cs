@@ -14,7 +14,7 @@ namespace LightBuzz.Vitruvius.WPF
     /// <summary>
     /// Creates a bitmap representation of a Kinect depth frame.
     /// </summary>
-    public class DepthBitmapCreator : IBitmapCreator<DepthFrame>
+    public class DepthBitmapGenerator : IBitmapGenerator<DepthFrame>
     {
         #region Properties
 

@@ -19,7 +19,7 @@ namespace LightBuzz.Vitruvius.WPF
         /// <summary>
         /// The depth bitmap creator.
         /// </summary>
-        static DepthBitmapCreator _depthBitmapCreator = new DepthBitmapCreator();
+        static DepthBitmapGenerator _depthBitmapCreator = new DepthBitmapGenerator();
 
         #endregion
 

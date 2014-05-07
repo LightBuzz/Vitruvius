@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vitruvius_Video;
+using Windows.Storage;
 using WindowsPreview.Kinect;
 
 namespace LightBuzz.Vitruvius
@@ -12,8 +14,13 @@ namespace LightBuzz.Vitruvius
     /// </summary>
     public class DepthRecorder : IRecorder<DepthFrame>
     {
+        VideoGenerator _videoGenerator;
+
+        public StorageFile File { get; set; }
+
         public void Start()
         {
+            ColorRecorder c;
         }
 
         public void Stop()

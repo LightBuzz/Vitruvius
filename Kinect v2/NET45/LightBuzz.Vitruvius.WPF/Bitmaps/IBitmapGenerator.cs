@@ -11,7 +11,7 @@ namespace LightBuzz.Vitruvius.WPF
     /// Interface describing a bitmap creation tool.
     /// </summary>
     /// <typeparam name="T">The type of frame (Color, Depth, Infrared).</typeparam>
-    public interface IBitmapCreator<T>
+    public interface IBitmapGenerator<T>
     {
         /// <summary>
         /// Returns the RGB pixel values.

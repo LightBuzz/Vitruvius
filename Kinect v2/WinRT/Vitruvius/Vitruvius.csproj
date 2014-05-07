@@ -147,6 +147,12 @@
     <Folder Include="Bitmaps\" />
     <Folder Include="HandTracking\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vitruvius.Video\Vitruvius.Video.vcxproj">
+      <Project>{194c4d9a-3fff-4eaa-a7da-959955e8394b}</Project>
+      <Name>Vitruvius.Video</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>

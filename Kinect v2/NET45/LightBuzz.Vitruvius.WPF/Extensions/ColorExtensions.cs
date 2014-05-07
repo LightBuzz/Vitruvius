@@ -18,7 +18,7 @@ namespace LightBuzz.Vitruvius.WPF
         /// <summary>
         /// The color bitmap creator.
         /// </summary>
-        static ColorBitmapCreator _colorBitmapCreator = new ColorBitmapCreator();
+        static ColorBitmapGenerator _colorBitmapCreator = new ColorBitmapGenerator();
 
         #endregion
 

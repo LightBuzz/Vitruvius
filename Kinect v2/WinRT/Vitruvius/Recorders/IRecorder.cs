@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace LightBuzz.Vitruvius
 {
@@ -11,6 +12,8 @@ namespace LightBuzz.Vitruvius
     /// </summary>
     public interface IRecorder<T>
     {
+        StorageFile File { get; }
+
         void Start();
 
         void Stop();
