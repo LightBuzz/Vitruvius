@@ -19,7 +19,7 @@ namespace LightBuzz.Vitruvius.WPF
         /// <summary>
         /// The depth bitmap creator.
         /// </summary>
-        static DepthBitmapGenerator _depthBitmapCreator = new DepthBitmapGenerator();
+        static DepthBitmapGenerator _bitmapGenerator = new DepthBitmapGenerator();
 
         #endregion
 
@@ -32,9 +32,9 @@ namespace LightBuzz.Vitruvius.WPF
         /// <returns>The bitmap representation of the specified depth frame.</returns>
         public static BitmapSource ToBitmap(this DepthFrame frame)
         {
-            _depthBitmapCreator.Update(frame);
+            _bitmapGenerator.Update(frame);
 
-            return _depthBitmapCreator.Bitmap;
+            return _bitmapGenerator.Bitmap;
         }
 
         /// <summary>
@@ -45,9 +45,9 @@ namespace LightBuzz.Vitruvius.WPF
         /// <returns>The corresponding System.Windows.Media.Imaging.BitmapSource representation of the depth frame.</returns>
         public static BitmapSource ToBitmap(this DepthFrame depthFrame, BodyIndexFrame bodyIndexFrame)
         {
-            _depthBitmapCreator.Update(depthFrame, bodyIndexFrame);
+            _bitmapGenerator.Update(depthFrame, bodyIndexFrame);
 
-            return _depthBitmapCreator.HighlightedBitmap;
+            return _bitmapGenerator.HighlightedBitmap;
         }
 
         #endregion

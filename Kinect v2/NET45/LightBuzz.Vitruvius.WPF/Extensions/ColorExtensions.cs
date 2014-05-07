@@ -18,7 +18,7 @@ namespace LightBuzz.Vitruvius.WPF
         /// <summary>
         /// The color bitmap creator.
         /// </summary>
-        static ColorBitmapGenerator _colorBitmapCreator = new ColorBitmapGenerator();
+        static ColorBitmapGenerator _bitmapGenerator = new ColorBitmapGenerator();
 
         #endregion
 
@@ -31,9 +31,9 @@ namespace LightBuzz.Vitruvius.WPF
         /// <returns>The bitmap representation of the specified color frame.</returns>
         public static WriteableBitmap ToBitmap(this ColorFrame frame)
         {
-            _colorBitmapCreator.Update(frame);
+            _bitmapGenerator.Update(frame);
 
-            return _colorBitmapCreator.Bitmap;
+            return _bitmapGenerator.Bitmap;
         }
 
         #endregion

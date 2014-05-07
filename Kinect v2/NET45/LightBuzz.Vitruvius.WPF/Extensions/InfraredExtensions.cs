@@ -18,7 +18,7 @@ namespace LightBuzz.Vitruvius.WPF
         /// <summary>
         /// The color bitmap creator.
         /// </summary>
-        static InfraredBitmapGenerator _infraredBitmapCreator = new InfraredBitmapGenerator();
+        static InfraredBitmapGenerator _bitmapGenerator = new InfraredBitmapGenerator();
 
         #endregion
 
@@ -31,9 +31,9 @@ namespace LightBuzz.Vitruvius.WPF
         /// <returns>The bitmap representation of the specified infrared frame.</returns>
         public static ImageSource ToBitmap(this InfraredFrame frame)
         {
-            _infraredBitmapCreator.Update(frame);
+            _bitmapGenerator.Update(frame);
 
-            return _infraredBitmapCreator.Bitmap;
+            return _bitmapGenerator.Bitmap;
         }
 
         #endregion
