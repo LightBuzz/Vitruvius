@@ -103,6 +103,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <ProjectReference Include="..\LightBuzz.Vitruvius.Video\LightBuzz.Vitruvius.Video.vcxproj">
+      <Project>{2c0ebd30-1b81-4ea0-8bb2-7aecf0d04bb6}</Project>
+      <Name>LightBuzz.Vitruvius.Video</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LightBuzz.Vitruvius\LightBuzz.Vitruvius.csproj">
       <Project>{648fb806-08fe-45b3-b400-00b0c653776b}</Project>
       <Name>LightBuzz.Vitruvius</Name>

@@ -25,11 +25,35 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock x:Name="pageTitle" Text="Vitruvius (WinRT)" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
-                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
+                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40" />
         </Grid>
 
-        <Grid Grid.Row="1">
-            <Image Name="camera" />
+        <Grid Grid.Row="1" Margin="116,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MaxWidth="1920" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <Image Grid.Row="0" Grid.Column="0" Name="camera" />
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="0,20">
+                <Button Content="Color" Width="200" Click="Color_Click" />
+                <Button Content="Depth" Width="200" Click="Depth_Click" />
+                <Button Content="Infrared" Width="200" Click="Infrared_Click" />
+            </StackPanel>
+            <StackPanel Grid.Row="0" Grid.Column="1" Margin="20,0">
+                <TextBlock Text="Gesture recognized" Style="{StaticResource SubheaderTextBlockStyle}" />
+                <TextBlock Name="tblGestures" Text="-" Margin="0,0,0,40" Style="{StaticResource BodyTextBlockStyle}" />
+                <TextBlock Text="User heights" Style="{StaticResource SubheaderTextBlockStyle}" />
+                <TextBlock Name="tblHeights" Text="-" Style="{StaticResource BodyTextBlockStyle}" />
+                
+                <Button Content="Record Color" Width="200" Margin="0,40,0,0" Click="RecordColor_Click" />
+                <Button Content="Record Depth" Width="200" Click="RecordDepth_Click" />
+                <Button Content="Record Infrared" Width="200" Click="RecordInfrared_Click" />
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>

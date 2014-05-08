@@ -142,10 +142,10 @@
     <Compile Include="Gestures\WaveRight\WaveRightSegments.cs" />
     <Compile Include="Gestures\Zoom\ZoomSegments.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Recorders\ColorRecorder.cs" />
-    <Compile Include="Recorders\DepthRecorder.cs" />
-    <Compile Include="Recorders\InfraredRecorder.cs" />
-    <Compile Include="Recorders\IRecorder.cs" />
+    <Compile Include="Recording\ColorStreamRecorder.cs" />
+    <Compile Include="Recording\DepthStreamRecorder.cs" />
+    <Compile Include="Recording\InfraredStreamRecorder.cs" />
+    <Compile Include="Recording\IStreamRecorder.cs" />
     <Compile Include="Tools\BackgroundRemovalTool.cs" />
     <Compile Include="Tools\VisualizationMode.cs" />
     <Compile Include="Voice\VoiceController.cs" />

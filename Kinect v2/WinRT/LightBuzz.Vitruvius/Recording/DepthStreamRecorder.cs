@@ -12,29 +12,32 @@ namespace LightBuzz.Vitruvius
     /// <summary>
     /// Provides some common functionality for recording the depth Kinect stream.
     /// </summary>
-    public class DepthRecorder : IRecorder<DepthFrame>
+    public class DepthStreamRecorder : IStreamRecorder<DepthFrame>
     {
-        DepthBitmapGenerator _bitmapGenerator = new DepthBitmapGenerator();
+        public DepthBitmapGenerator BitmapGenerator { get; protected set; }
 
-        public DepthRecorder()
+        public DepthStreamRecorder()
         {
         }
 
-        public DepthRecorder(StorageFile file)
+        public DepthStreamRecorder(StorageFile file)
         {
             File = file;
         }
 
         public override void Update(DepthFrame frame)
         {
-            if (_videoGenerator == null)
+            if (BitmapGenerator == null)
             {
-                _videoGenerator = new VideoGenerator((uint)frame.FrameDescription.Width, (uint)frame.FrameDescription.Height, _stream, 16);
+                BitmapGenerator = new DepthBitmapGenerator();
+
+                _width = frame.FrameDescription.Width;
+                _height = frame.FrameDescription.Height;
             }
 
-            _bitmapGenerator.Update(frame);
+            BitmapGenerator.Update(frame);
 
-            _videoGenerator.AppendNewFrame(_bitmapGenerator.Pixels);
+            Frames.Add(BitmapGenerator.Pixels);
         }
     }
 }

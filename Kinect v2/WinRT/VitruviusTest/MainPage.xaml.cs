@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -31,6 +34,10 @@ namespace VitruviusTest
         IEnumerable<Body> _bodies;
         GestureController _gestureController;
 
+        ColorStreamRecorder _colorStreamRecorder = new ColorStreamRecorder();
+        DepthStreamRecorder _depthStreamRecorder = new DepthStreamRecorder();
+        IStreamRecorder<InfraredFrame> _infraredStreamRecorder = new InfraredStreamRecorder();
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -48,7 +55,7 @@ namespace VitruviusTest
                 _reader.MultiSourceFrameArrived += Reader_MultiSourceFrameArrived;
 
                 _gestureController = new GestureController(GestureType.All);
-                _gestureController.GestureRecognized += GestureController_GestureRecognized;
+                _gestureController.GestureRecognized += GestureController_GestureRecognized;    
             }
         }
 
@@ -88,6 +95,11 @@ namespace VitruviusTest
                     if (_mode == VisualizationMode.Color)
                     {
                         camera.Source = frame.ToBitmap();
+
+                        if (_colorStreamRecorder.IsRecording)
+                        {
+                            _colorStreamRecorder.Update(frame);
+                        }
                     }
                 }
             }
@@ -100,6 +112,11 @@ namespace VitruviusTest
                     if (_mode == VisualizationMode.Depth)
                     {
                         camera.Source = frame.ToBitmap();
+
+                        if (_depthStreamRecorder.IsRecording)
+                        {
+                            _depthStreamRecorder.Update(frame);
+                        }
                     }
                 }
             }
@@ -112,6 +129,11 @@ namespace VitruviusTest
                     if (_mode == VisualizationMode.Infrared)
                     {
                         camera.Source = frame.ToBitmap();
+
+                        if (_infraredStreamRecorder.IsRecording)
+                        {
+                            _infraredStreamRecorder.Update(frame);
+                        }
                     }
                 }
             }
@@ -136,7 +158,7 @@ namespace VitruviusTest
                             //canvas.Source = body.ToBitmap(_mode);
 
                             // Display user height.
-                            //tblHeights.Text += string.Format("\nUser {0}: {1}cm", body.TrackingId, Math.Round(body.Height(), 2));
+                            tblHeights.Text += string.Format("\nUser {0}: {1}cm", body.TrackingId, Math.Round(body.Height(), 2));
                         }
                     }
                 }
@@ -146,7 +168,7 @@ namespace VitruviusTest
         void GestureController_GestureRecognized(object sender, GestureEventArgs e)
         {
             // Display the gesture type.
-            //tblGestures.Text = e.Name;
+            tblGestures.Text = e.Name;
 
             // Do something according to the type of the gesture.
             switch (e.Type)
@@ -189,6 +211,71 @@ namespace VitruviusTest
         private void Infrared_Click(object sender, RoutedEventArgs e)
         {
             _mode = VisualizationMode.Infrared;
+        }
+
+        private async void RecordColor_Click(object sender, RoutedEventArgs e)
+        {
+            if (_colorStreamRecorder.IsRecording)
+            {
+                _colorStreamRecorder.Stop();
+
+                (sender as Button).Content = "Record Color";
+            }
+            else
+            {
+                StorageFile file = await PickFile();
+
+                _colorStreamRecorder.File = file;
+                _colorStreamRecorder.Start();
+
+                (sender as Button).Content = "Stop";
+            }
+        }
+
+        private async void RecordDepth_Click(object sender, RoutedEventArgs e)
+        {
+            if (_depthStreamRecorder.IsRecording)
+            {
+                _depthStreamRecorder.Stop();
+
+                (sender as Button).Content = "Record Depth";
+            }
+            else
+            {
+                StorageFile file = await PickFile();
+
+                _depthStreamRecorder.File = file;
+                _depthStreamRecorder.Start();
+
+                (sender as Button).Content = "Stop";
+            }
+        }
+
+        private async void RecordInfrared_Click(object sender, RoutedEventArgs e)
+        {
+            if (_infraredStreamRecorder.IsRecording)
+            {
+                _infraredStreamRecorder.Stop();
+
+                (sender as Button).Content = "Record Infrared";
+            }
+            else
+            {
+                StorageFile file = await PickFile();
+
+                _infraredStreamRecorder.File = file;
+                _infraredStreamRecorder.Start();
+
+                (sender as Button).Content = "Stop";
+            }
+        }
+
+        private async Task<StorageFile> PickFile()
+        {
+            FileSavePicker picker = new FileSavePicker();
+            picker.FileTypeChoices.Add("Windows Media Video", new[] { ".wmv" });
+
+            return await picker.PickSaveFileAsync();
         }
     }
 }

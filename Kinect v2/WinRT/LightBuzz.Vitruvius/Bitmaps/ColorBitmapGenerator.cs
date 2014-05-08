@@ -60,6 +60,7 @@ namespace LightBuzz.Vitruvius
                 Bitmap = new WriteableBitmap(Width, Height);
                 Stream = Bitmap.PixelBuffer.AsStream();
             }
+
             if (frame.RawColorImageFormat == ColorImageFormat.Bgra)
             {
                 frame.CopyRawFrameDataToArray(Pixels);

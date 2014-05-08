@@ -14,21 +14,21 @@ namespace LightBuzz_Vitruvius_Video
 {
 	public ref class VideoGenerator sealed
 	{
-		UINT32 videoWidth;
-		UINT32 videoHeight;
-		UINT32 fps;
-		UINT32 bitRate;
-		UINT32 frameSize;
-		GUID   encodingFormat;
-		GUID   inputFormat;
+		UINT32 _videoWidth;
+		UINT32 _videoHeight;
+		UINT32 _fps;
+		UINT32 _bitRate;
+		UINT32 _frameSize;
+		GUID   _encodingFormat;
+		GUID   _inputFormat;
 
-		DWORD  streamIndex;
-		ComPtr<IMFSinkWriter> sinkWriter;
+		DWORD  _streamIndex;
+		ComPtr<IMFSinkWriter> _sinkWriter;
 
-		bool   initiated;
+		bool   _initiated;
 
-		LONGLONG rtStart;
-		UINT64 rtDuration;
+		LONGLONG _rtStart;
+		UINT64 _rtDuration;
 
 	private:
 		HRESULT InitializeSinkWriter(Windows::Storage::Streams::IRandomAccessStream^ stream);
@@ -39,6 +39,8 @@ namespace LightBuzz_Vitruvius_Video
 		virtual ~VideoGenerator();
 
 		void AppendNewFrame(const Array<byte> ^videoFrameBuffer);
+		void SetFramesPerSecond(UINT32 fps);
+		void SetBitRate(UINT32 bitRate);
 		void Finalize();
 	};
 }
