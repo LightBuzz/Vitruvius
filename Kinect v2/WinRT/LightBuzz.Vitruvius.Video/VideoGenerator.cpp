@@ -7,11 +7,11 @@
 
 using namespace LightBuzz_Vitruvius_Video;
 
-VideoGenerator::VideoGenerator(UINT32 width, UINT32 height, Windows::Storage::Streams::IRandomAccessStream^ stream, UINT32 delay)
+VideoGenerator::VideoGenerator(UINT32 width, UINT32 height, Windows::Storage::Streams::IRandomAccessStream^ stream, UINT32 fps, UINT32 delay)
 {
 	_videoWidth = width;
 	_videoHeight = height;
-	_fps = 15;
+	_fps = fps;
 	_bitRate = 400000;
 	_frameSize = _videoWidth * _videoHeight;
 	_encodingFormat = MFVideoFormat_WMV3;
@@ -37,11 +37,6 @@ VideoGenerator::VideoGenerator(UINT32 width, UINT32 height, Windows::Storage::St
 VideoGenerator::~VideoGenerator()
 {
 	Finalize();
-}
-
-void VideoGenerator::SetFramesPerSecond(UINT32 fps)
-{
-	_fps = fps;
 }
 
 void VideoGenerator::SetBitRate(UINT32 bitRate)

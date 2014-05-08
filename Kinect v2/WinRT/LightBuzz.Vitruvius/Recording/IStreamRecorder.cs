@@ -12,7 +12,7 @@ namespace LightBuzz.Vitruvius
     /// <summary>
     /// Interface for a Kinect stream recorder.
     /// </summary>
-    public abstract class IStreamRecorder<T>
+    public class IStreamRecorder<T>
     {
         DateTime _startTime;
         DateTime _stopTime;
@@ -59,12 +59,10 @@ namespace LightBuzz.Vitruvius
 
                 TimeSpan span = _stopTime - _startTime;
                 int seconds = span.Seconds;
-                int numberOfFrames = Frames.Count;
-                int fps = numberOfFrames / seconds;
+                int fps = Frames.Count / seconds;
                 int delay = 1000 / fps;
 
-                VideoGenerator videoGenerator = new VideoGenerator((uint)_width, (uint)_height, _stream, (uint)delay);
-                videoGenerator.SetFramesPerSecond((uint)fps);
+                VideoGenerator videoGenerator = new VideoGenerator((uint)_width, (uint)_height, _stream, (uint)fps, (uint)delay);
 
                 foreach (byte[] frame in Frames)
                 {
@@ -83,6 +81,16 @@ namespace LightBuzz.Vitruvius
             }
         }
 
-        public abstract void Update(T frame);
+        public void Update(byte[] source)
+        {
+            byte[] destination = new byte[source.Length];
+            Array.Copy(source, destination, destination.Length);
+
+            Frames.Add(destination);
+        }
+
+        public virtual void Update(T frame)
+        {
+        }
     }
 }

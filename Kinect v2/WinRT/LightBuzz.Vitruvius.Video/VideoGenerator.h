@@ -35,11 +35,10 @@ namespace LightBuzz_Vitruvius_Video
 		HRESULT WriteFrame(DWORD *videoFrameBuffer, const LONGLONG& rtStart, const LONGLONG& rtDuration);
 
 	public:
-		VideoGenerator(UINT32 width, UINT32 height, Windows::Storage::Streams::IRandomAccessStream^ stream, UINT32 delay);
+		VideoGenerator(UINT32 width, UINT32 height, Windows::Storage::Streams::IRandomAccessStream^ stream, UINT32 fps, UINT32 delay);
 		virtual ~VideoGenerator();
 
 		void AppendNewFrame(const Array<byte> ^videoFrameBuffer);
-		void SetFramesPerSecond(UINT32 fps);
 		void SetBitRate(UINT32 bitRate);
 		void Finalize();
 	};

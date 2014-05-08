@@ -37,7 +37,7 @@ namespace LightBuzz.Vitruvius
 
             BitmapGenerator.Update(frame);
 
-            Frames.Add(BitmapGenerator.Pixels);
+            Update(BitmapGenerator.Pixels);
         }
     }
 }
