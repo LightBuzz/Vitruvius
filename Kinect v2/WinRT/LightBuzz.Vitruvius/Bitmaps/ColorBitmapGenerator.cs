@@ -50,7 +50,8 @@ namespace LightBuzz.Vitruvius
         /// Updates the bitmap with new frame data.
         /// </summary>
         /// <param name="frame">The specified Kinect color frame.</param>
-        public void Update(ColorFrame frame)
+        /// <param name="format">The specified color format.</param>
+        public void Update(ColorFrame frame, ColorImageFormat format)
         {
             if (Bitmap == null)
             {
@@ -67,13 +68,22 @@ namespace LightBuzz.Vitruvius
             }
             else
             {
-                frame.CopyConvertedFrameDataToArray(Pixels, ColorImageFormat.Bgra);
+                frame.CopyConvertedFrameDataToArray(Pixels, format);
             }
 
             Stream.Seek(0, SeekOrigin.Begin);
             Stream.Write(Pixels, 0, Pixels.Length);
 
             Bitmap.Invalidate();
+        }
+
+        /// <summary>
+        /// Updates the bitmap with new frame data.
+        /// </summary>
+        /// <param name="frame">The specified Kinect color frame.</param>
+        public void Update(ColorFrame frame)
+        {
+            Update(frame, ColorImageFormat.Bgra);
         }
 
         #endregion

@@ -9,6 +9,10 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
+using Windows.System.Threading;
+using Windows.System.Threading.Core;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -55,7 +59,7 @@ namespace VitruviusTest
                 _reader.MultiSourceFrameArrived += Reader_MultiSourceFrameArrived;
 
                 _gestureController = new GestureController(GestureType.All);
-                _gestureController.GestureRecognized += GestureController_GestureRecognized;    
+                _gestureController.GestureRecognized += GestureController_GestureRecognized;
             }
         }
 
@@ -143,7 +147,7 @@ namespace VitruviusTest
             {
                 if (frame != null)
                 {
-                    //tblHeights.Text = string.Empty;
+                    tblHeights.Text = "-";
 
                     _bodies = frame.Bodies().Where(body => body.IsTracked);
 
@@ -225,7 +229,7 @@ namespace VitruviusTest
             {
                 StorageFile file = await PickFile();
 
-                _colorStreamRecorder.File = file;
+                _colorStreamRecorder.Stream = await file.OpenAsync(FileAccessMode.ReadWrite);
                 _colorStreamRecorder.Start();
 
                 (sender as Button).Content = "Stop";
@@ -244,7 +248,7 @@ namespace VitruviusTest
             {
                 StorageFile file = await PickFile();
 
-                _depthStreamRecorder.File = file;
+                _depthStreamRecorder.Stream = await file.OpenAsync(FileAccessMode.ReadWrite);
                 _depthStreamRecorder.Start();
 
                 (sender as Button).Content = "Stop";
@@ -263,7 +267,7 @@ namespace VitruviusTest
             {
                 StorageFile file = await PickFile();
 
-                _infraredStreamRecorder.File = file;
+                _infraredStreamRecorder.Stream = await file.OpenAsync(FileAccessMode.ReadWrite);
                 _infraredStreamRecorder.Start();
 
                 (sender as Button).Content = "Stop";

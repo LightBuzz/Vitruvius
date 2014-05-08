@@ -1,11 +1,16 @@
 ﻿using LightBuzz_Vitruvius_Video;
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.System.Threading;
+using Windows.Foundation;
 
 namespace LightBuzz.Vitruvius
 {
@@ -14,38 +19,30 @@ namespace LightBuzz.Vitruvius
     /// </summary>
     public class IStreamRecorder<T>
     {
-        DateTime _startTime;
-        DateTime _stopTime;
+        protected VideoGenerator _videoGenerator;
 
-        protected int _width;
+        public int Width { get; set; }
 
-        protected int _height;
+        public int Height { get; set; }
 
-        protected IRandomAccessStream _stream = null;
+        public int Fps { get; set; }
 
-        public StorageFile File { get; set; }
+        public int Delay { get; set; }
 
+        public IRandomAccessStream Stream { get; set; }
+        
         public bool IsRecording { get; protected set; }
 
-        public List<byte[]> Frames { get; set; }
-
-        public async void Start()
+        public void Start()
         {
+            if (Stream == null)
+            {
+                throw new NullReferenceException("Stream property cannot be null.");
+            }
+
             if (!IsRecording)
             {
-                if (Frames == null)
-                {
-                    Frames = new List<byte[]>();
-                }
-
-                if (File != null)
-                {
-                    _stream = await File.OpenAsync(FileAccessMode.ReadWrite);
-
-                    _startTime = DateTime.Now;
-
-                    IsRecording = true;
-                }
+                IsRecording = true;
             }
         }
 
@@ -55,38 +52,42 @@ namespace LightBuzz.Vitruvius
             {
                 IsRecording = false;
 
-                _stopTime = DateTime.Now;
+                _videoGenerator.Finalize();
+                _videoGenerator.Dispose();
 
-                TimeSpan span = _stopTime - _startTime;
-                int seconds = span.Seconds;
-                int fps = Frames.Count / seconds;
-                int delay = 1000 / fps;
-
-                VideoGenerator videoGenerator = new VideoGenerator((uint)_width, (uint)_height, _stream, (uint)fps, (uint)delay);
-
-                foreach (byte[] frame in Frames)
+                if (Stream != null)
                 {
-                    videoGenerator.AppendNewFrame(frame);
-                }
-
-                videoGenerator.Finalize();
-                videoGenerator.Dispose();
-
-                Frames.Clear();
-
-                if (_stream != null)
-                {
-                    _stream.Dispose();
+                    Stream.Dispose();
                 }
             }
         }
 
-        public void Update(byte[] source)
+        public async Task Update(byte[] source)
         {
-            byte[] destination = new byte[source.Length];
-            Array.Copy(source, destination, destination.Length);
+            if (_videoGenerator == null)
+            {
+                if (Width == 0 || Height == 0 || Fps == 0 || Delay == 0)
+                {
+                    throw new Exception("Width, height, FramesPerSecond and Delay cannot be zero.");
+                }
 
-            Frames.Add(destination);
+                _videoGenerator = new VideoGenerator((uint)Width, (uint)Height, Stream, (uint)Fps, (uint)Delay);
+            }
+
+            await Task.Factory.StartNew(() =>
+            {
+                if (IsRecording)
+                {
+                    try
+                    {
+                        _videoGenerator.AppendNewFrame(source);
+                    }
+                    catch
+                    {
+                        // Exception thrown on Stop(). Just ignore it ;-)
+                    }
+                }
+            });
         }
 
         public virtual void Update(T frame)

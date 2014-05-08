@@ -16,28 +16,21 @@ namespace LightBuzz.Vitruvius
     {
         public InfraredBitmapGenerator BitmapGenerator { get; protected set; }
 
-        public InfraredStreamRecorder()
-        {
-        }
-
-        public InfraredStreamRecorder(StorageFile file)
-        {
-            File = file;
-        }
-
-        public override void Update(InfraredFrame frame)
+        public override async void Update(InfraredFrame frame)
         {
             if (BitmapGenerator == null)
             {
                 BitmapGenerator = new InfraredBitmapGenerator();
 
-                _width = frame.FrameDescription.Width;
-                _height = frame.FrameDescription.Height;
+                Width = frame.FrameDescription.Width;
+                Height = frame.FrameDescription.Height;
+                Fps = 15;
+                Delay = 66;
             }
 
             BitmapGenerator.Update(frame);
 
-            Update(BitmapGenerator.Pixels);
+            await Update(BitmapGenerator.Pixels);
         }
     }
 }

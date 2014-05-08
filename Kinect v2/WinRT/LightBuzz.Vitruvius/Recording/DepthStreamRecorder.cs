@@ -16,28 +16,21 @@ namespace LightBuzz.Vitruvius
     {
         public DepthBitmapGenerator BitmapGenerator { get; protected set; }
 
-        public DepthStreamRecorder()
-        {
-        }
-
-        public DepthStreamRecorder(StorageFile file)
-        {
-            File = file;
-        }
-
-        public override void Update(DepthFrame frame)
+        public override async void Update(DepthFrame frame)
         {
             if (BitmapGenerator == null)
             {
                 BitmapGenerator = new DepthBitmapGenerator();
 
-                _width = frame.FrameDescription.Width;
-                _height = frame.FrameDescription.Height;
+                Width = frame.FrameDescription.Width;
+                Height = frame.FrameDescription.Height;
+                Fps = 15;
+                Delay = 66;
             }
 
             BitmapGenerator.Update(frame);
 
-            Update(BitmapGenerator.Pixels);
+            await Update(BitmapGenerator.Pixels);
         }
     }
 }
