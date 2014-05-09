@@ -12,25 +12,62 @@ namespace LightBuzz.Vitruvius
     /// <summary>
     /// Provides some common functionality for recording the infrared Kinect stream.
     /// </summary>
-    public class InfraredStreamRecorder : IStreamRecorder<InfraredFrame>
+    public class InfraredStreamRecorder : StreamRecorder<InfraredFrame>
     {
+        #region Properties
+
+        /// <summary>
+        /// The bitmap pixel generator.
+        /// </summary>
         public InfraredBitmapGenerator BitmapGenerator { get; protected set; }
 
-        public override async Task Update(InfraredFrame frame)
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="InfraredStreamRecorder" />.
+        /// </summary>
+        public InfraredStreamRecorder()
+        {
+            HD = true;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="InfraredStreamRecorder" />.
+        /// </summary>
+        /// <param name="hd">Specifies whether the recorder will record in HD.</param>
+        public InfraredStreamRecorder(bool hd)
+        {
+            HD = hd;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Updates the current frame.
+        /// </summary>
+        /// <param name="frame">The specified <see cref="InfraredFrame"/>.</param>
+        public override async void Update(InfraredFrame frame)
         {
             if (BitmapGenerator == null)
             {
                 BitmapGenerator = new InfraredBitmapGenerator();
 
-                Width = frame.FrameDescription.Width;
-                Height = frame.FrameDescription.Height;
-                Fps = 15;
+                _originalWidth = frame.FrameDescription.Width;
+                _originalHeight = frame.FrameDescription.Height;
+
+                Fps = 30;
                 Delay = 66;
             }
 
             BitmapGenerator.Update(frame);
 
-            await Update(BitmapGenerator.Pixels);
+            Update(BitmapGenerator.Pixels);
         }
+
+        #endregion
     }
 }

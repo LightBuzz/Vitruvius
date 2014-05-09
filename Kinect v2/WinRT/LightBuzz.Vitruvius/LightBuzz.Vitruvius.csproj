@@ -145,7 +145,7 @@
     <Compile Include="Recording\ColorStreamRecorder.cs" />
     <Compile Include="Recording\DepthStreamRecorder.cs" />
     <Compile Include="Recording\InfraredStreamRecorder.cs" />
-    <Compile Include="Recording\IStreamRecorder.cs" />
+    <Compile Include="Recording\StreamRecorder.cs" />
     <Compile Include="Tools\BackgroundRemovalTool.cs" />
     <Compile Include="Tools\VisualizationMode.cs" />
     <Compile Include="Voice\VoiceController.cs" />

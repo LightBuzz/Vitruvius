@@ -12,9 +12,9 @@ VideoGenerator::VideoGenerator(UINT32 width, UINT32 height, Windows::Storage::St
 	_videoWidth = width;
 	_videoHeight = height;
 	_fps = fps;
-	_bitRate = 400000;
+	_bitRate = 1000000;
 	_frameSize = _videoWidth * _videoHeight;
-	_encodingFormat = MFVideoFormat_WMV3;
+	_encodingFormat = MFVideoFormat_WMV2;
 	_inputFormat = MFVideoFormat_RGB32;
 
 	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);

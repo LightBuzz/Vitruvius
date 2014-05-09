@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Capture;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Core;
@@ -34,9 +35,9 @@ namespace VitruviusTest
         IEnumerable<Body> _bodies;
         GestureController _gestureController;
 
-        IStreamRecorder<ColorFrame> _colorStreamRecorder = new ColorStreamRecorder();
-        IStreamRecorder<DepthFrame> _depthStreamRecorder = new DepthStreamRecorder();
-        IStreamRecorder<InfraredFrame> _infraredStreamRecorder = new InfraredStreamRecorder();
+        StreamRecorder<ColorFrame> _colorStreamRecorder = new ColorStreamRecorder();
+        StreamRecorder<DepthFrame> _depthStreamRecorder = new DepthStreamRecorder();
+        StreamRecorder<InfraredFrame> _infraredStreamRecorder = new InfraredStreamRecorder();
 
         public MainPage()
         {
@@ -83,7 +84,7 @@ namespace VitruviusTest
             }
         }
 
-        async void Reader_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
+        void Reader_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
         {
             var reference = e.FrameReference.AcquireFrame();
 
@@ -98,7 +99,7 @@ namespace VitruviusTest
 
                         if (_colorStreamRecorder.IsRecording)
                         {
-                            await _colorStreamRecorder.Update(frame);
+                            _colorStreamRecorder.Update(frame);
                         }
                     }
                 }
@@ -115,7 +116,7 @@ namespace VitruviusTest
 
                         if (_depthStreamRecorder.IsRecording)
                         {
-                            await _depthStreamRecorder.Update(frame);
+                            _depthStreamRecorder.Update(frame);
                         }
                     }
                 }
@@ -132,7 +133,7 @@ namespace VitruviusTest
 
                         if (_infraredStreamRecorder.IsRecording)
                         {
-                            await _infraredStreamRecorder.Update(frame);
+                            _infraredStreamRecorder.Update(frame);
                         }
                     }
                 }

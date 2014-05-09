@@ -12,25 +12,62 @@ namespace LightBuzz.Vitruvius
     /// <summary>
     /// Provides some common functionality for recording the color Kinect stream.
     /// </summary>
-    public class ColorStreamRecorder : IStreamRecorder<ColorFrame>
+    public class ColorStreamRecorder : StreamRecorder<ColorFrame>
     {
+        #region Properties
+
+        /// <summary>
+        /// The bitmap pixel generator.
+        /// </summary>
         public ColorBitmapGenerator BitmapGenerator { get; protected set; }
 
-        public override async Task Update(ColorFrame frame)
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="ColorStreamRecorder" />.
+        /// </summary>
+        public ColorStreamRecorder()
+        {
+            HD = false;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="ColorStreamRecorder" />.
+        /// </summary>
+        /// <param name="hd">Specifies whether the recorder will record in HD.</param>
+        public ColorStreamRecorder(bool hd)
+        {
+            HD = hd;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Updates the current frame.
+        /// </summary>
+        /// <param name="frame">The specified <see cref="ColorFrame"/>.</param>
+        public override async void Update(ColorFrame frame)
         {
             if (BitmapGenerator == null)
             {
                 BitmapGenerator = new ColorBitmapGenerator();
 
-                Width = frame.FrameDescription.Width;
-                Height = frame.FrameDescription.Height;
+                _originalWidth = frame.FrameDescription.Width;
+                _originalHeight = frame.FrameDescription.Height;
+
                 Fps = 15;
                 Delay = 66;
             }
 
             BitmapGenerator.Update(frame, ColorImageFormat.Rgba);
 
-            await Update(BitmapGenerator.Pixels);
+            Update(BitmapGenerator.Pixels);
         }
+
+        #endregion
     }
 }
