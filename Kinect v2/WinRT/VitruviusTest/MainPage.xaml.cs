@@ -3,15 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.Storage.Streams;
-using Windows.System.Threading;
-using Windows.System.Threading.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -38,8 +34,8 @@ namespace VitruviusTest
         IEnumerable<Body> _bodies;
         GestureController _gestureController;
 
-        ColorStreamRecorder _colorStreamRecorder = new ColorStreamRecorder();
-        DepthStreamRecorder _depthStreamRecorder = new DepthStreamRecorder();
+        IStreamRecorder<ColorFrame> _colorStreamRecorder = new ColorStreamRecorder();
+        IStreamRecorder<DepthFrame> _depthStreamRecorder = new DepthStreamRecorder();
         IStreamRecorder<InfraredFrame> _infraredStreamRecorder = new InfraredStreamRecorder();
 
         public MainPage()
@@ -87,7 +83,7 @@ namespace VitruviusTest
             }
         }
 
-        void Reader_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
+        async void Reader_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
         {
             var reference = e.FrameReference.AcquireFrame();
 
@@ -102,7 +98,7 @@ namespace VitruviusTest
 
                         if (_colorStreamRecorder.IsRecording)
                         {
-                            _colorStreamRecorder.Update(frame);
+                            await _colorStreamRecorder.Update(frame);
                         }
                     }
                 }
@@ -119,7 +115,7 @@ namespace VitruviusTest
 
                         if (_depthStreamRecorder.IsRecording)
                         {
-                            _depthStreamRecorder.Update(frame);
+                            await _depthStreamRecorder.Update(frame);
                         }
                     }
                 }
@@ -136,7 +132,7 @@ namespace VitruviusTest
 
                         if (_infraredStreamRecorder.IsRecording)
                         {
-                            _infraredStreamRecorder.Update(frame);
+                            await _infraredStreamRecorder.Update(frame);
                         }
                     }
                 }

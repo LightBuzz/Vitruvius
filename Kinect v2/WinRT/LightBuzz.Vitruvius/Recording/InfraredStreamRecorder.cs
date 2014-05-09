@@ -16,7 +16,7 @@ namespace LightBuzz.Vitruvius
     {
         public InfraredBitmapGenerator BitmapGenerator { get; protected set; }
 
-        public override async void Update(InfraredFrame frame)
+        public override async Task Update(InfraredFrame frame)
         {
             if (BitmapGenerator == null)
             {

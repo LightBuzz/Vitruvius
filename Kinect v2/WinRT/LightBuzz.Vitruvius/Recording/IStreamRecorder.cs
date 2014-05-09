@@ -54,6 +54,7 @@ namespace LightBuzz.Vitruvius
 
                 _videoGenerator.Finalize();
                 _videoGenerator.Dispose();
+                _videoGenerator = null; // IMPORTANT!
 
                 if (Stream != null)
                 {
@@ -90,8 +91,9 @@ namespace LightBuzz.Vitruvius
             });
         }
 
-        public virtual void Update(T frame)
+        public virtual Task Update(T frame)
         {
+            return null;
         }
     }
 }

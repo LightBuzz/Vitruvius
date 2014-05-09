@@ -16,7 +16,7 @@ namespace LightBuzz.Vitruvius
     {
         public DepthBitmapGenerator BitmapGenerator { get; protected set; }
 
-        public override async void Update(DepthFrame frame)
+        public override async Task Update(DepthFrame frame)
         {
             if (BitmapGenerator == null)
             {
