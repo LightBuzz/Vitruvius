@@ -86,6 +86,7 @@ namespace LightBuzz.Vitruvius
         public Gesture(GestureType type, IGestureSegment[] segments)
         {
             _type = type;
+            _name = type.ToString();
             _segments = segments;
 
             _name = type.ToString();
