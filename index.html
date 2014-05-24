@@ -1,71 +1,259 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Vitruvius by LightBuzz</title>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Vitruvius : A set of easy-to-use Kinect utilities that will speed-up the development of your projects." />
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Vitruvius</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Vitruvius</h1>
-        <p>A set of easy-to-use Kinect utilities that will speed-up the development of your projects.</p>
 
-        <p class="view"><a href="https://github.com/LightBuzz/Vitruvius">View the Project on GitHub <small>LightBuzz/Vitruvius</small></a></p>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/LightBuzz/Vitruvius">View on GitHub</a>
 
+          <h1 id="project_title">Vitruvius</h1>
+          <h2 id="project_tagline">A set of easy-to-use Kinect utilities that will speed-up the development of your projects.</h2>
 
-        <ul>
-          <li><a href="https://github.com/LightBuzz/Vitruvius/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/LightBuzz/Vitruvius/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/LightBuzz/Vitruvius">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/LightBuzz/Vitruvius/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/LightBuzz/Vitruvius/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="vitruvius" class="anchor" href="#vitruvius"><span class="octicon octicon-link"></span></a>Vitruvius</h1>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<p>Vitruvius is a set of easy-to-use Kinect utilities that will speed-up the development of your projects. Supports gesture detection, skeleton drawing, frame capturing, voice recognition and much more.</p>
+
+<p>Great news for early-access developers: Vitruvius supports Kinect for Windows version 2 sensor!</p>
+
+<p>NEW: Vitruvius now supports WinRT for Windows Store apps.</p>
+
+<h2>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<h3>
+<a name="skeletal-extensions" class="anchor" href="#skeletal-extensions"><span class="octicon octicon-link"></span></a>Skeletal extensions</h3>
+
+<ul>
+<li>Joint scaling, proper for on-screen display</li>
+<li>User height</li>
+<li>Distance between joints</li>
+<li>One-line skeleton tracking</li>
+</ul><h3>
+<a name="wpf-winforms--winrt-utilities" class="anchor" href="#wpf-winforms--winrt-utilities"><span class="octicon octicon-link"></span></a>WPF, WinForms &amp; WinRT utilities</h3>
+
+<ul>
+<li>Easily display color, depth and infrared frames</li>
+<li>Save Kinect frames as bitmap images</li>
+<li>One-line skeleton drawing</li>
+<li>Record color, depth and infrared streams and save into video files (WinRT only)</li>
+</ul><h3>
+<a name="gestures" class="anchor" href="#gestures"><span class="octicon octicon-link"></span></a>Gestures</h3>
+
+<ul>
+<li>WaveLeft</li>
+<li>WaveRight</li>
+<li>SwipeLeft</li>
+<li>SwipeRight</li>
+<li>JoinedHands</li>
+<li>SwipeUp</li>
+<li>SwipeDown</li>
+<li>ZoomIn</li>
+<li>ZoomOut</li>
+<li>Menu</li>
+</ul><h3>
+<a name="voice-recognition--text-to-speech-v1-only" class="anchor" href="#voice-recognition--text-to-speech-v1-only"><span class="octicon octicon-link"></span></a>Voice recognition &amp; text-to-speech (v1 only)</h3>
+
+<ul>
+<li>Recognize voice commands</li>
+<li>Speech synthesis</li>
+</ul><h3>
+<a name="coming-very-soon" class="anchor" href="#coming-very-soon"><span class="octicon octicon-link"></span></a>Coming very soon</h3>
+
+<ul>
+<li>Complete finger tracking</li>
+<li>Posture support (jumping, dancing, etc)</li>
+</ul><h2>
+<a name="prerequisites" class="anchor" href="#prerequisites"><span class="octicon octicon-link"></span></a>Prerequisites</h2>
+
+<ul>
+<li>
+<a href="http://amzn.to/1k7rquZ">Kinect for Windows</a> or <a href="http://amzn.to/1dO0R0s">Kinect for XBOX</a> sensor</li>
+<li><a href="http://go.microsoft.com/fwlink/?LinkID=323588">Kinect for Windows SDK v1.8</a></li>
+</ul><p>If you are developing using the developer preview Kinect SDK v2, you need the appropriate hardware and software provided by Microsoft.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<ul>
+<li>Download project's source code and build the solution that matches the version of your sensor. Version 2 refers to the private Developer Preview Kinect for Windows sensor.</li>
+</ul><h2>
+<a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples</h2>
+
+<ol>
+<li>
+<p>Displaying Kinect color frames:</p>
+
+<pre><code>void Sensor_ColorFrameReady(object sender, ColorImageFrameReadyEventArgs e)
+{
+    using (var frame = e.OpenColorImageFrame())
+    {
+        if (frame != null)
+        {
+            // Display on screen
+            image.Source = frame.ToBitmap();
+
+            // Capture JPEG file
+            frame.Capture("C:\\ColorFrame.jpg");
+        }
+    }
+}
 </code></pre>
+</li>
+<li>
+<p>Displaying Kinect depth frames:</p>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<pre><code>void Sensor_DepthFrameReady(object sender, DepthImageFrameReadyEventArgs e)
+{
+    using (var frame = e.OpenDepthImageFrame())
+    {
+        if (frame != null)
+        {
+            // Display on screen
+            image.Source = frame.ToBitmap();
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+            // Capture JPEG file
+            frame.Capture("C:\\DepthFrame.jpg");
+        }
+    }
+}
+</code></pre>
+</li>
+<li>
+<p>Drawing a skeleton and getting its height:</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<pre><code>void Sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
+{
+    using (var frame = e.OpenSkeletonFrame())
+    {
+        if (frame != null)
+        {
+            canvas.ClearSkeletons();
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+            var skeletons = frame.Skeletons().Where(s =&gt; s.TrackingState == SkeletonTrackingState.Tracked);
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+            foreach (var skeleton in skeletons)
+            {
+                if (skeleton != null)
+                {
+                    // Draw the skeleton.
+                    canvas.DrawSkeleton(skeleton);
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+                    // Get the skeleton height.
+                    double height = skeleton.Height();
+                }
+            }
+        }
+    }
+}
+</code></pre>
+</li>
+<li>
+<p>Detecting gestures:</p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<pre><code>GestureController gestureController = new GestureController(GestureType.All);
+gestureController.GestureRecognized += GestureController_GestureRecognized;
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+// ...
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+void Sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
+{
+    using (var frame = e.OpenSkeletonFrame())
+    {
+        if (frame != null)
+        {
+            var skeletons = frame.Skeletons().Where(s =&gt; s.TrackingState == SkeletonTrackingState.Tracked);
+
+            foreach (var skeleton in skeletons)
+            {
+                if (skeleton != null)
+                {
+                    // Update skeleton gestures.
+                    gestureController.Update(skeleton);
+                }
+            }
+        }
+    }
+}
+
+// ...
+
+void GestureController_GestureRecognized(object sender, GestureEventArgs e)
+{
+    // Display the recognized gesture's name.
+    Debug.WriteLine(e.Name);
+}
+</code></pre>
+</li>
+<li>
+<p>Recognizing and synthesizing voice:</p>
+
+<pre><code>VoiceController voiceController = new VoiceController();
+voiceController.SpeechRecognized += VoiceController_SpeechRecognized;
+
+KinectSensor sensor = SensorExtensions.Default();
+List&lt;string&gt; phrases = new List&lt;string&gt; { "Hello", "Goodbye" };
+
+voiceController.StartRecognition(sensor, phrases);
+
+// ...
+
+void VoiceController_SpeechRecognized(object sender, Microsoft.Speech.Recognition.SpeechRecognizedEventArgs e)
+{
+    string text = e.Result.Text;
+
+    voiceController.Speak("I recognized the words: " + text);
+}
+</code></pre>
+</li>
+</ol><h2>
+<a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h2>
+
+<ul>
+<li>Developed by <a href="http://pterneas.com">Vangos Pterneas</a> for <a href="http://lightbuzz.com">LightBuzz</a>
+</li>
+<li>Developed by <a href="http://gkarak.com">George Karakatsiotis</a> for <a href="http://lightbuzz.com">LightBuzz</a>
+</li>
+<li>Gesture detection partly based on <a href="https://github.com/EvilClosetMonkey/Fizbin.Kinect.Gestures">Fizbin</a> library, by <a href="http://www.exceptontuesdays.com/">Nicholas Pappas</a>
+</li>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>You are free to use these libraries in personal and commercial projects by attributing the original creator of Vitruvius. Licensed under <a href="https://github.com/LightBuzz/Vitruvius/blob/master/LICENSE">Apache v2 License</a>.</p>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/LightBuzz">LightBuzz</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Vitruvius maintained by <a href="https://github.com/LightBuzz">LightBuzz</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+
     
+
   </body>
 </html>
