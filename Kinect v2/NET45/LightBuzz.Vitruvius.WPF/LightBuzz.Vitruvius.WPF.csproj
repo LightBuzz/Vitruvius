@@ -55,6 +55,13 @@
     <Compile Include="Controls\KinectCursor.xaml.cs">
       <DependentUpon>KinectCursor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\KinectHoverButton.xaml.cs">
+      <DependentUpon>KinectHoverButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\KinectViewer.xaml.cs">
+      <DependentUpon>KinectViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions\ControlExtensions.cs" />
     <Compile Include="Tools\BackgroundRemovalTool.cs" />
     <Compile Include="Extensions\BodyExtensions.cs" />
     <Compile Include="Tools\BodyVisualizationTool.cs" />
@@ -82,6 +89,14 @@
   <ItemGroup />
   <ItemGroup>
     <Page Include="Controls\KinectCursor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\KinectHoverButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\KinectViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

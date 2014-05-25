@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="LightBuzz.Vitruvius.Controls.KinectHoverButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="154"
+             d:DesignWidth="154"
+             Width="154" Height="154"
+             Loaded="UserControl_Loaded">
+
+    <Grid>
+        <Ellipse StrokeThickness="14" RenderTransformOrigin="0.5,0.5">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="45"/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+            <Ellipse.Fill>
+                <SolidColorBrush x:Name="Mask" Opacity="0.95" Color="{Binding BackgroundColor}" />
+            </Ellipse.Fill>
+            <Ellipse.Stroke>
+                <LinearGradientBrush x:Name="Effect" StartPoint="0,0" EndPoint="0,0">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStop Color="{Binding StrokeColor}" Offset="0.3" />
+                        <GradientStop Color="Transparent" Offset="0.3" />
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+            </Ellipse.Stroke>
+        </Ellipse>
+        <StackPanel>
+            <Image x:Name="Icon" Source="{Binding ImageSource}" Width="{Binding ImageWidth}" Height="{Binding ImageHeight}" Margin="{Binding ImageMargin}" />
+            <TextBlock x:Name="Text" Text="{Binding DisplayText}" Foreground="{Binding TextColorNormal}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

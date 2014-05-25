@@ -48,8 +48,15 @@
     <Compile Include="CanvasExtensions.cs" />
     <Compile Include="ColorExtensions.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="ControlExtensions.cs" />
     <Compile Include="Controls\KinectCursor.xaml.cs">
       <DependentUpon>KinectCursor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\KinectHoverButton.xaml.cs">
+      <DependentUpon>KinectHoverButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\KinectViewer.xaml.cs">
+      <DependentUpon>KinectViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="DepthExtensions.cs" />
     <Compile Include="BitmapExtensions.cs" />
@@ -63,6 +70,14 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\KinectCursor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\KinectHoverButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\KinectViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

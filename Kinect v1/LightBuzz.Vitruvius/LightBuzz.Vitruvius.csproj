@@ -67,6 +67,7 @@
     <Compile Include="Gestures\Zoom\ZoomSegments.cs" />
     <Compile Include="SensorExtensions.cs" />
     <Compile Include="SkeletonExtensions.cs" />
+    <Compile Include="VisualizationMode.cs" />
     <Compile Include="VoiceController.cs" />
   </ItemGroup>
   <ItemGroup>
