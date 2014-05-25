@@ -10,19 +10,25 @@ NEW: Vitruvius now supports WinRT for Windows Store apps.
 Features
 ---
 
-### Skeletal extensions
+### Body extensions (universal)
 * Joint scaling, proper for on-screen display
 * User height
 * Distance between joints
-* One-line skeleton tracking
+* One-line body tracking
 
 ### WPF, WinForms & WinRT utilities
+* Project points on screen
 * Easily display color, depth and infrared frames
 * Save Kinect frames as bitmap images
 * One-line skeleton drawing
 * Record color, depth and infrared streams and save into video files (WinRT only)
 
-### Gestures
+### NUI controls (universal)
+* Kinect hover button
+* Kinect cursor
+* Kinect smart viewer
+
+### Gestures (universal)
 * WaveLeft
 * WaveRight
 * SwipeLeft
