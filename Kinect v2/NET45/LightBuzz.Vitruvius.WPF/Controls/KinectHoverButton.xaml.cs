@@ -154,7 +154,7 @@ namespace LightBuzz.Vitruvius.WPF.Controls
 
         #region Events
 
-        public event EventHandler<object> Pressed;
+        public event EventHandler Pressed;
 
         #endregion
 
@@ -226,7 +226,7 @@ namespace LightBuzz.Vitruvius.WPF.Controls
             _duration = new Duration(TimeSpan.FromSeconds(Time));
         }
 
-        void Animation_Completed(object sender, object e)
+        void Animation_Completed(object sender, EventArgs e)
         {
             if (Pressed != null)
             {
