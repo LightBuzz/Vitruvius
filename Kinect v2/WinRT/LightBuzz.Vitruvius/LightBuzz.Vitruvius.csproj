@@ -117,12 +117,22 @@
     <Compile Include="Bitmaps\DepthBitmapGenerator.cs" />
     <Compile Include="Bitmaps\IBitmapGenerator.cs" />
     <Compile Include="Bitmaps\InfraredBitmapGenerator.cs" />
+    <Compile Include="Controls\KinectCursor.xaml.cs">
+      <DependentUpon>KinectCursor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\KinectHoverButton.xaml.cs">
+      <DependentUpon>KinectHoverButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\KinectViewer.xaml.cs">
+      <DependentUpon>KinectViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\BitmapExtensions.cs" />
     <Compile Include="Extensions\BodyExtensions.cs" />
     <Compile Include="Extensions\CameraExtensions.cs" />
     <Compile Include="Extensions\CanvasExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Bitmaps\Constants.cs" />
+    <Compile Include="Extensions\ControlExtensions.cs" />
     <Compile Include="Extensions\DepthExtensions.cs" />
     <Compile Include="Extensions\InfraredExtensions.cs" />
     <Compile Include="Extensions\JointExtensions.cs" />
@@ -155,6 +165,25 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HandTracking\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\KinectCursor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\KinectHoverButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\KinectViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Controls\Cursor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
