@@ -1,32 +1,30 @@
-﻿using System;
+﻿using Microsoft.Kinect;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
-using WindowsPreview.Kinect;
-
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace LightBuzz.Vitruvius.Controls
 {
-    public sealed partial class KinectCursor : UserControl
+    /// <summary>
+    /// Interaction logic for KinectCursor.xaml
+    /// </summary>
+    public partial class KinectCursor : UserControl
     {
         #region Constructor
 
         public KinectCursor()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             DataContext = this;
         }
 
@@ -55,12 +53,12 @@ namespace LightBuzz.Vitruvius.Controls
             Canvas.SetTop(this, y);
         }
 
-        public void Update(ColorSpacePoint point, double ratioX = 1.0, double ratioY = 1.0)
+        public void Update(ColorImagePoint point, double ratioX = 1.0, double ratioY = 1.0)
         {
             Update(point.X * ratioX, point.Y * ratioY);
         }
 
-        public void Update(DepthSpacePoint point, double ratioX = 1.0, double ratioY = 1.0)
+        public void Update(DepthImagePoint point, double ratioX = 1.0, double ratioY = 1.0)
         {
             Update(point.X * ratioX, point.Y * ratioY);
         }

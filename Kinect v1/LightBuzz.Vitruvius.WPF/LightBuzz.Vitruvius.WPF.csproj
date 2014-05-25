@@ -48,6 +48,9 @@
     <Compile Include="CanvasExtensions.cs" />
     <Compile Include="ColorExtensions.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Controls\KinectCursor.xaml.cs">
+      <DependentUpon>KinectCursor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DepthExtensions.cs" />
     <Compile Include="BitmapExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -57,6 +60,12 @@
       <Project>{89e39683-d56d-4604-971b-587c22c62934}</Project>
       <Name>LightBuzz.Vitruvius</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\KinectCursor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
