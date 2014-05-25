@@ -125,7 +125,7 @@ namespace LightBuzz.Vitruvius.Controls
 
         public void DrawJoint(Joint joint, Brush brush, double radius)
         {
-            if (joint.TrackingState == TrackingState.NotTracked) return;
+            if (joint.TrackingState == JointTrackingState.NotTracked) return;
 
             Point point = new Point(_ratioX, _ratioY);
 
@@ -133,7 +133,7 @@ namespace LightBuzz.Vitruvius.Controls
             {
                 case VisualizationMode.Color:
                     {
-                        ColorImagePoint colorPoint = CoordinateMapper.MapCameraPointToColorSpace(joint.Position);
+                        ColorImagePoint colorPoint = CoordinateMapper.MapSkeletonPointToColorPoint(joint.Position, ColorImageFormat.RgbResolution640x480Fps30);
                         point.X *= float.IsInfinity(colorPoint.X) ? 0.0 : colorPoint.X;
                         point.Y *= float.IsInfinity(colorPoint.Y) ? 0.0 : colorPoint.Y;
                     }
@@ -141,7 +141,7 @@ namespace LightBuzz.Vitruvius.Controls
                 case VisualizationMode.Depth:
                 case VisualizationMode.Infrared:
                     {
-                        DepthImagePoint depthPoint = CoordinateMapper.MapCameraPointToDepthSpace(joint.Position);
+                        DepthImagePoint depthPoint = CoordinateMapper.MapSkeletonPointToDepthPoint(joint.Position, DepthImageFormat.Resolution320x240Fps30);
                         point.X *= float.IsInfinity(depthPoint.X) ? 0.0 : depthPoint.X;
                         point.Y *= float.IsInfinity(depthPoint.Y) ? 0.0 : depthPoint.Y;
                     }
@@ -171,7 +171,7 @@ namespace LightBuzz.Vitruvius.Controls
 
         public void DrawBone(Joint first, Joint second, Brush brush, double thickness)
         {
-            if (first.TrackingState == TrackingState.NotTracked || second.TrackingState == TrackingState.NotTracked) return;
+            if (first.TrackingState == JointTrackingState.NotTracked || second.TrackingState == JointTrackingState.NotTracked) return;
 
             Point firstPoint = new Point(_ratioX, _ratioY);
             Point secondPoint = new Point(_ratioX, _ratioY);
@@ -180,11 +180,11 @@ namespace LightBuzz.Vitruvius.Controls
             {
                 case VisualizationMode.Color:
                     {
-                        ColorImagePoint colorFirstPoint = CoordinateMapper.MapCameraPointToColorSpace(first.Position);
+                        ColorImagePoint colorFirstPoint = CoordinateMapper.MapSkeletonPointToColorPoint(first.Position, ColorImageFormat.RgbResolution640x480Fps30);
                         firstPoint.X *= float.IsInfinity(colorFirstPoint.X) ? 0.0 : colorFirstPoint.X;
                         firstPoint.Y *= float.IsInfinity(colorFirstPoint.Y) ? 0.0 : colorFirstPoint.Y;
 
-                        ColorImagePoint colorSecondPoint = CoordinateMapper.MapCameraPointToColorSpace(second.Position);
+                        ColorImagePoint colorSecondPoint = CoordinateMapper.MapSkeletonPointToColorPoint(second.Position, ColorImageFormat.RgbResolution640x480Fps30);
                         secondPoint.X *= float.IsInfinity(colorSecondPoint.X) ? 0.0 : colorSecondPoint.X;
                         secondPoint.Y *= float.IsInfinity(colorSecondPoint.Y) ? 0.0 : colorSecondPoint.Y;
                     }
@@ -192,11 +192,11 @@ namespace LightBuzz.Vitruvius.Controls
                 case VisualizationMode.Depth:
                 case VisualizationMode.Infrared:
                     {
-                        DepthImagePoint depthFirstPoint = CoordinateMapper.MapCameraPointToDepthSpace(first.Position);
+                        DepthImagePoint depthFirstPoint = CoordinateMapper.MapSkeletonPointToDepthPoint(first.Position, DepthImageFormat.Resolution320x240Fps30);
                         firstPoint.X *= float.IsInfinity(depthFirstPoint.X) ? 0.0 : depthFirstPoint.X;
                         firstPoint.Y *= float.IsInfinity(depthFirstPoint.Y) ? 0.0 : depthFirstPoint.Y;
 
-                        DepthImagePoint depthSecondPoint = CoordinateMapper.MapCameraPointToDepthSpace(second.Position);
+                        DepthImagePoint depthSecondPoint = CoordinateMapper.MapSkeletonPointToDepthPoint(second.Position, DepthImageFormat.Resolution320x240Fps30);
                         secondPoint.X *= float.IsInfinity(depthSecondPoint.X) ? 0.0 : depthSecondPoint.X;
                         secondPoint.Y *= float.IsInfinity(depthSecondPoint.Y) ? 0.0 : depthSecondPoint.Y;
                     }
@@ -228,31 +228,26 @@ namespace LightBuzz.Vitruvius.Controls
         {
             Clear();
 
-            if (body == null || !body.IsTracked) return;
+            if (body == null || body.TrackingState != SkeletonTrackingState.Tracked) return;
 
-            foreach (Joint joint in body.Joints.Values)
+            foreach (Joint joint in body.Joints)
             {
                 DrawJoint(joint, JointBrush, JointRadius);
             }
 
-            DrawBone(body.Joints[JointType.Head], body.Joints[JointType.Neck], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.Neck], body.Joints[JointType.SpineShoulder], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.SpineShoulder], body.Joints[JointType.ShoulderLeft], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.SpineShoulder], body.Joints[JointType.ShoulderRight], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.SpineShoulder], body.Joints[JointType.SpineMid], BoneBrush, BoneThickness);
+            DrawBone(body.Joints[JointType.Head], body.Joints[JointType.ShoulderCenter], BoneBrush, BoneThickness);
+            DrawBone(body.Joints[JointType.ShoulderCenter], body.Joints[JointType.ShoulderLeft], BoneBrush, BoneThickness);
+            DrawBone(body.Joints[JointType.ShoulderCenter], body.Joints[JointType.ShoulderRight], BoneBrush, BoneThickness);
+            DrawBone(body.Joints[JointType.ShoulderCenter], body.Joints[JointType.Spine], BoneBrush, BoneThickness);
             DrawBone(body.Joints[JointType.ShoulderLeft], body.Joints[JointType.ElbowLeft], BoneBrush, BoneThickness);
             DrawBone(body.Joints[JointType.ShoulderRight], body.Joints[JointType.ElbowRight], BoneBrush, BoneThickness);
             DrawBone(body.Joints[JointType.ElbowLeft], body.Joints[JointType.WristLeft], BoneBrush, BoneThickness);
             DrawBone(body.Joints[JointType.ElbowRight], body.Joints[JointType.WristRight], BoneBrush, BoneThickness);
             DrawBone(body.Joints[JointType.WristLeft], body.Joints[JointType.HandLeft], BoneBrush, BoneThickness);
             DrawBone(body.Joints[JointType.WristRight], body.Joints[JointType.HandRight], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.HandLeft], body.Joints[JointType.HandTipLeft], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.HandRight], body.Joints[JointType.HandTipRight], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.HandTipLeft], body.Joints[JointType.ThumbLeft], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.HandTipRight], body.Joints[JointType.ThumbRight], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.SpineMid], body.Joints[JointType.SpineBase], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.SpineBase], body.Joints[JointType.HipLeft], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.SpineBase], body.Joints[JointType.HipRight], BoneBrush, BoneThickness);
+            DrawBone(body.Joints[JointType.Spine], body.Joints[JointType.HipCenter], BoneBrush, BoneThickness);
+            DrawBone(body.Joints[JointType.HipCenter], body.Joints[JointType.HipLeft], BoneBrush, BoneThickness);
+            DrawBone(body.Joints[JointType.HipCenter], body.Joints[JointType.HipRight], BoneBrush, BoneThickness);
             DrawBone(body.Joints[JointType.HipLeft], body.Joints[JointType.KneeLeft], BoneBrush, BoneThickness);
             DrawBone(body.Joints[JointType.HipRight], body.Joints[JointType.KneeRight], BoneBrush, BoneThickness);
             DrawBone(body.Joints[JointType.KneeLeft], body.Joints[JointType.AnkleLeft], BoneBrush, BoneThickness);
