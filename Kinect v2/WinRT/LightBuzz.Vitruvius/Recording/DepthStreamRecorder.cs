@@ -50,7 +50,7 @@ namespace LightBuzz.Vitruvius
         /// Updates the current frame.
         /// </summary>
         /// <param name="frame">The specified <see cref="DepthFrame"/>.</param>
-        public override async void Update(DepthFrame frame)
+        public override async Task Update(DepthFrame frame)
         {
             if (BitmapGenerator == null)
             {

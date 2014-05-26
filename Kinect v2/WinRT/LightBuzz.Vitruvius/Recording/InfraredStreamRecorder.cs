@@ -50,7 +50,7 @@ namespace LightBuzz.Vitruvius
         /// Updates the current frame.
         /// </summary>
         /// <param name="frame">The specified <see cref="InfraredFrame"/>.</param>
-        public override async void Update(InfraredFrame frame)
+        public override async Task Update(InfraredFrame frame)
         {
             if (BitmapGenerator == null)
             {
