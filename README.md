@@ -173,8 +173,9 @@ If you are developing using the developer preview Kinect SDK v2, you need the ap
         }
 
 ## Contributors
-* Developed by [Vangos Pterneas](http://pterneas.com) for [LightBuzz](http://lightbuzz.com)
-* Developed by [George Karakatsiotis](http://gkarak.com) for [LightBuzz](http://lightbuzz.com)
+* [Vangos Pterneas](http://pterneas.com) from [LightBuzz](http://lightbuzz.com)
+* [George Karakatsiotis](http://gkarak.com) from [LightBuzz](http://lightbuzz.com)
+* George Georgopoulos from [LightBuzz](http://lightbuzz.com)
 * Gesture detection partly based on [Fizbin](https://github.com/EvilClosetMonkey/Fizbin.Kinect.Gestures) library, by [Nicholas Pappas](http://www.exceptontuesdays.com/)
 
 ## License
