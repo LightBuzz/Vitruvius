@@ -38,7 +38,7 @@ namespace VitruviusTest
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            _sensor = KinectSensor.Default;
+            _sensor = KinectSensor.GetDefault();
 
             if (_sensor != null)
             {
@@ -57,22 +57,13 @@ namespace VitruviusTest
             if (_reader != null)
             {
                 _reader.Dispose();
-            }
-
-            if (_bodies != null)
-            {
-                if (_bodies.Count() > 0)
-                {
-                    foreach (var body in _bodies)
-                    {
-                        body.Dispose();
-                    }
-                }
+                _reader = null;
             }
 
             if (_sensor != null)
             {
                 _sensor.Close();
+                _sensor = null;
             }
         }
 

@@ -87,7 +87,7 @@ namespace LightBuzz.Vitruvius.WPF
         {
             if (CoordinateMapper == null)
             {
-                CoordinateMapper = KinectSensor.Default.CoordinateMapper;
+                CoordinateMapper = KinectSensor.GetDefault().CoordinateMapper;
             }
         }
 

@@ -29,7 +29,7 @@ namespace LightBuzz.Vitruvius
         {
             if (_bodies == null)
             {
-                _bodies = new Body[frame.BodyFrameSource.BodyCount];
+                _bodies = new Body[frame.BodyCount];
             }
 
             frame.GetAndRefreshBodyData(_bodies);
@@ -103,6 +103,57 @@ namespace LightBuzz.Vitruvius
         public static int NumberOfTrackedJoints(this Body body)
         {
             return JointExtensions.NumberOfTrackedJoints(body.Joints.Values);
+        }
+
+        /// <summary>
+        /// Converts a Vector4 quaternion to a Vector3 CameraSpacePoint.
+        /// </summary>
+        /// <param name="orientation">The Vector4 quaternion.</param>
+        /// <returns>A Vector3 representation of the quaternion.</returns>
+        public static CameraSpacePoint QuaternionToEuler(this Vector4 orientation)
+        {
+            CameraSpacePoint point = new CameraSpacePoint();
+
+            point.X = (float)Math.Atan2
+            (
+                2 * orientation.Y * orientation.W - 2 * orientation.X * orientation.Z,
+                1 - 2 * Math.Pow(orientation.Y, 2) - 2 * Math.Pow(orientation.Z, 2)
+            );
+
+            point.Y = (float)Math.Asin
+            (
+                2 * orientation.X * orientation.Y + 2 * orientation.Z * orientation.W
+            );
+
+            point.Z = (float)Math.Atan2
+            (
+                2 * orientation.X * orientation.W - 2 * orientation.Y * orientation.Z,
+                1 - 2 * Math.Pow(orientation.X, 2) - 2 * Math.Pow(orientation.Z, 2)
+            );
+
+            if (orientation.X * orientation.Y + orientation.Z * orientation.W == 0.5)
+            {
+                point.X = (float)(2 * Math.Atan2(orientation.X, orientation.W));
+                point.Z = 0;
+            }
+
+            else if (orientation.X * orientation.Y + orientation.Z * orientation.W == -0.5)
+            {
+                point.X = (float)(-2 * Math.Atan2(orientation.X, orientation.W));
+                point.Z = 0;
+            }
+
+            return point;
+        }
+
+        /// <summary>
+        /// Calculates the rotation of the specified joint orientation as a CameraSpacePoint.
+        /// </summary>
+        /// <param name="orientation">The orientation of a joint.</param>
+        /// <returns>The joint rotation in the X, Y and Z axis.</returns>
+        public static CameraSpacePoint Rotation(this JointOrientation orientation)
+        {
+            return orientation.Orientation.QuaternionToEuler();
         }
         
         #endregion

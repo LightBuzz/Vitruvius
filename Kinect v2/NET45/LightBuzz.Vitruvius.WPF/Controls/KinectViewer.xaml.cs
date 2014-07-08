@@ -72,7 +72,7 @@ namespace LightBuzz.Vitruvius.WPF.Controls
             set { SetValue(CoordinateMapperProperty, value); }
         }
         public static readonly DependencyProperty CoordinateMapperProperty =
-            DependencyProperty.Register("CoordinateMapper", typeof(CoordinateMapper), typeof(KinectViewer), new PropertyMetadata(KinectSensor.Default.CoordinateMapper));
+            DependencyProperty.Register("CoordinateMapper", typeof(CoordinateMapper), typeof(KinectViewer), new PropertyMetadata(KinectSensor.GetDefault().CoordinateMapper));
 
         public VisualizationMode FrameType
         {
