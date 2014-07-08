@@ -50,7 +50,7 @@ namespace LightBuzz.Vitruvius
         /// Updates the current frame.
         /// </summary>
         /// <param name="frame">The specified <see cref="ColorFrame"/>.</param>
-        public override async void Update(ColorFrame frame)
+        public override async Task Update(ColorFrame frame)
         {
             if (BitmapGenerator == null)
             {

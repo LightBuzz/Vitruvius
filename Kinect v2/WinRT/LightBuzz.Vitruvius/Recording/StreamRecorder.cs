@@ -164,7 +164,7 @@ namespace LightBuzz.Vitruvius
         /// Updates the video frames with the specified Kinect frame.
         /// </summary>
         /// <param name="frame">A KInect color, depth or infrared frame.</param>
-        public virtual async void Update(T frame)
+        public virtual async Task Update(T frame)
         {
         }
         

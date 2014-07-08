@@ -1,5 +1,4 @@
-Vitruvius
-=========
+# Vitruvius
 
 Vitruvius is a set of easy-to-use Kinect utilities that will speed-up the development of your projects. Supports gesture detection, skeleton drawing, frame capturing, voice recognition and much more.
 
@@ -7,22 +6,27 @@ Great news for early-access developers: Vitruvius supports Kinect for Windows ve
 
 NEW: Vitruvius now supports WinRT for Windows Store apps.
 
-Features
----
+## Features
 
-### Skeletal extensions
+### Body extensions (universal)
 * Joint scaling, proper for on-screen display
 * User height
 * Distance between joints
-* One-line skeleton tracking
+* One-line body tracking
 
 ### WPF, WinForms & WinRT utilities
+* Project points on screen
 * Easily display color, depth and infrared frames
 * Save Kinect frames as bitmap images
 * One-line skeleton drawing
 * Record color, depth and infrared streams and save into video files (WinRT only)
 
-### Gestures
+### NUI controls (universal)
+* Kinect hover button
+* Kinect cursor
+* Kinect smart viewer
+
+### Gestures (universal)
 * WaveLeft
 * WaveRight
 * SwipeLeft
@@ -42,19 +46,16 @@ Features
 * Complete finger tracking
 * Posture support (jumping, dancing, etc)
 
-Prerequisites
----
+## Prerequisites
 * [Kinect for Windows](http://amzn.to/1k7rquZ) or [Kinect for XBOX](http://amzn.to/1dO0R0s) sensor
 * [Kinect for Windows SDK v1.8](http://go.microsoft.com/fwlink/?LinkID=323588)
 
 If you are developing using the developer preview Kinect SDK v2, you need the appropriate hardware and software provided by Microsoft.
 
-Installation
----
+## Installation
 * Download project's source code and build the solution that matches the version of your sensor. Version 2 refers to the private Developer Preview Kinect for Windows sensor.
 
-Examples
----
+## Examples
 
 1. Displaying Kinect color frames:
 
@@ -171,12 +172,14 @@ Examples
             voiceController.Speak("I recognized the words: " + text);
         }
 
-Credits
----
-* Developed by [Vangos Pterneas](http://pterneas.com) for [LightBuzz](http://lightbuzz.com)
-* Developed by [George Karakatsiotis](http://gkarak.com) for [LightBuzz](http://lightbuzz.com)
+## Contributors
+* [Vangos Pterneas](http://pterneas.com) from [LightBuzz](http://lightbuzz.com)
+* [George Karakatsiotis](http://gkarak.com) from [LightBuzz](http://lightbuzz.com)
+* George Georgopoulos from [LightBuzz](http://lightbuzz.com)
 * Gesture detection partly based on [Fizbin](https://github.com/EvilClosetMonkey/Fizbin.Kinect.Gestures) library, by [Nicholas Pappas](http://www.exceptontuesdays.com/)
 
-License
----
+## License
 You are free to use these libraries in personal and commercial projects by attributing the original creator of Vitruvius. Licensed under [Apache v2 License](https://github.com/LightBuzz/Vitruvius/blob/master/LICENSE).
+
+## Support Vitruvius
+Do you use Vitruvius in your projects? Do you find it helpful? [Buy us a beer](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=N5ELYBTYB3AYE)!
