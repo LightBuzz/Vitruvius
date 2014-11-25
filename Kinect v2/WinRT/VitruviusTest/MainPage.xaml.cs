@@ -28,8 +28,6 @@ namespace VitruviusTest
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        VisualizationMode _mode = VisualizationMode.Color;
-
         KinectSensor _sensor;
         MultiSourceFrameReader _reader;
         IEnumerable<Body> _bodies;
@@ -93,9 +91,9 @@ namespace VitruviusTest
             {
                 if (frame != null)
                 {
-                    if (_mode == VisualizationMode.Color)
+                    if (viewer.VisualizationMode == VisualizationMode.Color)
                     {
-                        camera.Source = frame.ToBitmap();
+                        viewer.Update(frame.ToBitmap());
 
                         if (_colorStreamRecorder.IsRecording)
                         {
@@ -110,9 +108,9 @@ namespace VitruviusTest
             {
                 if (frame != null)
                 {
-                    if (_mode == VisualizationMode.Depth)
+                    if (viewer.VisualizationMode == VisualizationMode.Depth)
                     {
-                        camera.Source = frame.ToBitmap();
+                        viewer.Update(frame.ToBitmap());
 
                         if (_depthStreamRecorder.IsRecording)
                         {
@@ -127,9 +125,9 @@ namespace VitruviusTest
             {
                 if (frame != null)
                 {
-                    if (_mode == VisualizationMode.Infrared)
+                    if (viewer.VisualizationMode == VisualizationMode.Infrared)
                     {
-                        camera.Source = frame.ToBitmap();
+                        viewer.Update(frame.ToBitmap());
 
                         if (_infraredStreamRecorder.IsRecording)
                         {
@@ -156,7 +154,7 @@ namespace VitruviusTest
                             _gestureController.Update(body);
 
                             // Draw body.
-                            //canvas.Source = body.ToBitmap(_mode);
+                            viewer.DrawBody(body);
 
                             // Display user height.
                             tblHeights.Text += string.Format("\nUser {0}: {1}cm", body.TrackingId, Math.Round(body.Height(), 2));
@@ -201,17 +199,17 @@ namespace VitruviusTest
 
         private void Color_Click(object sender, RoutedEventArgs e)
         {
-            _mode = VisualizationMode.Color;
+            viewer.VisualizationMode = VisualizationMode.Color;
         }
 
         private void Depth_Click(object sender, RoutedEventArgs e)
         {
-            _mode = VisualizationMode.Depth;
+            viewer.VisualizationMode = VisualizationMode.Depth;
         }
 
         private void Infrared_Click(object sender, RoutedEventArgs e)
         {
-            _mode = VisualizationMode.Infrared;
+            viewer.VisualizationMode = VisualizationMode.Infrared;
         }
 
         private async void RecordColor_Click(object sender, RoutedEventArgs e)

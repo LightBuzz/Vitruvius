@@ -17,7 +17,7 @@
     <PackageCertificateKeyFile>VitruviusTest_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -102,22 +102,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <ProjectReference Include="..\LightBuzz.Vitruvius.Video\LightBuzz.Vitruvius.Video.vcxproj">
-      <Project>{2c0ebd30-1b81-4ea0-8bb2-7aecf0d04bb6}</Project>
-      <Name>LightBuzz.Vitruvius.Video</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LightBuzz.Vitruvius\LightBuzz.Vitruvius.csproj">
-      <Project>{648fb806-08fe-45b3-b400-00b0c653776b}</Project>
-      <Name>LightBuzz.Vitruvius</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <SDKReference Include="WindowsPreview.Kinect, Version=2.0">
-      <Name>WindowsPreview.Kinect</Name>
-    </SDKReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -147,6 +131,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="Microsoft.VCLibs, version=12.0">
+      <Name>Microsoft Visual C++ 2013 Runtime Package for Windows</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsPreview.Kinect, Version=2.0">
+      <Name>WindowsPreview.Kinect</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LightBuzz.Vitruvius.Video\LightBuzz.Vitruvius.Video.vcxproj">
+      <Project>{2c0ebd30-1b81-4ea0-8bb2-7aecf0d04bb6}</Project>
+      <Name>LightBuzz.Vitruvius.Video</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LightBuzz.Vitruvius\LightBuzz.Vitruvius.csproj">
+      <Project>{648fb806-08fe-45b3-b400-00b0c653776b}</Project>
+      <Name>LightBuzz.Vitruvius</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>

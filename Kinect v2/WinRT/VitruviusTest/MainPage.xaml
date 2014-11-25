@@ -5,6 +5,7 @@
     xmlns:local="using:VitruviusTest"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:LightBuzz.Vitruvius.Controls"
     mc:Ignorable="d" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -38,7 +39,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             
-            <Image Grid.Row="0" Grid.Column="0" Name="camera" />
+            <controls:KinectViewer Grid.Row="0" Grid.Column="0" x:Name="viewer" />
             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="0,20">
                 <Button Content="Color" Width="200" Click="Color_Click" />
                 <Button Content="Depth" Width="200" Click="Depth_Click" />

@@ -14,6 +14,9 @@ namespace LightBuzz.Vitruvius
     {
         #region Members
 
+        /// <summary>
+        /// The body collection a Kinect sensor can recognize.
+        /// </summary>
         static IList<Body> _bodies = null;
 
         #endregion
@@ -42,9 +45,27 @@ namespace LightBuzz.Vitruvius
         /// </summary>
         /// <param name="bodies">A list of bodies to look at.</param>
         /// <returns>The first tracked body.</returns>
-        public static Body Default(this IEnumerable<Body> bodies)
+        public static Body Default(this IList<Body> bodies)
         {
-            return bodies.Where(b => b.IsTracked).FirstOrDefault();
+            Body result = null;
+            double closestBodyDistance = double.MaxValue;
+
+            foreach (var body in bodies)
+            {
+                if (body.IsTracked)
+                {
+                    var position = body.Joints[JointType.SpineBase].Position;
+                    var distance = Maths.Length(position);
+
+                    if (result == null || distance < closestBodyDistance)
+                    {
+                        result = body;
+                        closestBodyDistance = distance;
+                    }
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -71,91 +92,99 @@ namespace LightBuzz.Vitruvius
             var footRight = body.Joints[JointType.FootRight];
 
             // Find which leg is tracked more accurately.
-            int legLeftTrackedJoints = JointExtensions.NumberOfTrackedJoints(hipLeft, kneeLeft, ankleLeft, footLeft);
-            int legRightTrackedJoints = JointExtensions.NumberOfTrackedJoints(hipRight, kneeRight, ankleRight, footRight);
+            int legLeftTrackedJoints = NumberOfTrackedJoints(hipLeft, kneeLeft, ankleLeft, footLeft);
+            int legRightTrackedJoints = NumberOfTrackedJoints(hipRight, kneeRight, ankleRight, footRight);
 
-            double legLength = legLeftTrackedJoints > legRightTrackedJoints ? JointExtensions.Distance(hipLeft, kneeLeft, ankleLeft, footLeft) : JointExtensions.Distance(hipRight, kneeRight, ankleRight, footRight);
+            double legLength = legLeftTrackedJoints > legRightTrackedJoints ?
+                Maths.Distance(hipLeft.Position, kneeLeft.Position, ankleLeft.Position, footLeft.Position) :
+                Maths.Distance(hipRight.Position, kneeRight.Position, ankleRight.Position, footRight.Position);
 
-            return JointExtensions.Distance(head, neck, shoulders, spine, waist) + legLength + HEAD_DIVERGENCE;
+            return Maths.Distance(head.Position, neck.Position, shoulders.Position, spine.Position, waist.Position) + legLength + HEAD_DIVERGENCE;
         }
 
         /// <summary>
         /// Returns the upper height of the specified body (head to waist).
         /// </summary>
-        /// <param name="body">The specified user body.</param>
+        /// <param name="body">A user body.</param>
         /// <returns>The upper height of the body in meters.</returns>
         public static double UpperHeight(this Body body)
         {
-            var head = body.Joints[JointType.Head];
-            var neck = body.Joints[JointType.Neck];
-            var shoulders = body.Joints[JointType.SpineShoulder];
-            var spine = body.Joints[JointType.SpineMid];
-            var waist = body.Joints[JointType.SpineBase];
+            var head = body.Joints[JointType.Head].Position;
+            var neck = body.Joints[JointType.Neck].Position;
+            var shoulders = body.Joints[JointType.SpineShoulder].Position;
+            var spine = body.Joints[JointType.SpineMid].Position;
+            var waist = body.Joints[JointType.SpineBase].Position;
 
-            return JointExtensions.Distance(head, neck, shoulders, spine, waist);
+            return Maths.Distance(head, neck, shoulders, spine, waist);
         }
-                
+
         /// <summary>
-        /// Given a collection of joints, calculates the number of the joints that are tracked accurately.
+        /// Returns a collection of the tracked joints of the specified body.
+        /// </summary>
+        /// <param name="body">A user body.</param>
+        /// <param name="includeInferred">True to include the joints with a TrackingState of Tracked or Inferred. False to include only the joints with a TrackingState of Tracked.</param>
+        /// <returns>A collection of the tracked joints.</returns>
+        public static IEnumerable<Joint> TrackedJoints(this Body body, bool includeInferred = true)
+        {
+            List<Joint> joints = new List<Joint>();
+
+            foreach (var joint in body.Joints.Values)
+            {
+                switch (joint.TrackingState)
+                {
+                    case TrackingState.NotTracked:
+                        break;
+                    case TrackingState.Inferred:
+                        if (includeInferred)
+                        {
+                            joints.Add(joint);
+                        }
+                        break;
+                    case TrackingState.Tracked:
+                        joints.Add(joint);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return joints;
+        }
+
+        #endregion
+
+        #region Utilities
+
+        /// <summary>
+        /// Calculates the number of the tracked joints from the spcified collection.
         /// </summary>
         /// <param name="joints">A collection of joints.</param>
         /// <returns>The number of the accurately tracked joints.</returns>
-        public static int NumberOfTrackedJoints(this Body body)
+        static int NumberOfTrackedJoints(IEnumerable<Joint> joints)
         {
-            return JointExtensions.NumberOfTrackedJoints(body.Joints.Values);
+            int trackedJoints = 0;
+
+            foreach (var joint in joints)
+            {
+                if (joint.TrackingState == TrackingState.Tracked)
+                {
+                    trackedJoints++;
+                }
+            }
+
+            return trackedJoints;
         }
 
         /// <summary>
-        /// Converts a Vector4 quaternion to a Vector3 CameraSpacePoint.
+        /// Calculates the number of the tracked joints from the spcified collection.
         /// </summary>
-        /// <param name="orientation">The Vector4 quaternion.</param>
-        /// <returns>A Vector3 representation of the quaternion.</returns>
-        public static CameraSpacePoint QuaternionToEuler(this Vector4 orientation)
+        /// <param name="joints">A collection of joints.</param>
+        /// <returns>The number of the accurately tracked joints.</returns>
+        static int NumberOfTrackedJoints(params Joint[] joints)
         {
-            CameraSpacePoint point = new CameraSpacePoint();
-
-            point.X = (float)Math.Atan2
-            (
-                2 * orientation.Y * orientation.W - 2 * orientation.X * orientation.Z,
-                1 - 2 * Math.Pow(orientation.Y, 2) - 2 * Math.Pow(orientation.Z, 2)
-            );
-
-            point.Y = (float)Math.Asin
-            (
-                2 * orientation.X * orientation.Y + 2 * orientation.Z * orientation.W
-            );
-
-            point.Z = (float)Math.Atan2
-            (
-                2 * orientation.X * orientation.W - 2 * orientation.Y * orientation.Z,
-                1 - 2 * Math.Pow(orientation.X, 2) - 2 * Math.Pow(orientation.Z, 2)
-            );
-
-            if (orientation.X * orientation.Y + orientation.Z * orientation.W == 0.5)
-            {
-                point.X = (float)(2 * Math.Atan2(orientation.X, orientation.W));
-                point.Z = 0;
-            }
-
-            else if (orientation.X * orientation.Y + orientation.Z * orientation.W == -0.5)
-            {
-                point.X = (float)(-2 * Math.Atan2(orientation.X, orientation.W));
-                point.Z = 0;
-            }
-
-            return point;
+            return NumberOfTrackedJoints(joints.ToList());
         }
 
-        /// <summary>
-        /// Calculates the rotation of the specified joint orientation as a CameraSpacePoint.
-        /// </summary>
-        /// <param name="orientation">The orientation of a joint.</param>
-        /// <returns>The joint rotation in the X, Y and Z axis.</returns>
-        public static CameraSpacePoint Rotation(this JointOrientation orientation)
-        {
-            return orientation.Orientation.QuaternionToEuler();
-        }
-        
         #endregion
     }
 }

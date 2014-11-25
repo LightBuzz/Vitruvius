@@ -26,34 +26,25 @@ namespace LightBuzz.Vitruvius.Controls
         #region Constants
 
         /// <summary>
-        /// A custom tag indicating that the UIElement was drawn with Kinetisense.
-        /// </summary>
-        static readonly string TAG = "LightBuzz.Vitruvius";
-
-        /// <summary>
         /// The default drawing color.
         /// </summary>
-        static readonly Color DEFAULT_COLOR = Colors.LightCyan;
+        static readonly Brush DEFAULT_BRUSH = new SolidColorBrush(Colors.LightCyan);
 
         /// <summary>
         /// The default circle radius.
         /// </summary>
-        static readonly double DEFAULT_ELLIPSE_RADIUS = 20;
+        static readonly double DEFAULT_RADIUS = 15;
 
         /// <summary>
         /// The default line thickness.
         /// </summary>
-        static readonly double DEFAULT_BONE_THICKNESS = 8;
+        static readonly double DEFAULT_THICKNESS = 8;
 
         #endregion
 
         #region Members
 
-        int _kinectFrameWidth;
-        int _kinectFrameHeight;
-
-        double _ratioX = 1.0;
-        double _ratioY = 1.0;
+        List<BodyVisual> _bodyVisuals = new List<BodyVisual>();
 
         #endregion
 
@@ -61,7 +52,7 @@ namespace LightBuzz.Vitruvius.Controls
 
         public KinectViewer()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion
@@ -76,45 +67,13 @@ namespace LightBuzz.Vitruvius.Controls
         public static readonly DependencyProperty CoordinateMapperProperty =
             DependencyProperty.Register("CoordinateMapper", typeof(CoordinateMapper), typeof(KinectViewer), new PropertyMetadata(KinectSensor.GetDefault().CoordinateMapper));
 
-        public VisualizationMode FrameType
+        public VisualizationMode VisualizationMode
         {
-            get { return (VisualizationMode)GetValue(KinectFrameTypeProperty); }
-            set { SetValue(KinectFrameTypeProperty, value); }
+            get { return (VisualizationMode)GetValue(VisualizationModeTypeProperty); }
+            set { SetValue(VisualizationModeTypeProperty, value); }
         }
-        public static readonly DependencyProperty KinectFrameTypeProperty =
-            DependencyProperty.Register("FrameType", typeof(VisualizationMode), typeof(KinectViewer), new PropertyMetadata(VisualizationMode.Color));
-
-        public Brush JointBrush
-        {
-            get { return (Brush)GetValue(JointBrushProperty); }
-            set { SetValue(JointBrushProperty, value); }
-        }
-        public static readonly DependencyProperty JointBrushProperty =
-            DependencyProperty.Register("JointBrush", typeof(Brush), typeof(KinectViewer), new PropertyMetadata(new SolidColorBrush(DEFAULT_COLOR)));
-
-        public Brush BoneBrush
-        {
-            get { return (Brush)GetValue(BoneBrushProperty); }
-            set { SetValue(BoneBrushProperty, value); }
-        }
-        public static readonly DependencyProperty BoneBrushProperty =
-            DependencyProperty.Register("BoneBrush", typeof(Brush), typeof(KinectViewer), new PropertyMetadata(new SolidColorBrush(DEFAULT_COLOR)));
-
-        public double JointRadius
-        {
-            get { return (double)GetValue(JointRadiusProperty); }
-            set { SetValue(JointRadiusProperty, value); }
-        }
-        public static readonly DependencyProperty JointRadiusProperty =
-            DependencyProperty.Register("JointRadius", typeof(double), typeof(KinectViewer), new PropertyMetadata(DEFAULT_ELLIPSE_RADIUS));
-
-        public double BoneThickness
-        {
-            get { return (double)GetValue(BoneThicknessProperty); }
-            set { SetValue(BoneThicknessProperty, value); }
-        }
-        public static readonly DependencyProperty BoneThicknessProperty =
-            DependencyProperty.Register("BoneThickness", typeof(double), typeof(KinectViewer), new PropertyMetadata(DEFAULT_BONE_THICKNESS));
+        public static readonly DependencyProperty VisualizationModeTypeProperty =
+            DependencyProperty.Register("VisualizationMode", typeof(VisualizationMode), typeof(KinectViewer), new PropertyMetadata(VisualizationMode.Color));
 
         #endregion
 
@@ -123,144 +82,80 @@ namespace LightBuzz.Vitruvius.Controls
         public void Clear()
         {
             canvas.Children.Clear();
+
+            _bodyVisuals.Clear();
         }
 
-        public void DrawJoint(Joint joint, Brush brush, double radius)
+        public Point GetPoint(CameraSpacePoint position)
         {
-            if (joint.TrackingState == TrackingState.NotTracked) return;
+            Point point;
 
-            Point point = new Point(_ratioX, _ratioY);
-
-            switch (FrameType)
+            switch (VisualizationMode)
             {
                 case VisualizationMode.Color:
                     {
-                        ColorSpacePoint colorPoint = CoordinateMapper.MapCameraPointToColorSpace(joint.Position);
-                        point.X *= float.IsInfinity(colorPoint.X) ? 0.0 : colorPoint.X;
-                        point.Y *= float.IsInfinity(colorPoint.Y) ? 0.0 : colorPoint.Y;
+                        ColorSpacePoint colorPoint = CoordinateMapper.MapCameraPointToColorSpace(position);
+                        point.X = float.IsInfinity(colorPoint.X) ? 0.0 : colorPoint.X;
+                        point.Y = float.IsInfinity(colorPoint.Y) ? 0.0 : colorPoint.Y;
                     }
                     break;
                 case VisualizationMode.Depth:
                 case VisualizationMode.Infrared:
                     {
-                        DepthSpacePoint depthPoint = CoordinateMapper.MapCameraPointToDepthSpace(joint.Position);
-                        point.X *= float.IsInfinity(depthPoint.X) ? 0.0 : depthPoint.X;
-                        point.Y *= float.IsInfinity(depthPoint.Y) ? 0.0 : depthPoint.Y;
+                        DepthSpacePoint depthPoint = CoordinateMapper.MapCameraPointToDepthSpace(position);
+                        point.X = float.IsInfinity(depthPoint.X) ? 0.0 : depthPoint.X;
+                        point.Y = float.IsInfinity(depthPoint.Y) ? 0.0 : depthPoint.Y;
                     }
                     break;
                 default:
                     break;
             }
 
-            Ellipse ellipse = new Ellipse
-            {
-                Tag = TAG,
-                Width = radius,
-                Height = radius,
-                Fill = brush
-            };
-
-            Canvas.SetLeft(ellipse, point.X - ellipse.Width / 2);
-            Canvas.SetTop(ellipse, point.Y - ellipse.Height / 2);
-
-            canvas.Children.Add(ellipse);
+            return point;
         }
 
-        public void DrawJoint(Joint joint)
+        public void DrawBody(Body body, double jointRadius, Brush jointBrush, double boneThickness, Brush boneBrush)
         {
-            DrawJoint(joint, JointBrush, DEFAULT_ELLIPSE_RADIUS);
-        }
+            if (body == null || !body.IsTracked) return;
 
-        public void DrawBone(Joint first, Joint second, Brush brush, double thickness)
-        {
-            if (first.TrackingState == TrackingState.NotTracked || second.TrackingState == TrackingState.NotTracked) return;
+            BodyVisual visual = _bodyVisuals.Where(b => b.TrackingId == body.TrackingId).FirstOrDefault();
 
-            Point firstPoint = new Point(_ratioX, _ratioY);
-            Point secondPoint = new Point(_ratioX, _ratioY);
-
-            switch (FrameType)
+            if (visual == null)
             {
-                case VisualizationMode.Color:
-                    {
-                        ColorSpacePoint colorFirstPoint = CoordinateMapper.MapCameraPointToColorSpace(first.Position);
-                        firstPoint.X *= float.IsInfinity(colorFirstPoint.X) ? 0.0 : colorFirstPoint.X;
-                        firstPoint.Y *= float.IsInfinity(colorFirstPoint.Y) ? 0.0 : colorFirstPoint.Y;
+                visual = BodyVisual.Create(body.TrackingId, body.Joints.Keys, jointRadius, jointBrush, boneThickness, boneBrush);
 
-                        ColorSpacePoint colorSecondPoint = CoordinateMapper.MapCameraPointToColorSpace(second.Position);
-                        secondPoint.X *= float.IsInfinity(colorSecondPoint.X) ? 0.0 : colorSecondPoint.X;
-                        secondPoint.Y *= float.IsInfinity(colorSecondPoint.Y) ? 0.0 : colorSecondPoint.Y;
-                    }
-                    break;
-                case VisualizationMode.Depth:
-                case VisualizationMode.Infrared:
-                    {
-                        DepthSpacePoint depthFirstPoint = CoordinateMapper.MapCameraPointToDepthSpace(first.Position);
-                        firstPoint.X *= float.IsInfinity(depthFirstPoint.X) ? 0.0 : depthFirstPoint.X;
-                        firstPoint.Y *= float.IsInfinity(depthFirstPoint.Y) ? 0.0 : depthFirstPoint.Y;
+                foreach (var ellipse in visual.Joints.Values)
+                {
+                    canvas.Children.Add(ellipse);
+                }
 
-                        DepthSpacePoint depthSecondPoint = CoordinateMapper.MapCameraPointToDepthSpace(second.Position);
-                        secondPoint.X *= float.IsInfinity(depthSecondPoint.X) ? 0.0 : depthSecondPoint.X;
-                        secondPoint.Y *= float.IsInfinity(depthSecondPoint.Y) ? 0.0 : depthSecondPoint.Y;
-                    }
-                    break;
-                default:
-                    break;
+                foreach (var line in visual.Bones.Values)
+                {
+                    canvas.Children.Add(line);
+                }
+
+                _bodyVisuals.Add(visual);
             }
 
-            Line line = new Line
+            foreach (var joint in body.Joints)
             {
-                Tag = TAG,
-                X1 = firstPoint.X,
-                Y1 = firstPoint.Y,
-                X2 = secondPoint.X,
-                Y2 = secondPoint.Y,
-                StrokeThickness = thickness,
-                Stroke = brush
-            };
+                Point point = GetPoint(joint.Value.Position);
 
-            canvas.Children.Add(line);
-        }
+                visual.UpdateJoint(joint.Key, point);
+            }
 
-        public void DrawBone(Joint first, Joint second)
-        {
-            DrawBone(first, second, BoneBrush, DEFAULT_BONE_THICKNESS);
+            foreach (var bone in visual.CONNECTIONS)
+            {
+                Point first = GetPoint(body.Joints[bone.Item1].Position);
+                Point second = GetPoint(body.Joints[bone.Item2].Position);
+
+                visual.UpdateBone(bone, first, second);
+            }
         }
 
         public void DrawBody(Body body)
         {
-            Clear();
-
-            if (body == null || !body.IsTracked) return;
-
-            foreach (Joint joint in body.Joints.Values)
-            {
-                DrawJoint(joint, JointBrush, JointRadius);
-            }
-
-            DrawBone(body.Joints[JointType.Head], body.Joints[JointType.Neck], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.Neck], body.Joints[JointType.SpineShoulder], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.SpineShoulder], body.Joints[JointType.ShoulderLeft], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.SpineShoulder], body.Joints[JointType.ShoulderRight], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.SpineShoulder], body.Joints[JointType.SpineMid], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.ShoulderLeft], body.Joints[JointType.ElbowLeft], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.ShoulderRight], body.Joints[JointType.ElbowRight], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.ElbowLeft], body.Joints[JointType.WristLeft], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.ElbowRight], body.Joints[JointType.WristRight], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.WristLeft], body.Joints[JointType.HandLeft], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.WristRight], body.Joints[JointType.HandRight], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.HandLeft], body.Joints[JointType.HandTipLeft], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.HandRight], body.Joints[JointType.HandTipRight], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.HandTipLeft], body.Joints[JointType.ThumbLeft], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.HandTipRight], body.Joints[JointType.ThumbRight], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.SpineMid], body.Joints[JointType.SpineBase], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.SpineBase], body.Joints[JointType.HipLeft], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.SpineBase], body.Joints[JointType.HipRight], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.HipLeft], body.Joints[JointType.KneeLeft], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.HipRight], body.Joints[JointType.KneeRight], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.KneeLeft], body.Joints[JointType.AnkleLeft], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.KneeRight], body.Joints[JointType.AnkleRight], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.AnkleLeft], body.Joints[JointType.FootLeft], BoneBrush, BoneThickness);
-            DrawBone(body.Joints[JointType.AnkleRight], body.Joints[JointType.FootRight], BoneBrush, BoneThickness);
+            DrawBody(body, DEFAULT_RADIUS, DEFAULT_BRUSH, DEFAULT_THICKNESS, DEFAULT_BRUSH);
         }
 
         public void Update(WriteableBitmap source)
@@ -268,47 +163,124 @@ namespace LightBuzz.Vitruvius.Controls
             if (source != null)
             {
                 camera.Source = source;
-
-                if (_kinectFrameWidth == 0 || _kinectFrameHeight == 0)
-                {
-                    _kinectFrameWidth = source.PixelWidth;
-                    _kinectFrameHeight = source.PixelHeight;
-                }
-
-                if (double.IsNaN(canvas.Width) || double.IsNaN(canvas.Height) || canvas.Width == 0.0 || canvas.Height == 0.0 || double.IsInfinity(canvas.Width) || double.IsInfinity(canvas.Height))
-                {
-                    SetCanvasSize();
-                }
             }
         }
 
         #endregion
+    }
 
-        #region Private methods
-
-        private void SetCanvasSize()
+    class BodyVisual
+    {
+        public readonly List<Tuple<JointType, JointType>> CONNECTIONS = new List<Tuple<JointType, JointType>>
         {
-            canvas.Width = camera.ActualWidth;
-            canvas.Height = camera.ActualHeight;
+            // Torso
+            new Tuple<JointType, JointType>(JointType.Head, JointType.Neck),
+            new Tuple<JointType, JointType>(JointType.Neck, JointType.SpineShoulder),
+            new Tuple<JointType, JointType>(JointType.SpineShoulder, JointType.SpineMid),
+            new Tuple<JointType, JointType>(JointType.SpineMid, JointType.SpineBase),
+            new Tuple<JointType, JointType>(JointType.SpineShoulder, JointType.ShoulderRight),
+            new Tuple<JointType, JointType>(JointType.SpineShoulder, JointType.ShoulderLeft),
+            new Tuple<JointType, JointType>(JointType.SpineBase, JointType.HipRight),
+            new Tuple<JointType, JointType>(JointType.SpineBase, JointType.HipLeft),
 
-            _ratioX = canvas.Width / _kinectFrameWidth;
-            _ratioY = canvas.Height / _kinectFrameHeight;
+            // Right Arm
+            new Tuple<JointType, JointType>(JointType.ShoulderRight, JointType.ElbowRight),
+            new Tuple<JointType, JointType>(JointType.ElbowRight, JointType.WristRight),
+            new Tuple<JointType, JointType>(JointType.WristRight, JointType.HandRight),
+            new Tuple<JointType, JointType>(JointType.HandRight, JointType.HandTipRight),
+            new Tuple<JointType, JointType>(JointType.WristRight, JointType.ThumbRight),
+
+            // Left Arm
+            new Tuple<JointType, JointType>(JointType.ShoulderLeft, JointType.ElbowLeft),
+            new Tuple<JointType, JointType>(JointType.ElbowLeft, JointType.WristLeft),
+            new Tuple<JointType, JointType>(JointType.WristLeft, JointType.HandLeft),
+            new Tuple<JointType, JointType>(JointType.HandLeft, JointType.HandTipLeft),
+            new Tuple<JointType, JointType>(JointType.WristLeft, JointType.ThumbLeft),
+
+            // Right Leg
+            new Tuple<JointType, JointType>(JointType.HipRight, JointType.KneeRight),
+            new Tuple<JointType, JointType>(JointType.KneeRight, JointType.AnkleRight),
+            new Tuple<JointType, JointType>(JointType.AnkleRight, JointType.FootRight),
+
+            // Left Leg
+            new Tuple<JointType, JointType>(JointType.HipLeft, JointType.KneeLeft),
+            new Tuple<JointType, JointType>(JointType.KneeLeft, JointType.AnkleLeft),
+            new Tuple<JointType, JointType>(JointType.AnkleLeft, JointType.FootLeft)
+        };
+
+        public ulong TrackingId { get; set; }
+
+        public Dictionary<JointType, Ellipse> Joints { get; set; }
+
+        public Dictionary<Tuple<JointType, JointType>, Line> Bones { get; set; }
+
+        public BodyVisual()
+        {
+            Joints = new Dictionary<JointType, Ellipse>();
+            Bones = new Dictionary<Tuple<JointType, JointType>, Line>();
         }
 
-        #endregion
-
-        #region Event handlers
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        public void Clear()
         {
+            Joints.Clear();
+            Bones.Clear();
         }
 
-        void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        public void AddJoint(JointType joint, double radius, Brush brush)
         {
-            _kinectFrameWidth = 0;
-            _kinectFrameHeight = 0;
+            Joints.Add(joint, new Ellipse
+            {
+                Width = radius,
+                Height = radius,
+                Fill = brush
+            });
         }
 
-        #endregion
+        public void AddBone(Tuple<JointType, JointType> joints, double thickness, Brush brush)
+        {
+            Bones.Add(joints, new Line
+            {
+                StrokeThickness = thickness,
+                Stroke = brush
+            });
+        }
+
+        public void UpdateJoint(JointType joint, Point point)
+        {
+            Ellipse ellipse = Joints[joint];
+
+            Canvas.SetLeft(ellipse, point.X - ellipse.Width / 2);
+            Canvas.SetTop(ellipse, point.Y - ellipse.Height / 2);
+        }
+
+        public void UpdateBone(Tuple<JointType, JointType> bone, Point first, Point second)
+        {
+            Line line = Bones[bone];
+
+            line.X1 = first.X;
+            line.Y1 = first.Y;
+            line.X2 = second.X;
+            line.Y2 = second.Y;
+        }
+
+        public static BodyVisual Create(ulong trackingId, IEnumerable<JointType> joints, double jointRadius, Brush jointBrush, double boneThickness, Brush boneBrush)
+        {
+            BodyVisual bodyVisual = new BodyVisual
+            {
+                TrackingId = trackingId
+            };
+
+            foreach (var joint in joints)
+            {
+                bodyVisual.AddJoint(joint, jointRadius, jointBrush);
+            }
+
+            foreach (var bone in bodyVisual.CONNECTIONS)
+            {
+                bodyVisual.AddBone(bone, boneThickness, boneBrush);
+            }
+
+            return bodyVisual;
+        }
     }
 }

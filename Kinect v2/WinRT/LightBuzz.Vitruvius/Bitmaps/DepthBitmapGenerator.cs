@@ -12,7 +12,7 @@ using WindowsPreview.Kinect;
 namespace LightBuzz.Vitruvius
 {
     /// <summary>
-    /// Creates a bitmap representation of a Kinect depth frame.
+    /// Creates the bitmap representation of a Kinect depth frame.
     /// </summary>
     public class DepthBitmapGenerator : IBitmapGenerator<DepthFrame>
     {

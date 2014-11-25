@@ -11,7 +11,7 @@ using WindowsPreview.Kinect;
 namespace LightBuzz.Vitruvius
 {
     /// <summary>
-    /// Creates a bitmap representation of a Kinect color frame.
+    /// Creates the bitmap representation of a Kinect color frame.
     /// </summary>
     public class ColorBitmapGenerator : IBitmapGenerator<ColorFrame>
     {

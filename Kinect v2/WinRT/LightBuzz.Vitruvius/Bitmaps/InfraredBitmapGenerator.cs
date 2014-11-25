@@ -11,7 +11,7 @@ using WindowsPreview.Kinect;
 namespace LightBuzz.Vitruvius
 {
     /// <summary>
-    /// Creates a bitmap representation of a Kinect infrared frame.
+    /// Creates the bitmap representation of a Kinect infrared frame.
     /// </summary>
     public class InfraredBitmapGenerator : IBitmapGenerator<InfraredFrame>
     {
