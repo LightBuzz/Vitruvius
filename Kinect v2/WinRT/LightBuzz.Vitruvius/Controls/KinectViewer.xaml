@@ -11,7 +11,7 @@
 
     <Viewbox>
         <Grid x:Name="root">
-            <Image Name="camera" />
+            <Image Name="camera" Source="{Binding Image}" />
             <Canvas Name="canvas" />
         </Grid>
     </Viewbox>

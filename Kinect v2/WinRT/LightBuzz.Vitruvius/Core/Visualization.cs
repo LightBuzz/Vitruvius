@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LightBuzz.Vitruvius
 {
-    public enum VisualizationMode
+    public enum Visualization
     {
         Color = 0,
         Depth = 1,

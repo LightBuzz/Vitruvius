@@ -53,7 +53,7 @@
                 <TextBlock Text="Gesture recognized" Style="{StaticResource SubheaderTextBlockStyle}" />
                 <TextBlock Name="tblGestures" Text="-" Margin="0,0,0,40" Style="{StaticResource BodyTextBlockStyle}" />
                 <TextBlock Text="User heights" Style="{StaticResource SubheaderTextBlockStyle}" />
-                <TextBlock Name="tblHeights" Text="-" Style="{StaticResource BodyTextBlockStyle}" />                
+                <TextBlock Name="tblHeights" Text="-" Style="{StaticResource BodyTextBlockStyle}" />
             </StackPanel>
         </Grid>
     </Grid>

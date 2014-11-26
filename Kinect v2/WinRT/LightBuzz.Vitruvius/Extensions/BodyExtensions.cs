@@ -45,7 +45,7 @@ namespace LightBuzz.Vitruvius
         /// </summary>
         /// <param name="bodies">A list of bodies to look at.</param>
         /// <returns>The first tracked body.</returns>
-        public static Body Default(this IList<Body> bodies)
+        public static Body Default(this IEnumerable<Body> bodies)
         {
             Body result = null;
             double closestBodyDistance = double.MaxValue;

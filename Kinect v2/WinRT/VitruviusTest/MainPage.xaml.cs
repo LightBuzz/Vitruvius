@@ -32,6 +32,7 @@ namespace VitruviusTest
         MultiSourceFrameReader _reader;
         IEnumerable<Body> _bodies;
         GestureController _gestureController;
+        UsersReporter _userReporter;
 
         StreamRecorder<ColorFrame> _colorStreamRecorder = new ColorStreamRecorder();
         StreamRecorder<DepthFrame> _depthStreamRecorder = new DepthStreamRecorder();
@@ -39,7 +40,7 @@ namespace VitruviusTest
 
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -55,11 +56,21 @@ namespace VitruviusTest
 
                 _gestureController = new GestureController(GestureType.All);
                 _gestureController.GestureRecognized += GestureController_GestureRecognized;
+
+                _userReporter = new UsersReporter();
+                _userReporter.BodyEntered += ActiveUserReporter_BodyEntered;
+                _userReporter.BodyLeft += ActiveUserReporter_BodyLeft;
+                _userReporter.Start();
             }
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
+            if (_userReporter != null)
+            {
+                _userReporter.Stop();
+            }
+
             if (_reader != null)
             {
                 _reader.Dispose();
@@ -91,9 +102,9 @@ namespace VitruviusTest
             {
                 if (frame != null)
                 {
-                    if (viewer.VisualizationMode == VisualizationMode.Color)
+                    if (viewer.Visualization == Visualization.Color)
                     {
-                        viewer.Update(frame.ToBitmap());
+                        viewer.Image = frame.ToBitmap();
 
                         if (_colorStreamRecorder.IsRecording)
                         {
@@ -108,9 +119,9 @@ namespace VitruviusTest
             {
                 if (frame != null)
                 {
-                    if (viewer.VisualizationMode == VisualizationMode.Depth)
+                    if (viewer.Visualization == Visualization.Depth)
                     {
-                        viewer.Update(frame.ToBitmap());
+                        viewer.Image = frame.ToBitmap();
 
                         if (_depthStreamRecorder.IsRecording)
                         {
@@ -125,9 +136,9 @@ namespace VitruviusTest
             {
                 if (frame != null)
                 {
-                    if (viewer.VisualizationMode == VisualizationMode.Infrared)
+                    if (viewer.Visualization == Visualization.Infrared)
                     {
-                        viewer.Update(frame.ToBitmap());
+                        viewer.Image = frame.ToBitmap();
 
                         if (_infraredStreamRecorder.IsRecording)
                         {
@@ -142,24 +153,23 @@ namespace VitruviusTest
             {
                 if (frame != null)
                 {
-                    tblHeights.Text = "-";
+                    _bodies = frame.Bodies();
 
-                    _bodies = frame.Bodies().Where(body => body.IsTracked);
+                    tblHeights.ClearValue(TextBlock.TextProperty);
 
                     foreach (var body in _bodies)
                     {
+                        viewer.DrawBody(body);
+
                         if (body.IsTracked)
                         {
-                            // Update body gestures.
                             _gestureController.Update(body);
 
-                            // Draw body.
-                            viewer.DrawBody(body);
-
-                            // Display user height.
-                            tblHeights.Text += string.Format("\nUser {0}: {1}cm", body.TrackingId, Math.Round(body.Height(), 2));
+                            tblHeights.Text += Math.Round(body.Height(), 2).ToString() + "m\n";
                         }
                     }
+
+                    _userReporter.Update(_bodies);
                 }
             }
         }
@@ -197,19 +207,28 @@ namespace VitruviusTest
             }
         }
 
+        void ActiveUserReporter_BodyEntered(object sender, ActiveUserReporterEventArgs e)
+        {
+        }
+
+        void ActiveUserReporter_BodyLeft(object sender, ActiveUserReporterEventArgs e)
+        {
+            viewer.Clear();
+        }
+
         private void Color_Click(object sender, RoutedEventArgs e)
         {
-            viewer.VisualizationMode = VisualizationMode.Color;
+            viewer.Visualization = Visualization.Color;
         }
 
         private void Depth_Click(object sender, RoutedEventArgs e)
         {
-            viewer.VisualizationMode = VisualizationMode.Depth;
+            viewer.Visualization = Visualization.Depth;
         }
 
         private void Infrared_Click(object sender, RoutedEventArgs e)
         {
-            viewer.VisualizationMode = VisualizationMode.Infrared;
+            viewer.Visualization = Visualization.Infrared;
         }
 
         private async void RecordColor_Click(object sender, RoutedEventArgs e)

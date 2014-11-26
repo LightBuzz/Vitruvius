@@ -136,21 +136,20 @@
     <Compile Include="Gestures\WaveLeft\WaveLeftSegments.cs" />
     <Compile Include="Gestures\WaveRight\WaveRightSegments.cs" />
     <Compile Include="Gestures\Zoom\ZoomSegments.cs" />
+    <Compile Include="Tools\UserReporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recording\ColorStreamRecorder.cs" />
     <Compile Include="Recording\DepthStreamRecorder.cs" />
     <Compile Include="Recording\InfraredStreamRecorder.cs" />
     <Compile Include="Recording\StreamRecorder.cs" />
     <Compile Include="Tools\BackgroundRemovalTool.cs" />
-    <Compile Include="Core\VisualizationMode.cs" />
+    <Compile Include="Core\Visualization.cs" />
     <Compile Include="Voice\VoiceController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Gestures\LICENSE" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="HandTracking\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="Controls\KinectCursor.xaml">
       <SubType>Designer</SubType>
