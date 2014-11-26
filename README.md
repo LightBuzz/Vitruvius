@@ -1,4 +1,4 @@
-# Vitruvius
+![Vitruvius](https://raw.githubusercontent.com/LightBuzz/Vitruvius/master/Design/vitruvius_logo.png "Vitruvius")
 
 Vitruvius is a set of easy-to-use Kinect utilities that will speed-up the development of your projects. Supports gesture detection, skeleton drawing, frame capturing, voice recognition and much more.
 
