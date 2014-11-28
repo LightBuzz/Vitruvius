@@ -13,10 +13,10 @@ namespace LightBuzz.Vitruvius
     public static class Maths
     {
         /// <summary>
-        /// 
+        /// Calculates the Eucledean norm (or magnitude or length) of the specified 3D vector.
         /// </summary>
-        /// <param name="point"></param>
-        /// <returns></returns>
+        /// <param name="point">The specified 3D vector.</param>
+        /// <returns>The length of the 3D vector.</returns>
         public static double Length(CameraSpacePoint point)
         {
             return Math.Sqrt(
@@ -59,11 +59,11 @@ namespace LightBuzz.Vitruvius
         }
 
         /// <summary>
-        /// 
+        /// Adds two 3D vectors.
         /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
+        /// <param name="first">The first 3D vector to add.</param>
+        /// <param name="second">The second 3D vector to add.</param>
+        /// <returns>The resulting 3D vector.</returns>
         public static CameraSpacePoint Add(CameraSpacePoint first, CameraSpacePoint second)
         {
             first.X += second.X;
@@ -74,11 +74,11 @@ namespace LightBuzz.Vitruvius
         }
 
         /// <summary>
-        /// 
+        /// Adds a quaternion to a 3D vector.
         /// </summary>
-        /// <param name="point"></param>
-        /// <param name="vector"></param>
-        /// <returns></returns>
+        /// <param name="point">The specified 3D vector.</param>
+        /// <param name="vector">The specified quaternion.</param>
+        /// <returns>The resulting 3D vector.</returns>
         public static CameraSpacePoint Add(CameraSpacePoint point, Vector4 vector)
         {
             point.X += vector.X;
@@ -89,11 +89,11 @@ namespace LightBuzz.Vitruvius
         }
 
         /// <summary>
-        /// 
+        /// Substracts a 3D vector from another one.
         /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
+        /// <param name="first">The first 3D vector.</param>
+        /// <param name="second">The second 3D vector.</param>
+        /// <returns>The resulting quaternion.</returns>
         public static Vector4 Subtract(CameraSpacePoint first, CameraSpacePoint second)
         {
             Vector4 vector;
@@ -107,14 +107,14 @@ namespace LightBuzz.Vitruvius
         }
 
         /// <summary>
-        /// 
+        /// Calculates the dot product of the specified quaternions.
         /// </summary>
-        /// <param name="v1"></param>
-        /// <param name="v2"></param>
-        /// <returns></returns>
-        public static float DotProduct(Vector4 v1, Vector4 v2)
+        /// <param name="first">The first quaternion.</param>
+        /// <param name="second">The second quaternion.</param>
+        /// <returns>The resulting value.</returns>
+        public static float DotProduct(Vector4 first, Vector4 second)
         {
-            return (v1.X * v2.X) + (v1.Y * v2.Y) + (v1.Z * v2.Z);
+            return (first.X * second.X) + (first.Y * second.Y) + (first.Z * second.Z);
         }
 
         /// <summary>
@@ -259,7 +259,7 @@ namespace LightBuzz.Vitruvius
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public static double Angle(CameraSpacePoint center, CameraSpacePoint start, CameraSpacePoint end)
+        public static double AngleBetween(CameraSpacePoint center, CameraSpacePoint start, CameraSpacePoint end)
         {
             Vector4 first = Normalize(Subtract(start, center));
             Vector4 second = Normalize(Subtract(end, center));

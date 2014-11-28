@@ -19,7 +19,7 @@ namespace LightBuzz.Vitruvius
     /// <summary>
     /// A generic Kinect stream recorder.
     /// </summary>
-    public class StreamRecorder<T>
+    public class BaseStreamRecorder<T>
     {
         #region Members
 

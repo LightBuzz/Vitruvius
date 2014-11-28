@@ -12,7 +12,7 @@ namespace LightBuzz.Vitruvius
     /// <summary>
     /// Provides some common functionality for recording the color Kinect stream.
     /// </summary>
-    public class ColorStreamRecorder : StreamRecorder<ColorFrame>
+    public class ColorStreamRecorder : BaseStreamRecorder<ColorFrame>
     {
         #region Properties
 

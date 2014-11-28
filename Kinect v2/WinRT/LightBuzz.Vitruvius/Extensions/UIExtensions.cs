@@ -12,7 +12,7 @@ namespace LightBuzz.Vitruvius
     /// <summary>
     /// Provides some common utilities for manipulating UI elements.
     /// </summary>
-    public static class FrameworkElementExtensions
+    public static class UIExtensions
     {
         #region Constants
 

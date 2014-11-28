@@ -34,9 +34,9 @@ namespace VitruviusTest
         GestureController _gestureController;
         UsersReporter _userReporter;
 
-        StreamRecorder<ColorFrame> _colorStreamRecorder = new ColorStreamRecorder();
-        StreamRecorder<DepthFrame> _depthStreamRecorder = new DepthStreamRecorder();
-        StreamRecorder<InfraredFrame> _infraredStreamRecorder = new InfraredStreamRecorder();
+        BaseStreamRecorder<ColorFrame> _colorStreamRecorder = new ColorStreamRecorder();
+        BaseStreamRecorder<DepthFrame> _depthStreamRecorder = new DepthStreamRecorder();
+        BaseStreamRecorder<InfraredFrame> _infraredStreamRecorder = new InfraredStreamRecorder();
 
         public MainPage()
         {
@@ -294,6 +294,11 @@ namespace VitruviusTest
             picker.FileTypeChoices.Add("Windows Media Video", new[] { ".wmv" });
 
             return await picker.PickSaveFileAsync();
+        }
+
+        private void Angles_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(AnglesPage));
         }
     }
 }

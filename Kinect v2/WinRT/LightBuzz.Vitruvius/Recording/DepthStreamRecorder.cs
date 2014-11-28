@@ -12,7 +12,7 @@ namespace LightBuzz.Vitruvius
     /// <summary>
     /// Provides some common functionality for recording the depth Kinect stream.
     /// </summary>
-    public class DepthStreamRecorder : StreamRecorder<DepthFrame>
+    public class DepthStreamRecorder : BaseStreamRecorder<DepthFrame>
     {
         #region Properties
 

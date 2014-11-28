@@ -107,20 +107,22 @@
     <Compile Include="Bitmaps\DepthBitmapGenerator.cs" />
     <Compile Include="Bitmaps\IBitmapGenerator.cs" />
     <Compile Include="Bitmaps\InfraredBitmapGenerator.cs" />
-    <Compile Include="Controls\KinectCursor.xaml.cs">
-      <DependentUpon>KinectCursor.xaml</DependentUpon>
+    <Compile Include="Controls\KinectAngle.xaml.cs">
+      <DependentUpon>KinectAngle.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\KinectHoverButton.xaml.cs">
-      <DependentUpon>KinectHoverButton.xaml</DependentUpon>
+    <Compile Include="Controls\KinectJointSelector.xaml.cs">
+      <DependentUpon>KinectJointSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\KinectViewer.xaml.cs">
       <DependentUpon>KinectViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Maths.cs" />
+    <Compile Include="Core\Vector3.cs" />
     <Compile Include="Extensions\BodyExtensions.cs" />
     <Compile Include="Extensions\BitmapExtensions.cs" />
     <Compile Include="Core\Constants.cs" />
-    <Compile Include="Extensions\FrameworkElementExtensions.cs" />
+    <Compile Include="Extensions\UIExtensions.cs" />
+    <Compile Include="Extensions\MathExtensions.cs" />
     <Compile Include="Gestures\Gesture.cs" />
     <Compile Include="Gestures\GestureController.cs" />
     <Compile Include="Gestures\GestureEventArgs.cs" />
@@ -141,7 +143,7 @@
     <Compile Include="Recording\ColorStreamRecorder.cs" />
     <Compile Include="Recording\DepthStreamRecorder.cs" />
     <Compile Include="Recording\InfraredStreamRecorder.cs" />
-    <Compile Include="Recording\StreamRecorder.cs" />
+    <Compile Include="Recording\BaseStreamRecorder.cs" />
     <Compile Include="Tools\BackgroundRemovalTool.cs" />
     <Compile Include="Core\Visualization.cs" />
     <Compile Include="Voice\VoiceController.cs" />
@@ -149,13 +151,15 @@
   <ItemGroup>
     <None Include="Gestures\LICENSE" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Page Include="Controls\KinectCursor.xaml">
+    <Folder Include="Gestures\Database\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\KinectAngle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\KinectHoverButton.xaml">
+    <Page Include="Controls\KinectJointSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

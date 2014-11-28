@@ -44,6 +44,7 @@
                 <Button Content="Color" Width="200" Click="Color_Click" />
                 <Button Content="Depth" Width="200" Click="Depth_Click" />
                 <Button Content="Infrared" Width="200" Click="Infrared_Click" />
+                <Button Content="Angles" Click="Angles_Click" />
             </StackPanel>
             <StackPanel Grid.Row="0" Grid.Column="1" Margin="20,0">
                 <Button Content="Record Color" Width="200" Click="RecordColor_Click" />

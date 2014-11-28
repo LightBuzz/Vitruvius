@@ -12,7 +12,7 @@ namespace LightBuzz.Vitruvius
     /// <summary>
     /// Provides some common functionality for recording the infrared Kinect stream.
     /// </summary>
-    public class InfraredStreamRecorder : StreamRecorder<InfraredFrame>
+    public class InfraredStreamRecorder : BaseStreamRecorder<InfraredFrame>
     {
         #region Properties
 
