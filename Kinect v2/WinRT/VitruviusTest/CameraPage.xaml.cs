@@ -29,7 +29,6 @@ namespace VitruviusTest
 
         KinectSensor _sensor;
         MultiSourceFrameReader _reader;
-        IEnumerable<Body> _bodies;
         UsersReporter _userReporter;
 
         bool _displaySkeleton;
@@ -71,17 +70,6 @@ namespace VitruviusTest
             if (_reader != null)
             {
                 _reader.Dispose();
-            }
-
-            if (_bodies != null)
-            {
-                if (_bodies.Count() > 0)
-                {
-                    foreach (var body in _bodies)
-                    {
-                        body.Dispose();
-                    }
-                }
             }
 
             if (_sensor != null)
@@ -126,7 +114,7 @@ namespace VitruviusTest
                 {
                     if (viewer.Visualization == Visualization.Color)
                     {
-                        viewer.Image = frame.ToBitmap();
+                        //viewer.Image = frame.ToBitmap();
                     }
                 }
             }
@@ -138,7 +126,7 @@ namespace VitruviusTest
                 {
                     if (viewer.Visualization == Visualization.Depth)
                     {
-                        viewer.Image = frame.ToBitmap();
+                        //viewer.Image = frame.ToBitmap();
                     }
                 }
             }
@@ -150,7 +138,7 @@ namespace VitruviusTest
                 {
                     if (viewer.Visualization == Visualization.Infrared)
                     {
-                        viewer.Image = frame.ToBitmap();
+                        //viewer.Image = frame.ToBitmap();
                     }
                 }
             }
@@ -160,10 +148,11 @@ namespace VitruviusTest
             {
                 if (frame != null)
                 {
-                    _bodies = frame.Bodies();
-                    _userReporter.Update(_bodies);
+                    var bodies = frame.Bodies();
 
-                    foreach (Body body in _bodies)
+                    _userReporter.Update(bodies);
+
+                    foreach (Body body in bodies)
                     {
                         if (_displaySkeleton)
                         {

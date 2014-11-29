@@ -29,7 +29,6 @@ namespace VitruviusTest
 
         KinectSensor _sensor;
         MultiSourceFrameReader _reader;
-        IEnumerable<Body> _bodies;
         GestureController _gestureController;
 
         public NavigationHelper NavigationHelper
@@ -62,17 +61,6 @@ namespace VitruviusTest
             if (_reader != null)
             {
                 _reader.Dispose();
-            }
-
-            if (_bodies != null)
-            {
-                if (_bodies.Count() > 0)
-                {
-                    foreach (var body in _bodies)
-                    {
-                        body.Dispose();
-                    }
-                }
             }
 
             if (_sensor != null)

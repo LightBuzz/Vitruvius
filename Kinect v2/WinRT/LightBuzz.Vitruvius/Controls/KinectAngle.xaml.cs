@@ -43,6 +43,8 @@ namespace LightBuzz.Vitruvius.Controls
         public KinectAngle()
         {
             InitializeComponent();
+
+            DataContext = this;
         }
 
         #endregion
@@ -163,7 +165,7 @@ namespace LightBuzz.Vitruvius.Controls
         /// <param name="desiredRadius">The desired arc radius.</param>
         public void Update(CameraSpacePoint start, CameraSpacePoint middle, CameraSpacePoint end, double desiredRadius = 0)
         {
-            Update(start.ToVector3(), middle.ToVector3(), end.ToVector3(), desiredRadius);
+            Update(start.ToPoint(Visualization.Color), middle.ToPoint(Visualization.Color), end.ToPoint(Visualization.Color), desiredRadius);
         }
 
         /// <summary>
@@ -212,6 +214,14 @@ namespace LightBuzz.Vitruvius.Controls
         public void Update(Joint start, Joint middle, Joint end, double desiredRadius = 0)
         {
             Update(start.Position, middle.Position, end.Position, desiredRadius);
+        }
+
+        /// <summary>
+        /// Clears the current angle.
+        /// </summary>
+        public void Clear()
+        {
+            Update(Vector3.Zero, Vector3.Zero, Vector3.Zero);
         }
 
         #endregion

@@ -55,7 +55,8 @@
                 <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" Text="Visualization mode" Margin="0,20" />
                 <ToggleButton Content="Skeleton" HorizontalAlignment="Stretch" Checked="Skeleton_Checked" Unchecked="Skeleton_Unchecked" />
             </StackPanel>
-            <controls:KinectViewer Grid.Column="1"  x:Name="viewer" />
+            <controls:KinectViewer Grid.Column="1" x:Name="viewer" />
+            <Image Name="camera" />
         </Grid>
     </Grid>
 </Page>

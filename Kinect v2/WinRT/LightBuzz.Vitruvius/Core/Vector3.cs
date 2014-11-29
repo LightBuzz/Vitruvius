@@ -55,6 +55,22 @@ namespace LightBuzz.Vitruvius
             }
         }
 
+        /// <summary>
+        /// A vector with zero values.
+        /// </summary>
+        public static Vector3 Zero
+        {
+            get
+            {
+                Vector3 vector;
+                vector.X = 0.0;
+                vector.Y = 0.0;
+                vector.Z = 0.0;
+
+                return vector;
+            }
+        }
+
         #endregion
 
         #region Public methods
