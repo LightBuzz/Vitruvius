@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="VitruviusTest.App">
-      <m2:VisualElements DisplayName="Vitruvius" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="Vitruvius for WinRT" ForegroundText="light" BackgroundColor="#464646">
+      <m2:VisualElements DisplayName="Vitruvius" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="Vitruvius for WinRT" ForegroundText="dark" BackgroundColor="#ffffff">
         <m2:SplashScreen Image="Assets\SplashScreen.png" />
       </m2:VisualElements>
     </Application>
