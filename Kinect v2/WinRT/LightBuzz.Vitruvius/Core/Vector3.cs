@@ -245,6 +245,29 @@ namespace LightBuzz.Vitruvius
 
         #endregion
 
+        #region Overrides
+
+        /// <summary>
+        /// Compares two vectors for equality.
+        /// </summary>
+        /// <param name="obj">The cast vector to compare with this vector.</param>
+        /// <returns>True if value has the same X and Y values as this vector; otherwise, false.</returns>
+        public override bool Equals(object obj)
+        {
+            return this.Equals((Vector3)obj);
+        }
+
+        /// <summary>
+        /// Returns the hash code for this instance.
+        /// </summary>
+        /// <returns>The hash code for this instance.</returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        #endregion
+
         #region Operator overloading
 
         /// <summary>

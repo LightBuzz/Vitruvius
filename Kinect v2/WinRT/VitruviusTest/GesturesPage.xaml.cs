@@ -13,6 +13,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WindowsPreview.Kinect;
+using LightBuzz.Vitruvius;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -23,84 +25,96 @@ namespace VitruviusTest
     /// </summary>
     public sealed partial class GesturesPage : Page
     {
+        NavigationHelper _navigationHelper;
 
-        private NavigationHelper navigationHelper;
-        private ObservableDictionary defaultViewModel = new ObservableDictionary();
+        KinectSensor _sensor;
+        MultiSourceFrameReader _reader;
+        IEnumerable<Body> _bodies;
+        GestureController _gestureController;
 
-        /// <summary>
-        /// This can be changed to a strongly typed view model.
-        /// </summary>
-        public ObservableDictionary DefaultViewModel
-        {
-            get { return this.defaultViewModel; }
-        }
-
-        /// <summary>
-        /// NavigationHelper is used on each page to aid in navigation and 
-        /// process lifetime management
-        /// </summary>
         public NavigationHelper NavigationHelper
         {
-            get { return this.navigationHelper; }
+            get { return _navigationHelper; }
         }
-
 
         public GesturesPage()
         {
-            this.InitializeComponent();
-            this.navigationHelper = new NavigationHelper(this);
-            this.navigationHelper.LoadState += navigationHelper_LoadState;
-            this.navigationHelper.SaveState += navigationHelper_SaveState;
+            InitializeComponent();
+            
+            _navigationHelper = new NavigationHelper(this);
+
+            _sensor = KinectSensor.GetDefault();
+
+            if (_sensor != null)
+            {
+                _sensor.Open();
+
+                _reader = _sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Depth | FrameSourceTypes.Infrared | FrameSourceTypes.Body);
+                _reader.MultiSourceFrameArrived += Reader_MultiSourceFrameArrived;
+
+                _gestureController = new GestureController(GestureType.All);
+                _gestureController.GestureRecognized += GestureController_GestureRecognized;
+            }
         }
 
-        /// <summary>
-        /// Populates the page with content passed during navigation. Any saved state is also
-        /// provided when recreating a page from a prior session.
-        /// </summary>
-        /// <param name="sender">
-        /// The source of the event; typically <see cref="NavigationHelper"/>
-        /// </param>
-        /// <param name="e">Event data that provides both the navigation parameter passed to
-        /// <see cref="Frame.Navigate(Type, Object)"/> when this page was initially requested and
-        /// a dictionary of state preserved by this page during an earlier
-        /// session. The state will be null the first time a page is visited.</param>
-        private void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
+        private void PageRoot_Unloaded(object sender, RoutedEventArgs e)
         {
+            if (_reader != null)
+            {
+                _reader.Dispose();
+            }
+
+            if (_bodies != null)
+            {
+                if (_bodies.Count() > 0)
+                {
+                    foreach (var body in _bodies)
+                    {
+                        body.Dispose();
+                    }
+                }
+            }
+
+            if (_sensor != null)
+            {
+                _sensor.Close();
+            }
         }
 
-        /// <summary>
-        /// Preserves state associated with this page in case the application is suspended or the
-        /// page is discarded from the navigation cache.  Values must conform to the serialization
-        /// requirements of <see cref="SuspensionManager.SessionState"/>.
-        /// </summary>
-        /// <param name="sender">The source of the event; typically <see cref="NavigationHelper"/></param>
-        /// <param name="e">Event data that provides an empty dictionary to be populated with
-        /// serializable state.</param>
-        private void navigationHelper_SaveState(object sender, SaveStateEventArgs e)
+        void Reader_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
         {
+            var reference = e.FrameReference.AcquireFrame();
+
+            // Color
+            using (var frame = reference.ColorFrameReference.AcquireFrame())
+            {
+                if (frame != null)
+                {
+                    if (viewer.Visualization == Visualization.Color)
+                    {
+                        viewer.Image = frame.ToBitmap();
+                    }
+                }
+            }
+
+            // Body
+            using (var frame = reference.BodyFrameReference.AcquireFrame())
+            {
+                if (frame != null)
+                {
+                    Body body = frame.Bodies().Default();
+
+                    if (body != null)
+                    {
+                        _gestureController.Update(body);
+                    }
+                }
+            }
         }
 
-        #region NavigationHelper registration
-
-        /// The methods provided in this section are simply used to allow
-        /// NavigationHelper to respond to the page's navigation methods.
-        /// 
-        /// Page specific logic should be placed in event handlers for the  
-        /// <see cref="GridCS.Common.NavigationHelper.LoadState"/>
-        /// and <see cref="GridCS.Common.NavigationHelper.SaveState"/>.
-        /// The navigation parameter is available in the LoadState method 
-        /// in addition to page state preserved during an earlier session.
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        void GestureController_GestureRecognized(object sender, GestureEventArgs e)
         {
-            navigationHelper.OnNavigatedTo(e);
+            tblGestures.Text = e.Name;
         }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            navigationHelper.OnNavigatedFrom(e);
-        }
-
-        #endregion
     }
 }

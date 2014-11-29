@@ -8,18 +8,42 @@ using WindowsPreview.Kinect;
 
 namespace LightBuzz.Vitruvius
 {
+    /// <summary>
+    /// Provides some common mathematical extensions for Kinect data.
+    /// </summary>
     public static class MathExtensions
     {
+        #region Degrees / Radians
+
+        /// <summary>
+        /// Converts the specified angle from degrees to radians.
+        /// </summary>
+        /// <param name="angle">The angle, in degrees.</param>
+        /// <returns>The same angle in radians.</returns>
         public static double ToRadians(this double angle)
         {
             return Math.PI * angle / 180.0;
         }
 
+        /// <summary>
+        /// Converts the specified angle from radians to degrees.
+        /// </summary>
+        /// <param name="angle">The angle, in radians.</param>
+        /// <returns>The same angle in degrees.</returns>
         public static double ToDegrees(this double angle)
         {
             return angle * (180.0 / Math.PI);
         }
 
+        #endregion
+
+        #region Points
+
+        /// <summary>
+        /// Converts the specified vector into a 2-D point.
+        /// </summary>
+        /// <param name="vector">The vector to convert.</param>
+        /// <returns>The corresponding 2-D point.</returns>
         public static Point ToPoint(this Vector3 vector)
         {
             Point point;
@@ -29,6 +53,13 @@ namespace LightBuzz.Vitruvius
             return point;
         }
 
+        /// <summary>
+        /// Converts the specified CameraSpacePoint into a 2-D point.
+        /// </summary>
+        /// <param name="position">The CameraSpacePoint to convert.</param>
+        /// <param name="visualization">The type of the conversion (color, depth, or infrared).</param>
+        /// <param name="coordinateMapper">The CoordinateMapper to make the conversion.</param>
+        /// <returns>The corresponding 2-D point.</returns>
         public static Point ToPoint(this CameraSpacePoint position, Visualization visualization, CoordinateMapper coordinateMapper)
         {
             Point point;
@@ -57,11 +88,22 @@ namespace LightBuzz.Vitruvius
             return point;
         }
 
+        /// <summary>
+        /// Converts the specified CameraSpacePoint into a 2-D point.
+        /// </summary>
+        /// <param name="position">The CameraSpacePoint to convert.</param>
+        /// <param name="visualization">The type of the conversion (color, depth, or infrared).</param>
+        /// <returns>The corresponding 2-D point.</returns>
         public static Point ToPoint(this CameraSpacePoint position, Visualization visualization)
         {
             return position.ToPoint(visualization, KinectSensor.GetDefault().CoordinateMapper);
         }
 
+        /// <summary>
+        /// Converts the specified ColorSpacePoint into a 2-D point.
+        /// </summary>
+        /// <param name="position">The ColorSpacePoint to convert.</param>
+        /// <returns>The corresponding 2-D point.</returns>
         public static Point ToPoint(this ColorSpacePoint position)
         {
             Point point;
@@ -71,6 +113,11 @@ namespace LightBuzz.Vitruvius
             return point;
         }
 
+        /// <summary>
+        /// Converts the specified DepthSpacePoint into a 2-D point.
+        /// </summary>
+        /// <param name="position">The DepthSpacePoint to convert.</param>
+        /// <returns>The corresponding 2-D point.</returns>
         public static Point ToPoint(this DepthSpacePoint position)
         {
             Point point;
@@ -80,55 +127,79 @@ namespace LightBuzz.Vitruvius
             return point;
         }
 
-        public static Vector3 ToVector3(this CameraSpacePoint position)
+        #endregion
+
+        #region Vectors
+
+        /// <summary>
+        /// Converts the specified CameraSpacePoint into a 3-D vector structure.
+        /// </summary>
+        /// <param name="point">The CameraSpacePoint to convert</param>
+        /// <returns>The corresponding 3-D vector.</returns>
+        public static Vector3 ToVector3(this CameraSpacePoint point)
         {
             Vector3 vector;
-            vector.X = position.X;
-            vector.Y = position.Y;
-            vector.Z = position.Z;
+            vector.X = point.X;
+            vector.Y = point.Y;
+            vector.Z = point.Z;
 
             return vector;
         }
 
-        public static Vector3 ToVector3(this ColorSpacePoint position)
+        /// <summary>
+        /// Converts the specified ColorSpacePoint into a 3-D vector structure.
+        /// </summary>
+        /// <param name="point">The ColorSpacePoint to convert</param>
+        /// <returns>The corresponding 3-D vector.</returns>
+        public static Vector3 ToVector3(this ColorSpacePoint point)
         {
             Vector3 vector;
-            vector.X = position.X;
-            vector.Y = position.Y;
+            vector.X = point.X;
+            vector.Y = point.Y;
             vector.Z = 0.0;
 
             return vector;
         }
 
-        public static Vector3 ToVector3(this DepthSpacePoint position)
+        /// <summary>
+        /// Converts the specified DepthSpacePoint into a 3-D vector structure.
+        /// </summary>
+        /// <param name="point">The DepthSpacePoint to convert</param>
+        /// <returns>The corresponding 3-D vector.</returns>
+        public static Vector3 ToVector3(this DepthSpacePoint point)
         {
             Vector3 vector;
-            vector.X = position.X;
-            vector.Y = position.Y;
+            vector.X = point.X;
+            vector.Y = point.Y;
             vector.Z = 0.0;
 
             return vector;
         }
 
-        public static Vector3 ToVector3(this Point position)
+        /// <summary>
+        /// Converts the specified 2-D point into a 3-D vector structure.
+        /// </summary>
+        /// <param name="point">The point to convert</param>
+        /// <returns>The corresponding 3-D vector.</returns>
+        public static Vector3 ToVector3(this Point point)
         {
             Vector3 vector;
-            vector.X = position.X;
-            vector.Y = position.Y;
+            vector.X = point.X;
+            vector.Y = point.Y;
             vector.Z = 0.0;
 
             return vector;
         }
 
-        public static CameraSpacePoint Add(this CameraSpacePoint position, Vector3 vector)
-        {
-            position.X += (float)vector.X;
-            position.Y += (float)vector.Y;
-            position.Z += (float)vector.Z;
+        #endregion
 
-            return position;
-        }
+        #region Euler
 
+        /// <summary>
+        /// Converts the specified quaternion into the corresponding Euler matrix.
+        /// </summary>
+        /// <param name="orientation">The quaternion to convert, expressed as a rotation 4-D vector.</param>
+        /// <returns>The corresponding Euler matrix, expressed as a 4-D vector.</returns>
         public static Vector4 ToEuler(this Vector4 orientation)
         {
             Vector4 vector = new Vector4();
@@ -165,38 +236,117 @@ namespace LightBuzz.Vitruvius
             return vector;
         }
 
+        #endregion
+
+        #region Angles
+
+        /// <summary>
+        /// Calculates the angle between the specified points.
+        /// </summary>
+        /// <param name="center">The center of the angle.</param>
+        /// <param name="start">The start of the angle.</param>
+        /// <param name="end">The end of the angle.</param>
+        /// <returns>The angle, in degrees.</returns>
         public static double AngleBetween(this CameraSpacePoint center, CameraSpacePoint start, CameraSpacePoint end)
         {
-            Vector3 first = start.Subtract(center);
-            Vector3 second = end.Subtract(center);
+            Vector3 first = start.ToVector3() - center.ToVector3();
+            Vector3 second = end.ToVector3() - center.ToVector3();
 
             return Vector3.AngleBetween(first, second);
         }
 
+        /// <summary>
+        /// Calculates the angle between the specified points.
+        /// </summary>
+        /// <param name="center">The center of the angle.</param>
+        /// <param name="start">The start of the angle.</param>
+        /// <param name="end">The end of the angle.</param>
+        /// <returns>The angle, in degrees.</returns>
+        public static double AngleBetween(this ColorSpacePoint center, ColorSpacePoint start, ColorSpacePoint end)
+        {
+            Vector3 first = start.ToVector3() - center.ToVector3();
+            Vector3 second = end.ToVector3() - center.ToVector3();
+
+            return Vector3.AngleBetween(first, second);
+        }
+
+        /// <summary>
+        /// Calculates the angle between the specified points.
+        /// </summary>
+        /// <param name="center">The center of the angle.</param>
+        /// <param name="start">The start of the angle.</param>
+        /// <param name="end">The end of the angle.</param>
+        /// <returns>The angle, in degrees.</returns>
+        public static double AngleBetween(this DepthSpacePoint center, DepthSpacePoint start, DepthSpacePoint end)
+        {
+            Vector3 first = start.ToVector3() - center.ToVector3();
+            Vector3 second = end.ToVector3() - center.ToVector3();
+
+            return Vector3.AngleBetween(first, second);
+        }
+
+        /// <summary>
+        /// Calculates the angle between the specified body joints.
+        /// </summary>
+        /// <param name="center">The center of the angle.</param>
+        /// <param name="start">The start of the angle.</param>
+        /// <param name="end">The end of the angle.</param>
+        /// <returns>The angle, in degrees.</returns>
         public static double AngleBetween(this Joint center, Joint start, Joint end)
         {
             return AngleBetween(center.Position, start.Position, end.Position);
         }
 
-        public static Vector3 Subtract(this CameraSpacePoint source, CameraSpacePoint position)
-        {
-            Vector3 vector;
-            vector.X = source.X - position.X;
-            vector.Y = source.Y - position.Y;
-            vector.Z = source.Z - position.Z;
+        #endregion
 
-            return vector;
+        #region Lenghts
+
+        /// <summary>
+        /// Calculates the length of the specified 3-D point.
+        /// </summary>
+        /// <param name="point">The specified 3-D point.</param>
+        /// <returns>The corresponding length, in meters.</returns>
+        public static double Length(this CameraSpacePoint point)
+        {
+            return Math.Sqrt(
+                Math.Pow(point.X, 2) +
+                Math.Pow(point.Y, 2) +
+                Math.Pow(point.Z, 2)
+            );
         }
 
-        public static Vector3 Subtract(this Point source, Point position)
+        /// <summary>
+        /// Returns the length of the segment defined by the specified points.
+        /// </summary>
+        /// <param name="point1">The first point (start of the segment).</param>
+        /// <param name="point2">The second point (end of the segment).</param>
+        /// <returns>The length of the segment (in meters).</returns>
+        public static double Length(this CameraSpacePoint point1, CameraSpacePoint point2)
         {
-            Vector3 vector;
-
-            vector.X = source.X - position.X;
-            vector.Y = source.Y - position.Y;
-            vector.Z = 0.0;
-
-            return vector;
+            return Math.Sqrt(
+                Math.Pow(point1.X - point2.X, 2) +
+                Math.Pow(point1.Y - point2.Y, 2) +
+                Math.Pow(point1.Z - point2.Z, 2)
+            );
         }
+
+        /// <summary>
+        /// Returns the length of the segments defined by the specified points.
+        /// </summary>
+        /// <param name="joints">A collection of two or more points.</param>
+        /// <returns>The length of all the segments in meters.</returns>
+        public static double Length(params CameraSpacePoint[] points)
+        {
+            double length = 0;
+
+            for (int index = 0; index < points.Length - 1; index++)
+            {
+                length += Length(points[index], points[index + 1]);
+            }
+
+            return length;
+        }
+
+        #endregion
     }
 }

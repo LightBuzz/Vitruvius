@@ -10,7 +10,7 @@ using System.Windows;
 using Windows.UI.Xaml.Media.Imaging;
 using System.IO;
 
-namespace LightBuzz.Vitruvius.WPF
+namespace LightBuzz.Vitruvius
 {
     /// <summary>
     /// Provides extension methods for removing the background of a Kinect frame.

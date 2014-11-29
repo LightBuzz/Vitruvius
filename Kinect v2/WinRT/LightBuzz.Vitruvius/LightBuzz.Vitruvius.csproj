@@ -116,7 +116,6 @@
     <Compile Include="Controls\KinectViewer.xaml.cs">
       <DependentUpon>KinectViewer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\Maths.cs" />
     <Compile Include="Core\Vector3.cs" />
     <Compile Include="Extensions\BodyExtensions.cs" />
     <Compile Include="Extensions\BitmapExtensions.cs" />

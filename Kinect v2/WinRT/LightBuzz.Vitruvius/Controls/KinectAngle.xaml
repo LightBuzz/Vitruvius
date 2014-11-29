@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Path x:Name="anglePath" Fill="Black" Opacity="0.4">
+    <Path x:Name="anglePath" Fill="{Binding Fill}" Stroke="{Binding Stroke}" StrokeThickness="{Binding StrokeThickness}" Opacity="0.4">
         <Path.Data>
             <PathGeometry>
                 <PathGeometry.Figures>

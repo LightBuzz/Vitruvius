@@ -55,7 +55,7 @@ namespace LightBuzz.Vitruvius
                 if (body.IsTracked)
                 {
                     var position = body.Joints[JointType.SpineBase].Position;
-                    var distance = Maths.Length(position);
+                    var distance = position.Length();
 
                     if (result == null || distance < closestBodyDistance)
                     {
@@ -96,10 +96,10 @@ namespace LightBuzz.Vitruvius
             int legRightTrackedJoints = NumberOfTrackedJoints(hipRight, kneeRight, ankleRight, footRight);
 
             double legLength = legLeftTrackedJoints > legRightTrackedJoints ?
-                Maths.Distance(hipLeft.Position, kneeLeft.Position, ankleLeft.Position, footLeft.Position) :
-                Maths.Distance(hipRight.Position, kneeRight.Position, ankleRight.Position, footRight.Position);
+                MathExtensions.Length(hipLeft.Position, kneeLeft.Position, ankleLeft.Position, footLeft.Position) :
+                MathExtensions.Length(hipRight.Position, kneeRight.Position, ankleRight.Position, footRight.Position);
 
-            return Maths.Distance(head.Position, neck.Position, shoulders.Position, spine.Position, waist.Position) + legLength + HEAD_DIVERGENCE;
+            return MathExtensions.Length(head.Position, neck.Position, shoulders.Position, spine.Position, waist.Position) + legLength + HEAD_DIVERGENCE;
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace LightBuzz.Vitruvius
             var spine = body.Joints[JointType.SpineMid].Position;
             var waist = body.Joints[JointType.SpineBase].Position;
 
-            return Maths.Distance(head, neck, shoulders, spine, waist);
+            return MathExtensions.Length(head, neck, shoulders, spine, waist);
         }
 
         /// <summary>
