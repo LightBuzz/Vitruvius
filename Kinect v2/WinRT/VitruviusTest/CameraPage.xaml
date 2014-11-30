@@ -52,11 +52,11 @@
                 <Button Content="Color" HorizontalAlignment="Stretch" Click="Color_Click" />
                 <Button Content="Depth" HorizontalAlignment="Stretch" Click="Depth_Click" />
                 <Button Content="Infrared" HorizontalAlignment="Stretch" Click="Infrared_Click" />
+                <Button Content="Save snapshot" HorizontalAlignment="Stretch" Margin="0,20,0,0" Click="Save_Click" />
                 <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" Text="Visualization mode" Margin="0,20" />
                 <ToggleButton Content="Skeleton" HorizontalAlignment="Stretch" Checked="Skeleton_Checked" Unchecked="Skeleton_Unchecked" />
             </StackPanel>
             <controls:KinectViewer Grid.Column="1" x:Name="viewer" />
-            <Image Name="camera" />
         </Grid>
     </Grid>
 </Page>

@@ -15,6 +15,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WindowsPreview.Kinect;
 using LightBuzz.Vitruvius;
+using Windows.Storage.Pickers;
+using Windows.Storage;
+using Windows.UI.Xaml.Media.Imaging;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -114,7 +117,7 @@ namespace VitruviusTest
                 {
                     if (viewer.Visualization == Visualization.Color)
                     {
-                        //viewer.Image = frame.ToBitmap();
+                        viewer.Image = frame.ToBitmap();
                     }
                 }
             }
@@ -126,7 +129,7 @@ namespace VitruviusTest
                 {
                     if (viewer.Visualization == Visualization.Depth)
                     {
-                        //viewer.Image = frame.ToBitmap();
+                        viewer.Image = frame.ToBitmap();
                     }
                 }
             }
@@ -138,7 +141,7 @@ namespace VitruviusTest
                 {
                     if (viewer.Visualization == Visualization.Infrared)
                     {
-                        //viewer.Image = frame.ToBitmap();
+                        viewer.Image = frame.ToBitmap();
                     }
                 }
             }
@@ -170,6 +173,12 @@ namespace VitruviusTest
         void UserReporter_BodyLeft(object sender, ActiveUserReporterEventArgs e)
         {
             viewer.Clear();
+        }
+
+        private async void Save_Click(object sender, RoutedEventArgs e)
+        {
+            StorageFile file = await KnownFolders.PicturesLibrary.CreateFileAsync("vitruvius-capture.jpg");
+            await (viewer.Image as WriteableBitmap).Save(file);
         }
     }
 }
