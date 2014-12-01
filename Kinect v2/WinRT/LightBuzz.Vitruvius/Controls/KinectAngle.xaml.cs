@@ -141,19 +141,20 @@ namespace LightBuzz.Vitruvius.Controls
             {
                 desiredRadius = Math.Min(_vector1.Length, _vector2.Length);
             }
-
+            
             _vector1.Normalize();
             _vector2.Normalize();
 
             start = middle - desiredRadius * _vector1;
             end = middle - desiredRadius * _vector2;
 
-            line2.Point = start.ToPoint();
-            arc.Point = end.ToPoint();
-            angleFigure.StartPoint = end.ToPoint();
             line1.Point = middle.ToPoint();
+            line2.Point = start.ToPoint();
+            angleFigure.StartPoint = end.ToPoint();
 
+            arc.Point = end.ToPoint();
             arc.Size = new Size(desiredRadius, desiredRadius);
+            arc.SweepDirection = Angle >= 0.0 ? SweepDirection.Clockwise : SweepDirection.Counterclockwise;
         }
 
         /// <summary>

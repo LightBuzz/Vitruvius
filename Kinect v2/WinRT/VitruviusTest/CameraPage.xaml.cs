@@ -32,7 +32,7 @@ namespace VitruviusTest
 
         KinectSensor _sensor;
         MultiSourceFrameReader _reader;
-        UsersReporter _userReporter;
+        UsersController _userReporter;
 
         bool _displaySkeleton;
 
@@ -56,7 +56,7 @@ namespace VitruviusTest
                 _reader = _sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Depth | FrameSourceTypes.Infrared | FrameSourceTypes.Body);
                 _reader.MultiSourceFrameArrived += Reader_MultiSourceFrameArrived;
 
-                _userReporter = new UsersReporter();
+                _userReporter = new UsersController();
                 _userReporter.BodyEntered += UserReporter_BodyEntered;
                 _userReporter.BodyLeft += UserReporter_BodyLeft;
                 _userReporter.Start();
@@ -166,17 +166,20 @@ namespace VitruviusTest
             }
         }
 
-        void UserReporter_BodyEntered(object sender, ActiveUserReporterEventArgs e)
+        void UserReporter_BodyEntered(object sender, UsersControllerEventArgs e)
         {
+            // A new user has entered the scene.
         }
 
-        void UserReporter_BodyLeft(object sender, ActiveUserReporterEventArgs e)
+        void UserReporter_BodyLeft(object sender, UsersControllerEventArgs e)
         {
+            // A user has left the scene.
             viewer.Clear();
         }
 
         private async void Save_Click(object sender, RoutedEventArgs e)
         {
+            // You need to have the "Pictures Library" capability enabled.
             StorageFile file = await KnownFolders.PicturesLibrary.CreateFileAsync("vitruvius-capture.jpg");
             await (viewer.Image as WriteableBitmap).Save(file);
         }

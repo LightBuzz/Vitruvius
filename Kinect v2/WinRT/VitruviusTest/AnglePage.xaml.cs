@@ -29,7 +29,7 @@ namespace VitruviusTest
 
         KinectSensor _sensor;
         MultiSourceFrameReader _reader;
-        UsersReporter _userReporter;
+        UsersController _userReporter;
 
         JointType _start = JointType.ShoulderRight;
         JointType _center = JointType.ElbowRight;
@@ -55,7 +55,7 @@ namespace VitruviusTest
                 _reader = _sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Depth | FrameSourceTypes.Infrared | FrameSourceTypes.Body);
                 _reader.MultiSourceFrameArrived += Reader_MultiSourceFrameArrived;
 
-                _userReporter = new UsersReporter();
+                _userReporter = new UsersController();
                 _userReporter.BodyEntered += UserReporter_BodyEntered;
                 _userReporter.BodyLeft += UserReporter_BodyLeft;
                 _userReporter.Start();
@@ -118,11 +118,11 @@ namespace VitruviusTest
             }
         }
 
-        void UserReporter_BodyEntered(object sender, ActiveUserReporterEventArgs e)
+        void UserReporter_BodyEntered(object sender, UsersControllerEventArgs e)
         {
         }
 
-        void UserReporter_BodyLeft(object sender, ActiveUserReporterEventArgs e)
+        void UserReporter_BodyLeft(object sender, UsersControllerEventArgs e)
         {
             viewer.Clear();
             angle.Clear();

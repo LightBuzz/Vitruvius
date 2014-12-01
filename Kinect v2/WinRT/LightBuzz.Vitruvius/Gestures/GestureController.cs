@@ -1,6 +1,7 @@
 ﻿using LightBuzz.Vitruvius.Gestures;
 using WindowsPreview.Kinect;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace LightBuzz.Vitruvius
@@ -8,7 +9,7 @@ namespace LightBuzz.Vitruvius
     /// <summary>
     /// Represents a gesture controller.
     /// </summary>
-    public class GestureController
+    public class GestureController : BaseController<Body>
     {
         #region Members
 
@@ -22,32 +23,23 @@ namespace LightBuzz.Vitruvius
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of <see cref="GestureController"/>.
+        /// Initializes a new instance of <see cref="GestureController"/> with all of the available gesture types.
         /// </summary>
         public GestureController()
         {
+            foreach (GestureType t in Enum.GetValues(typeof(GestureType)))
+            {
+                AddGesture(t);
+            }
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="GestureController"/>.
+        /// Initializes a new instance of <see cref="GestureController"/> with the specified gesture type.
         /// </summary>
-        /// <param name="type">The gesture type to recognize. Set to GesureType.All for instantly adding all of the predefined gestures.</param>
+        /// <param name="type">The gesture type to recognize.</param>
         public GestureController(GestureType type)
         {
-            if (type == GestureType.All)
-            {
-                foreach (GestureType t in Enum.GetValues(typeof(GestureType)))
-                {
-                    if (t != GestureType.All)
-                    {
-                        AddGesture(t);
-                    }
-                }
-            }
-            else
-            {
-                AddGesture(type);
-            }
+            AddGesture(type);
         }
 
         #endregion
@@ -66,9 +58,11 @@ namespace LightBuzz.Vitruvius
         /// <summary>
         /// Updates all gestures.
         /// </summary>
-        /// <param name="body">The body data.</param>
-        public void Update(Body body)
+        /// <param name="body">The body data to search for gestures.</param>
+        public override void Update(Body body)
         {
+            base.Update(body);
+
             foreach (Gesture gesture in _gestures)
             {
                 gesture.Update(body);
@@ -81,6 +75,9 @@ namespace LightBuzz.Vitruvius
         /// <param name="type">The predefined <see cref="GestureType" />.</param>
         public void AddGesture(GestureType type)
         {
+            // Check whether the gesure is already added.
+            if (_gestures.Where(g => g.GestureType == type).Count() > 0) return;
+
             IGestureSegment[] segments = null;
 
             // DEVELOPERS: If you add a new predefined gesture with a new GestureType,
@@ -173,32 +170,17 @@ namespace LightBuzz.Vitruvius
                     segments[1] = new ZoomSegment2();
                     segments[2] = new ZoomSegment1();
                     break;
-                case GestureType.All:
-                case GestureType.None:
                 default:
                     break;
             }
 
-            if (type != GestureType.None)
+            if (segments != null)
             {
                 Gesture gesture = new Gesture(type, segments);
                 gesture.GestureRecognized += OnGestureRecognized;
 
                 _gestures.Add(gesture);
             }
-        }
-
-        /// <summary>
-        /// Adds the specified gesture for recognition.
-        /// </summary>
-        /// <param name="name">The gesture name.</param>
-        /// <param name="segments">The gesture segments.</param>
-        public void AddGesture(string name, IGestureSegment[] segments)
-        {
-            Gesture gesture = new Gesture(name, segments);
-            gesture.GestureRecognized += OnGestureRecognized;
-
-            _gestures.Add(gesture);
         }
 
         #endregion

@@ -51,7 +51,7 @@ namespace VitruviusTest
                 _reader = _sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Depth | FrameSourceTypes.Infrared | FrameSourceTypes.Body);
                 _reader.MultiSourceFrameArrived += Reader_MultiSourceFrameArrived;
 
-                _gestureController = new GestureController(GestureType.All);
+                _gestureController = new GestureController();
                 _gestureController.GestureRecognized += GestureController_GestureRecognized;
             }
         }
@@ -102,7 +102,7 @@ namespace VitruviusTest
 
         void GestureController_GestureRecognized(object sender, GestureEventArgs e)
         {
-            tblGestures.Text = e.Name;
+            tblGestures.Text = e.GestureType.ToString();
         }
     }
 }

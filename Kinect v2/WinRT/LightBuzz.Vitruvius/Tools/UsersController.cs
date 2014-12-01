@@ -7,28 +7,9 @@ using WindowsPreview.Kinect;
 
 namespace LightBuzz.Vitruvius
 {
-    public class UsersReporter
+    public class UsersController : BaseController<IEnumerable<Body>>
     {
-        #region Constants
-
-        /// <summary>
-        /// The default window size.
-        /// </summary>
-        protected readonly int DEFAULT_WINDOW_SIZE = 12;
-
-        #endregion
-
         #region Members
-
-        /// <summary>
-        /// The window size of the reporter.
-        /// </summary>
-        protected int _windowSize;
-
-        /// <summary>
-        /// Indicates whether the reporter is running.
-        /// </summary>
-        protected bool _isRunning;
 
         /// <summary>
         /// The number of the consecutive frames.
@@ -37,40 +18,7 @@ namespace LightBuzz.Vitruvius
 
         HashSet<ulong> _IDs = new HashSet<ulong>();
 
-        ActiveUserReporterEventArgs _args = new ActiveUserReporterEventArgs();
-
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        /// Creates a new instance of the reporter.
-        /// </summary>
-        public UsersReporter()
-        {
-            _windowSize = DEFAULT_WINDOW_SIZE;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the window size for the reporter.
-        /// </summary>
-        public int WindowSize
-        {
-            get { return _windowSize; }
-            set { _windowSize = value; }
-        }
-
-        /// <summary>
-        /// Determines whether the reporter is running.
-        /// </summary>
-        public bool IsRunning
-        {
-            get { return _isRunning; }
-        }
+        UsersControllerEventArgs _args = new UsersControllerEventArgs();
 
         #endregion
 
@@ -79,42 +27,44 @@ namespace LightBuzz.Vitruvius
         /// <summary>
         /// Occurs when a body leaves the field of view.
         /// </summary>
-        public event EventHandler<ActiveUserReporterEventArgs> BodyLeft;
+        public event EventHandler<UsersControllerEventArgs> BodyLeft;
 
         /// <summary>
         /// Occurs when a body enters the field of view.
         /// </summary>
-        public event EventHandler<ActiveUserReporterEventArgs> BodyEntered;
+        public event EventHandler<UsersControllerEventArgs> BodyEntered;
 
         #endregion
 
         #region Public methods
 
         /// <summary>
-        /// Starts reporting.
+        /// Starts the controller.
         /// </summary>
-        public void Start()
+        public override void Start()
         {
-            _isRunning = true;
+            base.Start();
+
             _consecutiveFrames = 0;
         }
 
         /// <summary>
-        /// Stops reporting.
+        /// Stops the controller.
         /// </summary>
-        public void Stop()
+        public override void Stop()
         {
-            _isRunning = false;
+            base.Stop();
+
             _consecutiveFrames = 0;
         }
 
         /// <summary>
-        /// Updates the reporting mechanism.
+        /// Updates the controller.
         /// </summary>
         /// <param name="bodies">The bodies to gather data from.</param>
-        public void Update(IEnumerable<Body> bodies)
+        public override void Update(IEnumerable<Body> bodies)
         {
-            if (!_isRunning || bodies == null) return;
+            base.Update(bodies);
 
             HashSet<ulong> IDs = new HashSet<ulong>();
 
@@ -187,7 +137,7 @@ namespace LightBuzz.Vitruvius
     /// <summary>
     /// The information the reported gives back to the calling function.
     /// </summary>
-    public class ActiveUserReporterEventArgs : EventArgs
+    public class UsersControllerEventArgs : EventArgs
     {
         /// <summary>
         /// The tracking ID of the person who entered or exited.

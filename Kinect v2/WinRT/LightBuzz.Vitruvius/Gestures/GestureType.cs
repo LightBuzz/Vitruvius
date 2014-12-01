@@ -8,16 +8,6 @@ namespace LightBuzz.Vitruvius
     public enum GestureType
     {
         /// <summary>
-        /// Undefined gesture.
-        /// </summary>
-        None,
-
-        /// <summary>
-        /// All of the predefined gestures.
-        /// </summary>
-        All,
-
-        /// <summary>
         /// Hands joined in front of chest.
         /// </summary>
         JoinedHands,

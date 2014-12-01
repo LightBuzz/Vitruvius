@@ -12,12 +12,7 @@ namespace LightBuzz.Vitruvius
         /// <summary>
         /// Gets the gesture type.
         /// </summary>
-        public GestureType Type { get; private set; }
-
-        /// <summary>
-        /// Gets the name of the gesture.
-        /// </summary>
-        public string Name { get; private set; }
+        public GestureType GestureType { get; private set; }
 
         /// <summary>
         /// Gets the skeleton tracking ID for the gesture.
@@ -42,18 +37,7 @@ namespace LightBuzz.Vitruvius
         /// <param name="trackingID">The tracking ID.</param>
         public GestureEventArgs(GestureType type, ulong trackingID)
         {
-            Type = type;
-            TrackingID = trackingID;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="GestureEventArgs"/>.
-        /// </summary>
-        /// <param name="name">The gesture name.</param>
-        /// <param name="trackingID">The tracking ID.</param>
-        public GestureEventArgs(string name, ulong trackingID)
-        {
-            Name = name;
+            GestureType = type;
             TrackingID = trackingID;
         }
 
