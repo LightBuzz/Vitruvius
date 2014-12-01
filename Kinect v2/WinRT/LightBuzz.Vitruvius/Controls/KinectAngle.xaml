@@ -19,7 +19,7 @@
                                 <PathSegmentCollection>
                                     <LineSegment x:Name="line1" />
                                     <LineSegment x:Name="line2" />
-                                    <ArcSegment x:Name="arc" Size="1,1" RotationAngle="0" IsLargeArc="False" SweepDirection="Clockwise" />
+                                    <ArcSegment x:Name="arc" RotationAngle="0" IsLargeArc="False" SweepDirection="{Binding SweepDirection}" />
                                 </PathSegmentCollection>
                             </PathFigure.Segments>
                         </PathFigure>

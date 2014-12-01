@@ -33,6 +33,11 @@ namespace LightBuzz.Vitruvius.Controls
         /// </summary>
         Vector3 _vector2;
 
+        /// <summary>
+        /// The angle, expressed in degrees.
+        /// </summary>
+        double _angle;
+
         #endregion
 
         #region Constructor
@@ -58,7 +63,7 @@ namespace LightBuzz.Vitruvius.Controls
         {
             get
             {
-                return Vector3.AngleBetween(_vector1, _vector2);
+                return _angle;
             }
         }
 
@@ -76,17 +81,6 @@ namespace LightBuzz.Vitruvius.Controls
         }
         public static readonly DependencyProperty CoordinateMapperProperty =
             DependencyProperty.Register("CoordinateMapper", typeof(CoordinateMapper), typeof(KinectAngle), new PropertyMetadata(KinectSensor.GetDefault().CoordinateMapper));
-
-        /// <summary>
-        /// Gets or sets visualization mode of the control (Color, Depth, Infrared). Defaults to Color.
-        /// </summary>
-        public Visualization Visualization
-        {
-            get { return (Visualization)GetValue(VisualizationProperty); }
-            set { SetValue(VisualizationProperty, value); }
-        }
-        public static readonly DependencyProperty VisualizationProperty =
-            DependencyProperty.Register("Visualization", typeof(Visualization), typeof(KinectAngle), new PropertyMetadata(Visualization.Color));
 
         /// <summary>
         /// Gets or sets the brush that specifies how to paint the interior of the shape. 
@@ -121,6 +115,17 @@ namespace LightBuzz.Vitruvius.Controls
         public static readonly DependencyProperty StrokeThicknessProperty =
             DependencyProperty.Register("Thickness", typeof(Brush), typeof(KinectAngle), new PropertyMetadata(new Thickness(0)));
 
+        /// <summary>
+        /// Gets or sets a value that specifies whether the arc is drawn in the Clockwise or Counterclockwise direction.
+        /// </summary>
+        public SweepDirection SweepDirection
+        {
+            get { return (SweepDirection)GetValue(SweepDirectionProperty); }
+            set { SetValue(SweepDirectionProperty, value); }
+        }
+        public static readonly DependencyProperty SweepDirectionProperty =
+            DependencyProperty.Register("SweepDirection", typeof(SweepDirection), typeof(KinectAngle), new PropertyMetadata(SweepDirection.Clockwise));
+
         #endregion
 
         #region Public methods
@@ -145,6 +150,8 @@ namespace LightBuzz.Vitruvius.Controls
             _vector1.Normalize();
             _vector2.Normalize();
 
+            _angle = Vector3.AngleBetween(_vector1, _vector2);
+
             start = middle - desiredRadius * _vector1;
             end = middle - desiredRadius * _vector2;
 
@@ -152,9 +159,9 @@ namespace LightBuzz.Vitruvius.Controls
             line2.Point = start.ToPoint();
             angleFigure.StartPoint = end.ToPoint();
 
+            arc.IsLargeArc = _angle > 180.0;
             arc.Point = end.ToPoint();
             arc.Size = new Size(desiredRadius, desiredRadius);
-            arc.SweepDirection = Angle >= 0.0 ? SweepDirection.Clockwise : SweepDirection.Counterclockwise;
         }
 
         /// <summary>

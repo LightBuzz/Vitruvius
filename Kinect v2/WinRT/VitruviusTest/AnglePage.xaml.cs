@@ -110,7 +110,7 @@ namespace VitruviusTest
                     if (body != null)
                     {
                         viewer.DrawBody(body);
-                        angle.Update(body.Joints[_start], body.Joints[_center], body.Joints[_end]);
+                        angle.Update(body.Joints[_start], body.Joints[_center], body.Joints[_end], 100);
 
                         tblAngle.Text = ((int)angle.Angle).ToString();
                     }

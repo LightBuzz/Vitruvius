@@ -166,16 +166,16 @@ namespace LightBuzz.Vitruvius
         /// <summary>
         /// Retrieves the cross product of the specified vectors
         /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
+        /// <param name="vector1"></param>
+        /// <param name="vector2"></param>
         /// <returns></returns>
-        public static Vector3 CrossProduct(Vector3 first, Vector3 second)
+        public static Vector3 CrossProduct(Vector3 vector1, Vector3 vector2)
         {
             Vector3 vector;
 
-            vector.X = (first.Y * second.Z) - (first.Z * second.Y);
-            vector.Y = (first.Z * second.X) - (first.X * second.Z);
-            vector.Z = (first.X * second.Y) - (first.Y * second.X);
+            vector.X = (vector1.Y * vector2.Z) - (vector1.Z * vector2.Y);
+            vector.Y = (vector1.Z * vector2.X) - (vector1.X * vector2.Z);
+            vector.Z = (vector1.X * vector2.Y) - (vector1.Y * vector2.X);
 
             return vector;
         }
@@ -207,12 +207,18 @@ namespace LightBuzz.Vitruvius
             vector2.Normalize();
 
             double cosinus = DotProduct(vector1, vector2);
-
             double angle = (Math.Acos(cosinus) * (180.0 / Math.PI));
 
             if (double.IsNaN(angle) || double.IsInfinity(angle))
             {
                 return 0.0;
+            }
+
+            Vector3 normal = CrossProduct(vector1, vector2);
+
+            if (normal.Z < 0.0)
+            {
+                angle = 360.0 - angle;
             }
 
             return angle;
@@ -270,7 +276,12 @@ namespace LightBuzz.Vitruvius
         /// <returns>True if value has the same X and Y values as this vector; otherwise, false.</returns>
         public override bool Equals(object obj)
         {
-            return this.Equals((Vector3)obj);
+            if (obj is Vector3)
+            {
+                return this.Equals((Vector3)obj);
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -279,7 +290,7 @@ namespace LightBuzz.Vitruvius
         /// <returns>The hash code for this instance.</returns>
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return (int)((X + Y + Z) % int.MaxValue);
         }
 
         #endregion
