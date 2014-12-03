@@ -193,7 +193,7 @@ namespace LightBuzz.Vitruvius
 
         #endregion
 
-        #region Euler
+        #region Transformations
 
         /// <summary>
         /// Converts the specified quaternion into the corresponding Euler matrix.
@@ -234,6 +234,31 @@ namespace LightBuzz.Vitruvius
             }
 
             return vector;
+        }
+
+        /// <summary>
+        /// Transforms this vector according to the specified quaternion.
+        /// </summary>
+        /// <param name="vector">The vector to transform.</param>
+        /// <param name="quaternion">The quaternion used to transform this vector.</param>
+        public static void Transform(this Vector3 vector, Vector4 quaternion)
+        {
+            float x = quaternion.X + quaternion.X;
+            float y = quaternion.Y + quaternion.Y;
+            float z = quaternion.Z + quaternion.Z;
+            float wx = quaternion.W * x;
+            float wy = quaternion.W * y;
+            float wz = quaternion.W * z;
+            float xx = quaternion.X * x;
+            float xy = quaternion.X * y;
+            float xz = quaternion.X * z;
+            float yy = quaternion.Y * y;
+            float yz = quaternion.Y * z;
+            float zz = quaternion.Z * z;
+
+            vector.X = ((vector.X * ((1.0f - yy) - zz)) + (vector.Y * (xy - wz))) + (vector.Z * (xz + wy));
+            vector.Y = ((vector.X * (xy + wz)) + (vector.Y * ((1.0f - xx) - zz))) + (vector.Z * (yz - wx));
+            vector.Z = ((vector.X * (xz - wy)) + (vector.Y * (yz + wx))) + (vector.Z * ((1.0f - xx) - yy));
         }
 
         #endregion

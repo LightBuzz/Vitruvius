@@ -12,6 +12,30 @@ namespace LightBuzz.Vitruvius
     /// </summary>
     public struct Vector3
     {
+        #region Constants
+
+        /// <summary>
+        /// A vector with the minimum double values.
+        /// </summary>
+        public static readonly Vector3 MinValue = new Vector3(double.MinValue, double.MinValue, double.MinValue);
+
+        /// <summary>
+        /// A vector with the maximum double values.
+        /// </summary>
+        public static readonly Vector3 MaxValue = new Vector3(double.MaxValue, double.MaxValue, double.MaxValue);
+
+        /// <summary>
+        /// A vector with Epsilon values.
+        /// </summary>
+        public static readonly Vector3 Epsilon = new Vector3(double.Epsilon, double.Epsilon, double.Epsilon);
+
+        /// <summary>
+        /// A vector with zero values.
+        /// </summary>
+        public static readonly Vector3 Zero = new Vector3(0.0, 0.0, 0.0);
+
+        #endregion
+
         #region Members
 
         /// <summary>
@@ -30,6 +54,23 @@ namespace LightBuzz.Vitruvius
         public double Z;
 
         #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Creates a new instance of Vector3 with the specified initial values.
+        /// </summary>
+        /// <param name="x">Value of the X coordinate of the new vector.</param>
+        /// <param name="y">Value of the Y coordinate of the new vector.</param>
+        /// <param name="z">Value of the Z coordinate of the new vector.</param>
+        public Vector3(double x, double y, double z)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+        }
+
+        #endregion Constructors
 
         #region Properties
 
@@ -52,22 +93,6 @@ namespace LightBuzz.Vitruvius
             get
             {
                 return X * X + Y * Y + Z * Z;
-            }
-        }
-
-        /// <summary>
-        /// A vector with zero values.
-        /// </summary>
-        public static Vector3 Zero
-        {
-            get
-            {
-                Vector3 vector;
-                vector.X = 0.0;
-                vector.Y = 0.0;
-                vector.Z = 0.0;
-
-                return vector;
             }
         }
 
@@ -138,6 +163,16 @@ namespace LightBuzz.Vitruvius
         }
 
         /// <summary>
+        /// Negates the values of X, Y, and Z on this vector.
+        /// </summary>
+        public void Negate()
+        {
+            X = -X;
+            Y = -Y;
+            Z = -Z;
+        }
+
+        /// <summary>
         /// Compares two vectors for equality.
         /// </summary>
         /// <param name="value">The vector to compare with this vector.</param>
@@ -195,6 +230,11 @@ namespace LightBuzz.Vitruvius
             );
         }
 
+        public double Distance(Vector3 other)
+        {
+            return Distance(this, other);
+        }
+
         /// <summary>
         /// Retrieves the angle, expressed in degrees, between the two specified vectors.
         /// </summary>
@@ -242,27 +282,152 @@ namespace LightBuzz.Vitruvius
         }
 
         /// <summary>
-        /// Transforms this vector according to the specified quaternion.
+        /// Calculates the interpolated vector of the specified vectors and the specified fraction.
         /// </summary>
-        /// <param name="quaternion">The quaternion used to transform this vector.</param>
-        public void Transform(Vector4 quaternion)
+        /// <param name="vector1">The first vector.</param>
+        /// <param name="vector2">The second vector.</param>
+        /// <param name="fraction">The control fraction (a number between 0 and 1).</param>
+        /// <returns>The interpolation vector.</returns>
+        public static Vector3 Interpolate(Vector3 vector1, Vector3 vector2, double fraction)
         {
-            float x = quaternion.X + quaternion.X;
-            float y = quaternion.Y + quaternion.Y;
-            float z = quaternion.Z + quaternion.Z;
-            float wx = quaternion.W * x;
-            float wy = quaternion.W * y;
-            float wz = quaternion.W * z;
-            float xx = quaternion.X * x;
-            float xy = quaternion.X * y;
-            float xz = quaternion.X * z;
-            float yy = quaternion.Y * y;
-            float yz = quaternion.Y * z;
-            float zz = quaternion.Z * z;
+            if (fraction > 0 && fraction < 1)
+            {
+                Vector3 vector;
+                vector.X = vector1.X * (1 - fraction) + vector2.X * fraction;
+                vector.Y = vector1.Y * (1 - fraction) + vector2.Y * fraction;
+                vector.Z = vector1.Z * (1 - fraction) + vector2.Z * fraction;
 
-            X = ((X * ((1.0f - yy) - zz)) + (Y * (xy - wz))) + (Z * (xz + wy));
-            Y = ((X * (xy + wz)) + (Y * ((1.0f - xx) - zz))) + (Z * (yz - wx));
-            Z = ((X * (xz - wy)) + (Y * (yz + wx))) + (Z * ((1.0f - xx) - yy));
+                return vector;
+            }
+
+            return Vector3.Zero;
+        }
+
+        /// <summary>
+        /// Calculates the interpolated vector of the current vector, the specified vector and the specified fraction.
+        /// </summary>
+        /// <param name="vector">The specified vector.</param>
+        /// <param name="fraction">The control fraction (a number between 0 and 1).</param>
+        /// <returns>The interpolation vector.</returns>
+        public Vector3 Interpolate(Vector3 vector, double fraction)
+        {
+            return Interpolate(this, vector, fraction);
+        }
+
+        /// <summary>
+        /// Compares two vectors and returns the one with the maximum length.
+        /// </summary>
+        /// <param name="vector1">The first vector to compare.</param>
+        /// <param name="vector2">The second vector to compare.</param>
+        /// <returns>The vector with the maximum length.</returns>
+        public static Vector3 Max(Vector3 vector1, Vector3 vector2)
+        {
+            if (vector1 >= vector2)
+            {
+                return vector1;
+            }
+
+            return vector2;
+        }
+
+        /// <summary>
+        /// Compares this vector with the the specified one and returns the one with the maximum length.
+        /// </summary>
+        /// <param name="value">The vector to compare.</param>
+        /// <returns>The vector with the maximum length.</returns>
+        public Vector3 Max(Vector3 value)
+        {
+            return Max(this, value);
+        }
+
+        /// <summary>
+        /// Compares two vectors and returns the one with the minimum length.
+        /// </summary>
+        /// <param name="vector1">The first vector to compare.</param>
+        /// <param name="vector2">The second vector to compare.</param>
+        /// <returns>The vector with the minimum length.</returns>
+        public static Vector3 Min(Vector3 vector1, Vector3 vector2)
+        {
+            if (vector1 <= vector2)
+            {
+                return vector1;
+            }
+
+            return vector2;
+        }
+
+        /// <summary>
+        /// Compares this vector with the the specified one and returns the one with the minimum length.
+        /// </summary>
+        /// <param name="value">The vector to compare.</param>
+        /// <returns>The vector with the minimum length.</returns>
+        public Vector3 Min(Vector3 value)
+        {
+            return Min(this, value);
+        }
+
+        public static Vector3 Pitch(Vector3 value, double degree)
+        {
+            Vector3 vector;
+            vector.X = value.X;
+            vector.Y = (value.Y * Math.Cos(degree)) - (value.Z * Math.Sin(degree));
+            vector.Z = (value.Y * Math.Sin(degree)) + (value.Z * Math.Cos(degree));
+
+            return vector;
+        }
+
+        public void Pitch(double degree)
+        {
+            this = Pitch(this, degree);
+        }
+
+        public static Vector3 Yaw(Vector3 value, double degree)
+        {
+            Vector3 vector;
+            vector.X = (value.Z * Math.Sin(degree)) + (value.X * Math.Cos(degree));
+            vector.Y = value.Y;
+            vector.Z = (value.Z * Math.Cos(degree)) - (value.X * Math.Sin(degree));
+
+            return vector;
+        }
+
+        public void Yaw(double degree)
+        {
+            this = Yaw(this, degree);
+        }
+
+        public static Vector3 Roll(Vector3 value, double degree)
+        {
+            Vector3 vector;
+            vector.X = (value.X * Math.Cos(degree)) - (value.Y * Math.Sin(degree));
+            vector.Y = (value.X * Math.Sin(degree)) + (value.Y * Math.Cos(degree));
+            vector.Z = value.Z;
+
+            return vector;
+        }
+
+        public void Roll(double degree)
+        {
+            this = Roll(this, degree);
+        }
+
+        public int CompareTo(object other)
+        {
+            return this.CompareTo((Vector3)other);
+        }
+
+        public int CompareTo(Vector3 other)
+        {
+            if (this < other)
+            {
+                return -1;
+            }
+            else if (this > other)
+            {
+                return 1;
+            }
+
+            return 0;
         }
 
         #endregion
@@ -290,7 +455,17 @@ namespace LightBuzz.Vitruvius
         /// <returns>The hash code for this instance.</returns>
         public override int GetHashCode()
         {
-            return (int)((X + Y + Z) % int.MaxValue);
+            // Perform field-by-field XOR of HashCodes
+            return X.GetHashCode() ^ Y.GetHashCode() ^ Z.GetHashCode();
+        }
+
+        /// <summary>
+        /// Creates a string representation of this vector based on the current culture.
+        /// </summary>
+        /// <returns>A string representation of this vector.</returns>
+        public override string ToString()
+        {
+            return string.Format("X: {0}, Y: {1}, Z: {2}", X, Y, Z);
         }
 
         #endregion
@@ -320,6 +495,16 @@ namespace LightBuzz.Vitruvius
         }
 
         /// <summary>
+        /// Operator -Vector (unary negation).
+        /// </summary>
+        /// <param name="vector">Vector being negated.</param>
+        /// <returns>Negation of the given vector.</returns>
+        public static Vector3 operator -(Vector3 vector)
+        {
+            return new Vector3(-vector.X, -vector.Y, -vector.Z);
+        }
+
+        /// <summary>
         /// Multiplies the specified scalar by the specified vector and returns the resulting vector.
         /// </summary>
         /// <param name="scalar">The scalar to multiply.</param>
@@ -329,7 +514,7 @@ namespace LightBuzz.Vitruvius
         {
             return Multiply(scalar, vector);
         }
-        
+
         /// <summary>
         /// Divides the specified vector by the specified scalar and returns the resulting vector.
         /// </summary>
@@ -361,6 +546,50 @@ namespace LightBuzz.Vitruvius
         public static bool operator !=(Vector3 vector1, Vector3 vector2)
         {
             return !vector1.Equals(vector2);
+        }
+
+        /// <summary>
+        /// Compares the lengths of two vectors.
+        /// </summary>
+        /// <param name="vector1">The first vector to compare.</param>
+        /// <param name="vector2">The second vector to compare.</param>
+        /// <returns>True if the length of vector1 is smaller than the length of vector2; otherwise, false.</returns>
+        public static bool operator <(Vector3 vector1, Vector3 vector2)
+        {
+            return vector1.Length < vector2.Length;
+        }
+
+        /// <summary>
+        /// Compares the lengths of two vectors.
+        /// </summary>
+        /// <param name="vector1">The first vector to compare.</param>
+        /// <param name="vector2">The second vector to compare.</param>
+        /// <returns>True if the length of vector1 is smaller or equal than the length of vector2; otherwise, false.</returns>
+        public static bool operator <=(Vector3 vector1, Vector3 vector2)
+        {
+            return vector1.Length <= vector2.Length;
+        }
+
+        /// <summary>
+        /// Compares the lengths of two vectors.
+        /// </summary>
+        /// <param name="vector1">The first vector to compare.</param>
+        /// <param name="vector2">The second vector to compare.</param>
+        /// <returns>True if the length of vector1 is larger than the length of vector2; otherwise, false</returns>
+        public static bool operator >(Vector3 vector1, Vector3 vector2)
+        {
+            return vector1.Length > vector2.Length;
+        }
+
+        /// <summary>
+        /// Compares the lengths of two vectors.
+        /// </summary>
+        /// <param name="vector1">The first vector to compare.</param>
+        /// <param name="vector2">The second vector to compare.</param>
+        /// <returns>True if the length of vector1 is larger or equal than the length of vector2; otherwise, false</returns>
+        public static bool operator >=(Vector3 vector1, Vector3 vector2)
+        {
+            return vector1.Length >= vector2.Length;
         }
 
         #endregion
