@@ -366,6 +366,12 @@ namespace LightBuzz.Vitruvius
             return Min(this, value);
         }
 
+        /// <summary>
+        /// Rotates the specified vector around the X axis by the given degrees (Euler rotation around X).
+        /// </summary>
+        /// <param name="value">The vector to rotate.</param>
+        /// <param name="degree">The number of the degrees to rotate.</param>
+        /// <returns>The rotated vector.</returns>
         public static Vector3 Pitch(Vector3 value, double degree)
         {
             Vector3 vector;
@@ -376,11 +382,21 @@ namespace LightBuzz.Vitruvius
             return vector;
         }
 
+        /// <summary>
+        /// Rotates this vector around the X axis by the given degrees (Euler rotation around X).
+        /// </summary>
+        /// <param name="degree">The number of the degrees to rotate.</param>
         public void Pitch(double degree)
         {
             this = Pitch(this, degree);
         }
 
+        /// <summary>
+        /// Rotates the specified vector around the Y axis by the given degrees (Euler rotation around Y).
+        /// </summary>
+        /// <param name="value">The vector to rotate.</param>
+        /// <param name="degree">The number of the degrees to rotate.</param>
+        /// <returns>The rotated vector.</returns>
         public static Vector3 Yaw(Vector3 value, double degree)
         {
             Vector3 vector;
@@ -391,11 +407,21 @@ namespace LightBuzz.Vitruvius
             return vector;
         }
 
+        /// <summary>
+        /// Rotates this vector around the Y axis by the given degrees (Euler rotation around Y).
+        /// </summary>
+        /// <param name="degree">The number of the degrees to rotate.</param>
         public void Yaw(double degree)
         {
             this = Yaw(this, degree);
         }
 
+        /// <summary>
+        /// Rotates the specified vector around the Z axis by the given degrees (Euler rotation around Z).
+        /// </summary>
+        /// <param name="value">The vector to rotate.</param>
+        /// <param name="degree">The number of the degrees to rotate.</param>
+        /// <returns>The rotated vector.</returns>
         public static Vector3 Roll(Vector3 value, double degree)
         {
             Vector3 vector;
@@ -406,16 +432,30 @@ namespace LightBuzz.Vitruvius
             return vector;
         }
 
+        /// <summary>
+        /// Rotates this vector around the Z axis by the given degrees (Euler rotation around Z).
+        /// </summary>
+        /// <param name="degree">The number of the degrees to rotate.</param>
         public void Roll(double degree)
         {
             this = Roll(this, degree);
         }
 
+        /// <summary>
+        /// Compares the length of this vector with the length of the specified object.
+        /// </summary>
+        /// <param name="other">The object to compare.</param>
+        /// <returns>A positive number if the length of this vector is greater than the other's. A negative number if it's smaller. Zero otherwise.</returns>
         public int CompareTo(object other)
         {
             return this.CompareTo((Vector3)other);
         }
 
+        /// <summary>
+        /// Compares the length of this vector with the length of the specified one.
+        /// </summary>
+        /// <param name="other">The vector to compare.</param>
+        /// <returns>A positive number if the length of this vector is greater than the other's. A negative number if it's smaller. Zero otherwise.</returns>
         public int CompareTo(Vector3 other)
         {
             if (this < other)
@@ -575,7 +615,7 @@ namespace LightBuzz.Vitruvius
         /// </summary>
         /// <param name="vector1">The first vector to compare.</param>
         /// <param name="vector2">The second vector to compare.</param>
-        /// <returns>True if the length of vector1 is larger than the length of vector2; otherwise, false</returns>
+        /// <returns>True if the length of vector1 is greater than the length of vector2; otherwise, false</returns>
         public static bool operator >(Vector3 vector1, Vector3 vector2)
         {
             return vector1.Length > vector2.Length;
@@ -586,7 +626,7 @@ namespace LightBuzz.Vitruvius
         /// </summary>
         /// <param name="vector1">The first vector to compare.</param>
         /// <param name="vector2">The second vector to compare.</param>
-        /// <returns>True if the length of vector1 is larger or equal than the length of vector2; otherwise, false</returns>
+        /// <returns>True if the length of vector1 is greater or equal than the length of vector2; otherwise, false</returns>
         public static bool operator >=(Vector3 vector1, Vector3 vector2)
         {
             return vector1.Length >= vector2.Length;

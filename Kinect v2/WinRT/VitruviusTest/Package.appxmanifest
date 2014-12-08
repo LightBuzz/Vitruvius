@@ -16,7 +16,10 @@
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="VitruviusTest.App">
       <m2:VisualElements DisplayName="Vitruvius" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="Vitruvius for WinRT" ForegroundText="dark" BackgroundColor="#ffffff">
-        <m2:DefaultTile ShortName="Vitruvius">
+        <m2:DefaultTile ShortName="Vitruvius" DefaultSize="square150x150Logo">
+          <m2:ShowNameOnTiles>
+            <m2:ShowOn Tile="square150x150Logo" />
+          </m2:ShowNameOnTiles>
         </m2:DefaultTile>
         <m2:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#ffffff" />
       </m2:VisualElements>
