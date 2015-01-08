@@ -35,10 +35,7 @@ namespace VitruviusTest
         JointType _center = JointType.ElbowRight;
         JointType _end = JointType.WristRight;
 
-        public NavigationHelper NavigationHelper
-        {
-            get { return _navigationHelper; }
-        }
+        public NavigationHelper NavigationHelper { get { return _navigationHelper; } }
 
         public AnglePage()
         {
