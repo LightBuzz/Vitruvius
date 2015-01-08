@@ -146,7 +146,6 @@
     <Compile Include="Recording\BaseStreamRecorder.cs" />
     <Compile Include="Tools\BackgroundRemovalTool.cs" />
     <Compile Include="Core\Visualization.cs" />
-    <Compile Include="Voice\VoiceController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Gestures\LICENSE" />

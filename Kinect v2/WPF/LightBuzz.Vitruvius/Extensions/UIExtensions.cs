@@ -34,10 +34,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
+using System.Windows;
+using System.Windows.Data;
 
 namespace LightBuzz.Vitruvius
 {
@@ -66,7 +64,7 @@ namespace LightBuzz.Vitruvius
         {
             try
             {
-                Point absolute = element.TransformToVisual(Window.Current.Content).TransformPoint(ZERO);
+                Point absolute = element.TransformToVisual(Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive)).Transform(ZERO);
 
                 return new Rect
                 {
@@ -136,9 +134,9 @@ namespace LightBuzz.Vitruvius
         /// <param name="value">The boolean value to convert.</param>
         /// <param name="targetType">The target type.</param>
         /// <param name="parameter">The parameter of the conversion.</param>
-        /// <param name="language">The language.</param>
+        /// <param name="culture">The culture.</param>
         /// <returns>Visibility.Visible if true. Visibility.Collapsed if false.</returns>
-        public object Convert(object value, Type targetType, object parameter, string language)
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             return (bool)value ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -149,9 +147,9 @@ namespace LightBuzz.Vitruvius
         /// <param name="value">The visibility value to convert.</param>
         /// <param name="targetType">The target type.</param>
         /// <param name="parameter">The parameter of the conversion.</param>
-        /// <param name="language">The language.</param>
+        /// <param name="culture">The culture.</param>
         /// <returns>True for visible. False otherwise.</returns>
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             return (Visibility)value == Visibility.Visible ? true : false;
         }

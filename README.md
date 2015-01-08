@@ -13,8 +13,9 @@ NEW: Vitruvius now supports WinRT for Windows Store apps.
 * User height
 * Distance between joints
 * One-line body tracking
+* Angle calculations
 
-### WPF, WinForms & WinRT utilities
+### WinRT, WPF, & WinForms extensions
 * Project points on screen
 * Easily display color, depth and infrared frames
 * Save Kinect frames as bitmap images
@@ -22,9 +23,8 @@ NEW: Vitruvius now supports WinRT for Windows Store apps.
 * Record color, depth and infrared streams and save into video files (WinRT only)
 
 ### NUI controls (universal)
-* Kinect hover button
-* Kinect cursor
-* Kinect smart viewer
+* Kinect Smart Viewer
+* Kinect Angle
 
 ### Gestures (universal)
 * WaveLeft
@@ -42,18 +42,16 @@ NEW: Vitruvius now supports WinRT for Windows Store apps.
 * Recognize voice commands
 * Speech synthesis
 
-### Coming very soon
-* Complete finger tracking
-* Posture support (jumping, dancing, etc)
-
 ## Prerequisites
-* [Kinect for Windows](http://amzn.to/1k7rquZ) or [Kinect for XBOX](http://amzn.to/1dO0R0s) sensor
+Kinect version 2
+* [Kinect for Windows v2 sensor](http://amzn.to/1DQtBSV) or [Kinect for XBOX sensor](http://amzn.to/1AvdswC) with an [adapter](http://amzn.to/1wPJG55)
+* [Kinect for Windows SDK v2](http://www.microsoft.com/en-us/download/details.aspx?id=44561)
+Kinect version 1
+* [Kinect for Windows sensor](http://amzn.to/1k7rquZ) or [Kinect for XBOX](http://amzn.to/1dO0R0s) sensor
 * [Kinect for Windows SDK v1.8](http://go.microsoft.com/fwlink/?LinkID=323588)
 
-If you are developing using the developer preview Kinect SDK v2, you need the appropriate hardware and software provided by Microsoft.
-
 ## Installation
-* Download project's source code and build the solution that matches the version of your sensor. Version 2 refers to the private Developer Preview Kinect for Windows sensor.
+* Download project's source code and build the solution that matches the version of your sensor. NuGet packages will be available soon.
 
 ## Examples
 
@@ -68,8 +66,8 @@ If you are developing using the developer preview Kinect SDK v2, you need the ap
                     // Display on screen
                     image.Source = frame.ToBitmap();
                     
-                    // Capture JPEG file
-                    frame.Capture("C:\\ColorFrame.jpg");
+                    // Save the JPEG file
+                    frame.Save("C:\\ColorFrame.jpg");
                 }
             }
         }
@@ -85,13 +83,13 @@ If you are developing using the developer preview Kinect SDK v2, you need the ap
                     // Display on screen
                     image.Source = frame.ToBitmap();
                     
-                    // Capture JPEG file
-                    frame.Capture("C:\\DepthFrame.jpg");
+                    // Save the JPEG file
+                    frame.Save("C:\\DepthFrame.jpg");
                 }
             }
         }
         
-3. Drawing a skeleton and getting its height:
+3. Getting the height of a body:
 
         void Sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
@@ -107,9 +105,6 @@ If you are developing using the developer preview Kinect SDK v2, you need the ap
                     {
                         if (skeleton != null)
                         {
-                            // Draw the skeleton.
-                            canvas.DrawSkeleton(skeleton);
-                                
                             // Get the skeleton height.
                             double height = skeleton.Height();
                         }
@@ -120,7 +115,7 @@ If you are developing using the developer preview Kinect SDK v2, you need the ap
 
 4. Detecting gestures:
 
-        GestureController gestureController = new GestureController(GestureType.All);
+        GestureController gestureController = new GestureController();
         gestureController.GestureRecognized += GestureController_GestureRecognized;
         
         // ...
@@ -150,7 +145,7 @@ If you are developing using the developer preview Kinect SDK v2, you need the ap
         void GestureController_GestureRecognized(object sender, GestureEventArgs e)
         {
             // Display the recognized gesture's name.
-            Debug.WriteLine(e.Name);
+            Debug.WriteLine(e.GestureType);
         }
 
 5. Recognizing and synthesizing voice:
@@ -180,6 +175,3 @@ If you are developing using the developer preview Kinect SDK v2, you need the ap
 
 ## License
 You are free to use these libraries in personal and commercial projects by attributing the original creator of Vitruvius. Licensed under [Apache v2 License](https://github.com/LightBuzz/Vitruvius/blob/master/LICENSE).
-
-## Support Vitruvius
-Do you use Vitruvius in your projects? Do you find it helpful? [Buy us a beer](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=N5ELYBTYB3AYE)!

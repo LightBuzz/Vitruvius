@@ -29,13 +29,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 
+using Microsoft.Kinect;
 using System;
-using WindowsPreview.Kinect;
 
 namespace LightBuzz.Vitruvius
 {
     /// <summary>
-    /// Represents a Kinect gesture.
+    /// Represents a Kinect Gesture.
     /// </summary>
     class Gesture
     {
