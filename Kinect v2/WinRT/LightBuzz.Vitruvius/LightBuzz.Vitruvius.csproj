@@ -137,6 +137,7 @@
     <Compile Include="Gestures\Segments\WaveLeftSegments.cs" />
     <Compile Include="Gestures\Segments\WaveRightSegments.cs" />
     <Compile Include="Gestures\Segments\ZoomSegments.cs" />
+    <Compile Include="Recording\IStreamRecorder.cs" />
     <Compile Include="Tools\BaseController.cs" />
     <Compile Include="Tools\UsersController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
