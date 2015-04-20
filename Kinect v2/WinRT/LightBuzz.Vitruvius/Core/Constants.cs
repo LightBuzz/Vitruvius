@@ -56,4 +56,15 @@ namespace LightBuzz.Vitruvius
 
         #endregion
     }
+
+    public static class Strings
+    {
+        #region Constants
+
+        public static string COLOR = "vitruvius.color";
+        public static string DEPTH = "vitruvius.depth";
+        public static string INFRARED = "vitruvius.infrared";
+
+        #endregion
+    }
 }

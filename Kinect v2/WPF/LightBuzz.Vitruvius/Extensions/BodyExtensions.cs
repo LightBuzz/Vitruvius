@@ -213,7 +213,7 @@ namespace LightBuzz.Vitruvius
         /// <returns>The number of the accurately tracked joints.</returns>
         static int NumberOfTrackedJoints(params Joint[] joints)
         {
-            return NumberOfTrackedJoints(joints);
+            return NumberOfTrackedJoints(joints.ToList());
         }
 
         #endregion

@@ -43,7 +43,7 @@ namespace LightBuzz.Vitruvius
     /// <summary>
     /// Provides some common functionality for recording the infrared Kinect stream.
     /// </summary>
-    public class InfraredStreamRecorder : BaseStreamRecorder<InfraredFrame>
+    public class InfraredVideoRecorder : VideoRecorder<InfraredFrame>
     {
         #region Properties
 
@@ -57,18 +57,18 @@ namespace LightBuzz.Vitruvius
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of <see cref="InfraredStreamRecorder" />.
+        /// Initializes a new instance of <see cref="InfraredFrameVideoRecorder" />.
         /// </summary>
-        public InfraredStreamRecorder()
+        public InfraredVideoRecorder()
         {
             HD = true;
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="InfraredStreamRecorder" />.
+        /// Initializes a new instance of <see cref="InfraredFrameVideoRecorder" />.
         /// </summary>
         /// <param name="hd">Specifies whether the recorder will record in HD.</param>
-        public InfraredStreamRecorder(bool hd)
+        public InfraredVideoRecorder(bool hd)
         {
             HD = hd;
         }

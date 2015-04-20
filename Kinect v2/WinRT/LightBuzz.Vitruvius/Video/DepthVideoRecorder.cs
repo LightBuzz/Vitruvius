@@ -41,34 +41,34 @@ using WindowsPreview.Kinect;
 namespace LightBuzz.Vitruvius
 {
     /// <summary>
-    /// Provides some common functionality for recording the color Kinect stream.
+    /// Provides some common functionality for recording the depth Kinect stream.
     /// </summary>
-    public class ColorStreamRecorder : BaseStreamRecorder<ColorFrame>
+    public class DepthVideoRecorder : VideoRecorder<DepthFrame>
     {
         #region Properties
 
         /// <summary>
         /// The bitmap pixel generator.
         /// </summary>
-        public ColorBitmapGenerator BitmapGenerator { get; protected set; }
+        public DepthBitmapGenerator BitmapGenerator { get; protected set; }
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ColorStreamRecorder" />.
+        /// Initializes a new instance of <see cref="DepthFrameVideoRecorder" />.
         /// </summary>
-        public ColorStreamRecorder()
+        public DepthVideoRecorder()
         {
-            HD = false;
+            HD = true;
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ColorStreamRecorder" />.
+        /// Initializes a new instance of <see cref="DepthFrameVideoRecorder" />.
         /// </summary>
         /// <param name="hd">Specifies whether the recorder will record in HD.</param>
-        public ColorStreamRecorder(bool hd)
+        public DepthVideoRecorder(bool hd)
         {
             HD = hd;
         }
@@ -80,21 +80,21 @@ namespace LightBuzz.Vitruvius
         /// <summary>
         /// Updates the current frame.
         /// </summary>
-        /// <param name="frame">The specified <see cref="ColorFrame"/>.</param>
-        public override async Task Update(ColorFrame frame)
+        /// <param name="frame">The specified <see cref="DepthFrame"/>.</param>
+        public override async Task Update(DepthFrame frame)
         {
             if (BitmapGenerator == null)
             {
-                BitmapGenerator = new ColorBitmapGenerator();
+                BitmapGenerator = new DepthBitmapGenerator();
 
                 _originalWidth = frame.FrameDescription.Width;
                 _originalHeight = frame.FrameDescription.Height;
 
-                Fps = 15;
+                Fps = 30;
                 Delay = 66;
             }
 
-            BitmapGenerator.Update(frame, ColorImageFormat.Rgba);
+            BitmapGenerator.Update(frame);
 
             Update(BitmapGenerator.Pixels);
         }

@@ -182,6 +182,16 @@ namespace LightBuzz.Vitruvius
             return joints;
         }
 
+        /// <summary>
+        /// Returns a JSON representation of the specified body (key-value pairs).
+        /// </summary>
+        /// <param name="body">A user body.</param>
+        /// <returns>The body properties, joints, and oriantations in JSON format.</returns>
+        public static string ToJSON(this Body body)
+        {
+            return string.Empty;
+        }
+
         #endregion
 
         #region Utilities
@@ -213,7 +223,7 @@ namespace LightBuzz.Vitruvius
         /// <returns>The number of the accurately tracked joints.</returns>
         static int NumberOfTrackedJoints(params Joint[] joints)
         {
-            return NumberOfTrackedJoints(joints);
+            return NumberOfTrackedJoints(joints.ToList());
         }
 
         #endregion
