@@ -120,6 +120,7 @@
     <Compile Include="Extensions\BodyExtensions.cs" />
     <Compile Include="Extensions\BitmapExtensions.cs" />
     <Compile Include="Core\Constants.cs" />
+    <Compile Include="Extensions\FaceExtensions.cs" />
     <Compile Include="Extensions\UIExtensions.cs" />
     <Compile Include="Extensions\MathExtensions.cs" />
     <Compile Include="Gestures\Gesture.cs" />
@@ -151,7 +152,6 @@
     <None Include="Gestures\LICENSE" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Gestures\Database\" />
     <Folder Include="Recording\" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +169,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <SDKReference Include="Microsoft.Kinect.Face, Version=2.0">
+      <Name>Microsoft.Kinect.Face</Name>
+    </SDKReference>
     <SDKReference Include="Microsoft.VCLibs, version=12.0">
       <Name>Microsoft Visual C++ 2013 Runtime Package for Windows</Name>
     </SDKReference>
