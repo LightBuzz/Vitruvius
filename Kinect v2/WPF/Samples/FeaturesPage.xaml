@@ -1,0 +1,163 @@
+﻿<Page x:Class="Samples.FeaturesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="900"
+      Title="Features">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Back button and page title -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="backButton" Click="Back_Click"
+                    Style="{StaticResource NavigationBackButtonNormalStyle}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
+            <TextBlock x:Name="pageTitle" Text="Features" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
+                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Center" />
+        </Grid>
+        <ScrollViewer Grid.Row="1" Padding="80,20,20,20">
+            <TextBlock Style="{StaticResource CodeTextBlockStyle}">
+                <Bold Foreground="Green">
+                        <Run Text="// Avateering (Unity)" />
+                    </Bold>
+                    <LineBreak /> Avateering.Update(model, body);
+                    <LineBreak />
+                    <LineBreak />
+                
+                    <Bold Foreground="Green">
+                        <Run Text="// Bitmap Generators" />
+                    </Bold>
+                    <LineBreak /> var bitmap = colorFrame.ToBitmap();
+                    <LineBreak /> var bitmap = depthFrame.ToBitmap();
+                    <LineBreak /> var bitmap = infraredFrame.ToBitmap();
+                    <LineBreak />
+                <LineBreak />
+                
+                    <Bold Foreground="Green">
+                        <Run Text="// Bitmap Capture" />
+                    </Bold>
+                    <LineBreak /> bitmap.Save("Capture.png");
+                    <LineBreak />
+                <LineBreak />
+                
+                    <Bold Foreground="Green">
+                        <Run Text="// Background Removal" />
+                    </Bold>
+                    <LineBreak /> var bitmap = colorFrame.GreenScreen(depthFrame, bodyIndexFrame);
+                    <LineBreak />
+                <LineBreak />
+                
+                    <Bold Foreground="Green">
+                        <Run Text="// Closest Body" />
+                    </Bold>
+                    <LineBreak /> var body = bodyFrame.Bodies().Closest();
+                    <LineBreak />
+                <LineBreak />
+                
+                    <Bold Foreground="Green">
+                        <Run Text="// Body Height" />
+                    </Bold>
+                    <LineBreak /> double height = body.Height();
+                    <LineBreak />
+                <LineBreak />
+                
+                    <Bold Foreground="Green">
+                        <Run Text="// Body Visualization" />
+                    </Bold>
+                    <LineBreak /> viewer.DrawBody(body);
+                    <LineBreak />
+                <LineBreak />
+                
+                    <Bold Foreground="Green">
+                        <Run Text="// HD Face with properties" />
+                    </Bold>
+                    <LineBreak /> Face face = faceFrame.Face();
+                    <LineBreak /> var nose = face.Nose;
+                    <LineBreak /> var mouth = face.Mouth;
+                    <LineBreak /> var chin = face.Chin;
+                    <LineBreak /> var jaw = face.Jaw;
+                    <LineBreak /> var eyeLeft = face.EyeLeft;
+                    <LineBreak /> var eyeRight = face.EyeRight;
+                    <LineBreak /> var cheekLeft = face.CheekLeft;
+                    <LineBreak /> var cheekRight = face.CheekRight;
+                    <LineBreak /> var forehead = face.Forehead;
+                    <LineBreak />
+                <LineBreak />
+                
+                    <Bold Foreground="Green">
+                        <Run Text="// Angles between joints" />
+                    </Bold>
+                    <LineBreak /> double angle = elbow.Angle(shoulder, wrist);
+                    <LineBreak /> double angle = elbow.Angle(shoulder, wrist, Axis.Z);
+                    <LineBreak /> double radians = angle.ToRadians();
+                    <LineBreak /> double degrees = radians.ToDegrees();
+                    <LineBreak />
+                <LineBreak />
+                
+                    <Bold Foreground="Green">
+                        <Run Text="// Automatic Coordinate Mapping" />
+                    </Bold>
+                    <LineBreak /> var point = joint.Position.ToPoint(Visualization.Color);
+                    <LineBreak />
+                <LineBreak />
+                
+                    <Bold Foreground="Green">
+                        <Run Text="// Gesture detection" />
+                    </Bold>
+                    <LineBreak /> void GestureRecognized(object sender, GestureEventArgs e)
+                    <LineBreak /> {
+                    <LineBreak />
+                    <Run Text="   " /> var gesture = e.GestureType;
+                    <LineBreak />
+                    <LineBreak />
+                    <Run Text="   " /> switch (gesture)
+                    <LineBreak />
+                    <Run Text="   " /> {
+                    <LineBreak />
+                    <Run Text="      " /> case (GestureType.JointHands): break;
+                    <LineBreak />
+                    <Run Text="      " /> case (GestureType.Menu): break;
+                    <LineBreak />
+                    <Run Text="      " /> case (GestureType.SwipeDown): break;
+                    <LineBreak />
+                    <Run Text="      " /> case (GestureType.SwipeLeft): break;
+                    <LineBreak />
+                    <Run Text="      " /> case (GestureType.SwipeRight): break;
+                    <LineBreak />
+                    <Run Text="      " /> case (GestureType.SwipeUp): break;
+                    <LineBreak />
+                    <Run Text="      " /> case (GestureType.WaveLeft): break;
+                    <LineBreak />
+                    <Run Text="      " /> case (GestureType.WaveRight): break;
+                    <LineBreak />
+                    <Run Text="      " /> case (GestureType.ZoomIn): break;
+                    <LineBreak />
+                    <Run Text="      " /> case (GestureType.ZoomOut): break;
+                    <LineBreak />
+                    <Run Text="   " /> }
+                    <LineBreak /> }
+                    <LineBreak />
+                <LineBreak />
+                
+                    <Bold Foreground="Green">
+                        <Run Text="// XAML Controls" />
+                    </Bold>
+                    <LineBreak /> KinectViewer <Run Foreground="Green" Text="       // Displays streams and skeletons." />
+                    <LineBreak /> KinectAngle <Run Foreground="Green" Text="        // Displays an arc." />
+                    <LineBreak /> KinectJointSelector <Run Foreground="Green" Text="// Allows you to select a joint visually." />
+                <LineBreak />
+            </TextBlock>
+        </ScrollViewer>
+    </Grid>
+</Page>

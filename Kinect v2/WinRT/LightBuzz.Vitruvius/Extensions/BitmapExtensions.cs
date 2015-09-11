@@ -1,191 +1,317 @@
-﻿using System;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Windows;
-using System.Diagnostics;
-using WindowsPreview.Kinect;
-using Windows.Graphics.Imaging;
-using Windows.UI.Xaml.Media;
-using System.Threading.Tasks;
+﻿//
+// Copyright (c) LightBuzz Software.
+// All rights reserved.
+//
+// http://lightbuzz.com
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions
+// are met:
+//
+// 1. Redistributions of source code must retain the above copyright
+//    notice, this list of conditions and the following disclaimer.
+//
+// 2. Redistributions in binary form must reproduce the above copyright
+//    notice, this list of conditions and the following disclaimer in the
+//    documentation and/or other materials provided with the distribution.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+// AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+// LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+// WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+//
+
 using Windows.UI.Xaml.Media.Imaging;
+using WindowsPreview.Kinect;
+using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.Storage.Streams;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace LightBuzz.Vitruvius
 {
     /// <summary>
-    /// Provides some common functionality for manipulating WPF bitmap images.
+    /// Provides some common functionality for manipulating color frames.
     /// </summary>
     public static class BitmapExtensions
     {
+        #region Members
+
+        /// <summary>
+        /// The color bitmap creator.
+        /// </summary>
+        static ColorBitmapGenerator _colorBitmapGenerator = new ColorBitmapGenerator();
+
+        /// <summary>
+        /// The depth bitmap creator.
+        /// </summary>
+        static DepthBitmapGenerator _depthBitmapGenerator = new DepthBitmapGenerator();
+
+        /// <summary>
+        /// The color bitmap creator.
+        /// </summary>
+        static InfraredBitmapGenerator _infraredBitmapGenerator = new InfraredBitmapGenerator();
+
+        /// <summary>
+        /// The background removal generator.
+        /// </summary>
+        static GreenScreenBitmapGenerator _greenScreenBitmapGenerator = new GreenScreenBitmapGenerator();
+
+        /// <summary>
+        /// The bitmap capture utility.
+        /// </summary>
+        static FrameCapture _capture = new FrameCapture();
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
-        /// Captures the specified image source and saves it to the specified location.
+        /// Converts the specified color frame to a bitmap image.
         /// </summary>
-        /// <param name="bitmap">The ImageSouce to capture.</param>
-        /// <param name="file">The storage file for the new image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
+        /// <param name="frame">The specified <see cref="ColorFrame"/>.</param>
+        /// <returns>The bitmap representation of the current frame.</returns>
+        public static WriteableBitmap ToBitmap(this ColorFrame frame)
+        {
+            _colorBitmapGenerator.Update(frame);
+
+            return _colorBitmapGenerator.Bitmap;
+        }
+
+        /// <summary>
+        /// Converts the specified depth frame to a bitmap image.
+        /// </summary>
+        /// <param name="frame">The specified <see cref="DepthFrame"/>.</param>
+        /// <returns>The bitmap representation of the current frame.</returns>
+        public static WriteableBitmap ToBitmap(this DepthFrame frame)
+        {
+            _depthBitmapGenerator.Update(frame);
+
+            return _depthBitmapGenerator.Bitmap;
+        }
+
+        /// <summary>
+        /// Converts the specified depth and infrared frames to a bitmap image with the players highlighted.
+        /// </summary>
+        /// <param name="depthFrame">The specified <see cref="DepthFrame"/>.</param>
+        /// <param name="bodyIndexFrame">The specified <see cref="BodyIndexFrame"/>.</param>
+        /// <returns>The bitmap representation of the current frame.</returns>
+        public static WriteableBitmap ToBitmap(this DepthFrame depthFrame, BodyIndexFrame bodyIndexFrame)
+        {
+            _depthBitmapGenerator.Update(depthFrame, bodyIndexFrame);
+
+            return _depthBitmapGenerator.HighlightedBitmap;
+        }
+
+        /// <summary>
+        /// Converts the specified infrared frame to a bitmap image.
+        /// </summary>
+        /// <param name="frame">The specified <see cref="InfraredFrame"/>.</param>
+        /// <returns>The bitmap representation of the current frame.</returns>
+        public static WriteableBitmap ToBitmap(this InfraredFrame frame)
+        {
+            _infraredBitmapGenerator.Update(frame);
+
+            return _infraredBitmapGenerator.Bitmap;
+        }
+
+        /// <summary>
+        /// Removes the background of the specified frames and generates a new bitmap (green-screen effect).
+        /// </summary>
+        /// <param name="colorFrame">The specified <see cref="ColorFrame"/>.</param>
+        /// <param name="depthFrame">The specified <see cref="DepthFrame"/>.</param>
+        /// <param name="bodyIndexFrame">The specified <see cref="BodyIndexFrame"/>.</param>
+        /// <returns>The bitmap representation of the generated frame.</returns>
+        public static WriteableBitmap GreenScreen(this ColorFrame colorFrame, DepthFrame depthFrame, BodyIndexFrame bodyIndexFrame)
+        {
+            _greenScreenBitmapGenerator.Update(colorFrame, depthFrame, bodyIndexFrame);
+
+            return _greenScreenBitmapGenerator.Bitmap;
+        }
+
+        /// <summary>
+        /// Removes the background of the specified frames and generates a new bitmap (green-screen effect).
+        /// </summary>
+        /// <param name="depthFrame">The specified <see cref="DepthFrame"/>.</param>
+        /// <param name="colorFrame">The specified <see cref="ColorFrame"/>.</param>
+        /// <param name="bodyIndexFrame">The specified <see cref="BodyIndexFrame"/>.</param>
+        /// <returns>The bitmap representation of the generated frame.</returns>
+        public static WriteableBitmap GreenScreen(this DepthFrame depthFrame, ColorFrame colorFrame, BodyIndexFrame bodyIndexFrame)
+        {
+            _greenScreenBitmapGenerator.Update(colorFrame, depthFrame, bodyIndexFrame);
+
+            return _greenScreenBitmapGenerator.Bitmap;
+        }
+
+        /// <summary>
+        /// Removes the background of the specified frames and generates a new bitmap (green-screen effect).
+        /// </summary>
+        /// <param name="bodyIndexFrame">The specified <see cref="BodyIndexFrame"/>.</param>
+        /// <param name="colorFrame">The specified <see cref="ColorFrame"/>.</param>
+        /// <param name="depthFrame">The specified <see cref="DepthFrame"/>.</param>
+        /// <returns>The bitmap representation of the generated frame.</returns>
+        public static WriteableBitmap GreenScreen(this BodyIndexFrame bodyIndexFrame, ColorFrame colorFrame, DepthFrame depthFrame)
+        {
+            _greenScreenBitmapGenerator.Update(colorFrame, depthFrame, bodyIndexFrame);
+
+            return _greenScreenBitmapGenerator.Bitmap;
+        }
+
+        /// <summary>
+        /// Saves the specified bitmap to the specified location.
+        /// </summary>
+        /// <param name="source">The source bitmap image.</param>
+        /// <param name="destination">The destination storage file for the image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
+        /// <returns>True if the bitmap file was successfully saved. False otherwise.</returns>
+        public static async Task<bool> Save(this WriteableBitmap source, StorageFile destination)
+        {
+            return await _capture.Save(source, destination);
+        }
+
+        /// <summary>
+        /// Saves the specified bitmap to the specified location.
+        /// </summary>
+        /// <param name="source">The source bitmap image.</param>
+        /// <param name="destination">The destination storage file for the image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
         /// <param name="width">The width of the image file.</param>
         /// <param name="height">The height of the image file.</param>
         /// <returns>True if the bitmap file was successfully saved. False otherwise.</returns>
-        public static async Task<bool> Capture(this WriteableBitmap bitmap, StorageFile file, int width, int height)
+        public static async Task<bool> Save(this WriteableBitmap source, StorageFile destination, int width, int height)
         {
-            if (bitmap == null || file == null) return false;
-
-            try
-            {
-                Guid encoderID;
-
-                switch (Path.GetExtension(file.FileType))
-                {
-                    case ".jpg":
-                    case ".jpeg":
-                    case ".JPG":
-                    case ".JPEG":
-                        encoderID = BitmapEncoder.JpegEncoderId;
-                        break;
-                    case ".png":
-                    case ".PNG":
-                        encoderID = BitmapEncoder.PngEncoderId;
-                        break;
-                    case ".bmp":
-                    case ".BMP":
-                        encoderID = BitmapEncoder.BmpEncoderId;
-                        break;
-                    case ".tiff":
-                    case ".TIFF":
-                        encoderID = BitmapEncoder.TiffEncoderId;
-                        break;
-                    case ".gif":
-                    case ".GIF":
-                        encoderID = BitmapEncoder.GifEncoderId;
-                        break;
-                    default:
-                        return false;
-                }
-
-                using (IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite))
-                {                    
-                    Stream pixelStream = bitmap.PixelBuffer.AsStream();
-                    byte[] pixels = new byte[pixelStream.Length];
-                    await pixelStream.ReadAsync(pixels, 0, pixels.Length);
-
-                    BitmapEncoder encoder = await BitmapEncoder.CreateAsync(encoderID, stream);
-                    encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore, (uint)bitmap.PixelWidth, (uint)bitmap.PixelHeight, Constants.DPI, Constants.DPI, pixels);
-
-                    if (bitmap.PixelWidth != width || bitmap.PixelHeight != height)
-                    {
-                        encoder.BitmapTransform.ScaledWidth = (uint)width;
-                        encoder.BitmapTransform.ScaledHeight = (uint)height;
-                    }
-
-                    await encoder.FlushAsync();
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-
-            return false;
+            return await _capture.Save(source, destination, width, height);
         }
 
         /// <summary>
-        /// Captures the specified image source and saves it to the specified location.
+        /// Saves the specified bitmap to the specified location.
         /// </summary>
-        /// <param name="bitmap">The ImageSouce to capture.</param>
-        /// <param name="file">The storage file for the new image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
+        /// <param name="source">The source bitmap image.</param>
+        /// <param name="path">The destination path for the new image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
+        /// <param name="width">The desired width of the image file.</param>
+        /// <param name="height">The desired height of the image file.</param>
         /// <returns>True if the bitmap file was successfully saved. False otherwise.</returns>
-        public static async Task<bool> Capture(this WriteableBitmap bitmap, StorageFile file)
+        public static async Task<bool> Save(this WriteableBitmap source, string path, int width, int height)
         {
-            return await Capture(bitmap, file, bitmap.PixelWidth, bitmap.PixelHeight);
+            return await _capture.Save(source, path, width, height);
         }
 
         /// <summary>
-        /// Captures the specified Kinect color frame and saves it to the specified location.
+        /// Converts the specified color frame to a bitmap and saves it to the specified location.
         /// </summary>
-        /// <param name="frame">The color frame to capture.</param>
-        /// <param name="file">The storage file for the new image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
-        /// <returns>True if the bitmap file was successfully saved. False otherwise.</returns>
-        public static async Task<bool> Capture(this ColorFrame frame, StorageFile file)
+        /// <param name="frame">The source color frame.</param>
+        /// <param name="destination">The destination storage file for the image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
+        /// <returns>True if the frame was successfully saved. False otherwise.</returns>
+        public static async Task<bool> Save(this ColorFrame frame, StorageFile destination)
         {
-            if (frame == null) return false;
+            var bitmap = frame.ToBitmap();
 
-            return await Capture(frame.ToBitmap(), file);
+            return await _capture.Save(bitmap, destination);
         }
 
         /// <summary>
-        /// Captures the specified Kinect color frame and saves it to the specified location.
+        /// Converts the specified color frame to a bitmap and saves it to the specified location.
         /// </summary>
-        /// <param name="frame">The color frame to capture.</param>
-        /// <param name="file">The storage file for the new image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
+        /// <param name="frame">The source color frame.</param>
+        /// <param name="destination">The destination storage file for the image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
         /// <param name="width">The width of the image file.</param>
         /// <param name="height">The height of the image file.</param>
-        /// <returns>True if the bitmap file was successfully saved. False otherwise.</returns>
-        public static async Task<bool> Capture(this ColorFrame frame, StorageFile file, int width, int height)
+        /// <returns>True if the frame was successfully saved. False otherwise.</returns>
+        public static async Task<bool> Save(this ColorFrame frame, StorageFile destination, int width, int height)
         {
-            if (frame == null) return false;
+            var bitmap = frame.ToBitmap();
 
-            return await Capture(frame.ToBitmap(), file, width, height);
+            return await _capture.Save(bitmap, destination, width, height);
         }
 
         /// <summary>
-        /// Captures the specified Kinect depth frame and saves it to the specified location.
+        /// Converts the specified depth frame to a bitmap and saves it to the specified location.
         /// </summary>
-        /// <param name="frame">The depth frame to capture.</param>
-        /// <param name="file">The storage file for the new image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
-        /// <returns>True if the bitmap file was successfully saved. False otherwise.</returns>
-        public static async Task<bool> Capture(this DepthFrame frame, StorageFile file)
+        /// <param name="frame">The source depth frame.</param>
+        /// <param name="destination">The destination storage file for the image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
+        /// <returns>True if the frame was successfully saved. False otherwise.</returns>
+        public static async Task<bool> Save(this DepthFrame frame, StorageFile destination)
         {
-            if (frame == null) return false;
+            var bitmap = frame.ToBitmap();
 
-            return await Capture(frame.ToBitmap(), file);
+            return await _capture.Save(bitmap, destination);
         }
 
         /// <summary>
-        /// Captures the specified Kinect depth frame and saves it to the specified location.
+        /// Converts the specified depth frame to a bitmap and saves it to the specified location.
         /// </summary>
-        /// <param name="frame">The depth frame to capture.</param>
-        /// <param name="file">The storage file for the new image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
+        /// <param name="frame">The source depth frame.</param>
+        /// <param name="destination">The destination storage file for the image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
         /// <param name="width">The width of the image file.</param>
         /// <param name="height">The height of the image file.</param>
-        /// <returns>True if the bitmap file was successfully saved. False otherwise.</returns>
-        public static async Task<bool> Capture(this DepthFrame frame, StorageFile file, int width, int height)
+        /// <returns>True if the frame was successfully saved. False otherwise.</returns>
+        public static async Task<bool> Save(this DepthFrame frame, StorageFile destination, int width, int height)
         {
-            if (frame == null) return false;
+            var bitmap = frame.ToBitmap();
 
-            return await Capture(frame.ToBitmap(), file, width, height);
+            return await _capture.Save(bitmap, destination, width, height);
         }
 
         /// <summary>
-        /// Captures the specified Kinect infrared frame and saves it to the specified location.
+        /// Converts the specified infrared frame to a bitmap and saves it to the specified location.
         /// </summary>
-        /// <param name="frame">The infrared frame to capture.</param>
-        /// <param name="file">The storage file for the new image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
-        /// <returns>True if the bitmap file was successfully saved. False otherwise.</returns>
-        public static async Task<bool> Capture(this InfraredFrame frame, StorageFile file)
+        /// <param name="frame">The source infrared frame.</param>
+        /// <param name="destination">The destination storage file for the image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
+        /// <returns>True if the frame was successfully saved. False otherwise.</returns>
+        public static async Task<bool> Save(this InfraredFrame frame, StorageFile destination)
         {
-            if (frame == null) return false;
+            var bitmap = frame.ToBitmap();
 
-            return await Capture(frame.ToBitmap(), file);
+            return await _capture.Save(bitmap, destination);
         }
 
         /// <summary>
-        /// Captures the specified Kinect infrared frame and saves it to the specified location.
+        /// Converts the specified infrared frame to a bitmap and saves it to the specified location.
         /// </summary>
-        /// <param name="frame">The infrared frame to capture.</param>
-        /// <param name="file">The storage file for the new image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
+        /// <param name="frame">The source infrared frame.</param>
+        /// <param name="destination">The destination storage file for the image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
         /// <param name="width">The width of the image file.</param>
         /// <param name="height">The height of the image file.</param>
-        /// <returns>True if the bitmap file was successfully saved. False otherwise.</returns>
-        public static async Task<bool> Capture(this InfraredFrame frame, StorageFile file, int width, int height)
+        /// <returns>True if the frame was successfully saved. False otherwise.</returns>
+        public static async Task<bool> Save(this InfraredFrame frame, StorageFile destination, int width, int height)
         {
-            if (frame == null) return false;
+            var bitmap = frame.ToBitmap();
 
-            return await Capture(frame.ToBitmap(), file, width, height);
+            return await _capture.Save(bitmap, destination, width, height);
+        }
+
+        /// <summary>
+        /// Converts the specified depth and body index frames to a bitmap and saves it to the specified location.
+        /// </summary>
+        /// <param name="depthFrame">The source depth frame.</param>
+        /// <param name="bodyIndexFrame">The source body index frame.</param>
+        /// <param name="destination">The destination storage file for the image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
+        /// <returns>True if the image was successfully saved. False otherwise.</returns>
+        public static async Task<bool> Save(this DepthFrame depthFrame, BodyIndexFrame bodyIndexFrame, StorageFile destination)
+        {
+            var bitmap = depthFrame.ToBitmap(bodyIndexFrame);
+
+            return await _capture.Save(bitmap, destination);
+        }
+
+        /// <summary>
+        /// Converts the specified depth and body index frames to a bitmap and saves it to the specified location.
+        /// </summary>
+        /// <param name="depthFrame">The source depth frame.</param>
+        /// <param name="bodyIndexFrame">The source body index frame.</param>
+        /// <param name="destination">The destination storage file for the image. JPEG, PNG, GIF, BMP and TIFF formats are supported.</param>
+        /// <param name="width">The width of the image file.</param>
+        /// <param name="height">The height of the image file.</param>
+        /// <returns>True if the image was successfully saved. False otherwise.</returns>
+        public static async Task<bool> Save(this DepthFrame depthFrame, BodyIndexFrame bodyIndexFrame, StorageFile destination, int width, int height)
+        {
+            var bitmap = depthFrame.ToBitmap(bodyIndexFrame);
+
+            return await _capture.Save(bitmap, destination, width, height);
         }
 
         #endregion

@@ -1,0 +1,31 @@
+﻿<UserControl
+    x:Class="LightBuzz.Vitruvius.Controls.KinectAngle"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:LightBuzz.Vitruvius.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Path x:Name="anglePath" Fill="{Binding Fill}" Stroke="{Binding Stroke}" StrokeThickness="{Binding StrokeThickness}">
+        <Path.Data>
+            <PathGeometry>
+                <PathGeometry.Figures>
+                    <PathFigureCollection>
+                        <PathFigure x:Name="angleFigure">
+                            <PathFigure.Segments>
+                                <PathSegmentCollection>
+                                    <LineSegment x:Name="line1" />
+                                    <LineSegment x:Name="line2" />
+                                    <ArcSegment x:Name="arc" RotationAngle="0" IsLargeArc="False" SweepDirection="{Binding SweepDirection}" />
+                                </PathSegmentCollection>
+                            </PathFigure.Segments>
+                        </PathFigure>
+                    </PathFigureCollection>
+                </PathGeometry.Figures>
+            </PathGeometry>
+        </Path.Data>
+    </Path>
+</UserControl>

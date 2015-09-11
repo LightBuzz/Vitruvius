@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{89E39683-D56D-4604-971B-587C22C62934}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LightBuzz.Vitruvius</RootNamespace>
+    <AssemblyName>LightBuzz.Vitruvius</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Debug\LightBuzz.Vitruvius.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
+    <DocumentationFile>bin\Release\LightBuzz.Vitruvius.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Kinect, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\Microsoft SDKs\Kinect\v2.0-DevPreview1404\Assemblies\Microsoft.Kinect.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Kinect.Face, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\FrameCapture.cs" />
+    <Compile Include="Bitmaps\BitmapGenerator.cs" />
+    <Compile Include="Bitmaps\ColorBitmapGenerator.cs" />
+    <Compile Include="Bitmaps\DepthBitmapGenerator.cs" />
+    <Compile Include="Bitmaps\GreenScreenBitmapGenerator.cs" />
+    <Compile Include="Bitmaps\InfraredBitmapGenerator.cs" />
+    <Compile Include="Controls\KinectAngle.xaml.cs">
+      <DependentUpon>KinectAngle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\KinectJointSelector.xaml.cs">
+      <DependentUpon>KinectJointSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\KinectViewer.xaml.cs">
+      <DependentUpon>KinectViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NamespaceDoc.cs" />
+    <Compile Include="Core\Axis.cs" />
+    <Compile Include="Core\Constants.cs" />
+    <Compile Include="Core\Visualization.cs" />
+    <Compile Include="Extensions\BitmapExtensions.cs" />
+    <Compile Include="Extensions\BodyExtensions.cs" />
+    <Compile Include="Extensions\MathExtensions.cs" />
+    <Compile Include="Extensions\SerializationExtensions.cs" />
+    <Compile Include="Extensions\UIExtensions.cs" />
+    <Compile Include="Gestures\Gesture.cs" />
+    <Compile Include="Gestures\GestureController.cs" />
+    <Compile Include="Gestures\GestureEventArgs.cs" />
+    <Compile Include="Gestures\GesturePartResult.cs" />
+    <Compile Include="Gestures\GestureType.cs" />
+    <Compile Include="Gestures\IGestureSegment.cs" />
+    <Compile Include="Gestures\NamespaceDoc.cs" />
+    <Compile Include="Gestures\Segments\JoinedHandsSegment.cs" />
+    <Compile Include="Gestures\Segments\MenuSegments.cs" />
+    <Compile Include="Gestures\Segments\SwipeDownSegments.cs" />
+    <Compile Include="Gestures\Segments\SwipeLeftSegments.cs" />
+    <Compile Include="Gestures\Segments\SwipeRightSegments.cs" />
+    <Compile Include="Gestures\Segments\SwipeUpSegments.cs" />
+    <Compile Include="Gestures\Segments\WaveLeftSegments.cs" />
+    <Compile Include="Gestures\Segments\WaveRightSegments.cs" />
+    <Compile Include="Gestures\Segments\ZoomSegments.cs" />
+    <Compile Include="NamespaceDoc.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\BaseController.cs" />
+    <Compile Include="Tools\PlayersController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\KinectAngle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\KinectJointSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\KinectViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Gestures\LICENSE" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

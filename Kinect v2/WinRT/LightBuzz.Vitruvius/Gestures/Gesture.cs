@@ -1,10 +1,41 @@
-﻿using WindowsPreview.Kinect;
+﻿//
+// Copyright (c) LightBuzz Software.
+// All rights reserved.
+//
+// http://lightbuzz.com
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions
+// are met:
+//
+// 1. Redistributions of source code must retain the above copyright
+//    notice, this list of conditions and the following disclaimer.
+//
+// 2. Redistributions in binary form must reproduce the above copyright
+//    notice, this list of conditions and the following disclaimer in the
+//    documentation and/or other materials provided with the distribution.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+// AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+// LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+// WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+//
+
 using System;
+using WindowsPreview.Kinect;
 
 namespace LightBuzz.Vitruvius
 {
     /// <summary>
-    /// Represents a Kinect <see cref="Gesture"/>.
+    /// Represents a Kinect gesture.
     /// </summary>
     class Gesture
     {
@@ -25,11 +56,6 @@ namespace LightBuzz.Vitruvius
         #region Members
 
         /// <summary>
-        /// The segments which form the current gesture.
-        /// </summary>
-        IGestureSegment[] _segments;
-
-        /// <summary>
         /// The current gesture segment we are matching against.
         /// </summary>
         int _currentSegment = 0;
@@ -47,17 +73,29 @@ namespace LightBuzz.Vitruvius
         /// <summary>
         /// Are we paused?
         /// </summary>
-        bool _paused = false;
+        bool _isPaused = false;
+
+        #endregion
+
+        #region Constructor
 
         /// <summary>
-        /// The name of the current gesture.
+        /// Initializes a new instance of <see cref="Gesture"/>.
         /// </summary>
-        string _name;
+        public Gesture()
+        {
+        }
 
         /// <summary>
-        /// The type of the current gesture.
+        /// Initializes a new instance of <see cref="Gesture"/> with the specified type and segments.
         /// </summary>
-        GestureType _type;
+        /// <param name="type">The type of gesture.</param>
+        /// <param name="segments">The segments of the gesture.</param>
+        public Gesture(GestureType type, IGestureSegment[] segments)
+        {
+            GestureType = type;
+            Segments = segments;
+        }
 
         #endregion
 
@@ -70,26 +108,17 @@ namespace LightBuzz.Vitruvius
 
         #endregion
 
-        #region Constructor
+        #region Properties
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Gesture"/>.
+        /// The type of the current gesture.
         /// </summary>
-        /// <param name="name">The name of gesture.</param>
-        /// <param name="segments">The segments of the gesture.</param>
-        public Gesture(string name, IGestureSegment[] segments)
-        {
-            _name = name;
-            _segments = segments;
-        }
+        public GestureType GestureType { get; set; }
 
-        public Gesture(GestureType type, IGestureSegment[] segments)
-        {
-            _type = type;
-            _segments = segments;
-
-            _name = type.ToString();
-        }
+        /// <summary>
+        /// The segments which form the current gesture.
+        /// </summary>
+        public IGestureSegment[] Segments { get; set; }
 
         #endregion
 
@@ -101,32 +130,32 @@ namespace LightBuzz.Vitruvius
         /// <param name="body">The body data.</param>
         public void Update(Body body)
         {
-            if (_paused)
+            if (_isPaused)
             {
                 if (_frameCount == _pausedFrameCount)
                 {
-                    _paused = false;
+                    _isPaused = false;
                 }
 
                 _frameCount++;
             }
 
-            GesturePartResult result = _segments[_currentSegment].Update(body);
+            GesturePartResult result = Segments[_currentSegment].Update(body);
 
             if (result == GesturePartResult.Succeeded)
             {
-                if (_currentSegment + 1 < _segments.Length)
+                if (_currentSegment + 1 < Segments.Length)
                 {
                     _currentSegment++;
                     _frameCount = 0;
                     _pausedFrameCount = MAX_PAUSE_COUNT;
-                    _paused = true;
+                    _isPaused = true;
                 }
                 else
                 {
                     if (GestureRecognized != null)
                     {
-                        GestureRecognized(this, new GestureEventArgs(_name, body.TrackingId));
+                        GestureRecognized(this, new GestureEventArgs(GestureType, body.TrackingId));
                         Reset();
                     }
                 }
@@ -139,7 +168,7 @@ namespace LightBuzz.Vitruvius
             {
                 _frameCount++;
                 _pausedFrameCount = MAX_PAUSE_COUNT / 2;
-                _paused = true;
+                _isPaused = true;
             }
         }
 
@@ -151,7 +180,7 @@ namespace LightBuzz.Vitruvius
             _currentSegment = 0;
             _frameCount = 0;
             _pausedFrameCount = MAX_PAUSE_COUNT / 2;
-            _paused = true;
+            _isPaused = true;
         }
 
         #endregion

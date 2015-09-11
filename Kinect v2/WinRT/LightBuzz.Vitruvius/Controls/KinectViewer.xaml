@@ -7,11 +7,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="1080"
-    d:DesignWidth="1920"
-    Loaded="UserControl_Loaded" SizeChanged="UserControl_SizeChanged">
-    
-    <Grid>
-        <Image Name="camera" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <Canvas Name="canvas" HorizontalAlignment="Center" VerticalAlignment="Center" />
-    </Grid>
+    d:DesignWidth="1920">
+
+    <Viewbox>
+        <Grid x:Name="root" Background="Black">
+            <Image Name="camera" Source="{Binding Image}" />
+            <Canvas Name="canvas" />
+        </Grid>
+    </Viewbox>
 </UserControl>

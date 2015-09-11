@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -62,7 +63,7 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
@@ -88,6 +89,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <DocumentationFile>bin\x86\Debug\LightBuzz.Vitruvius.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -99,79 +101,66 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <DocumentationFile>bin\x86\Release\LightBuzz.Vitruvius.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <ProjectReference Include="..\LightBuzz.Vitruvius.Video\LightBuzz.Vitruvius.Video.vcxproj">
-      <Project>{2c0ebd30-1b81-4ea0-8bb2-7aecf0d04bb6}</Project>
-      <Name>LightBuzz.Vitruvius.Video</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <SDKReference Include="WindowsPreview.Kinect, Version=2.0">
-      <Name>WindowsPreview.Kinect</Name>
-    </SDKReference>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="Core\FrameCapture.cs" />
     <Compile Include="Bitmaps\ColorBitmapGenerator.cs" />
     <Compile Include="Bitmaps\DepthBitmapGenerator.cs" />
-    <Compile Include="Bitmaps\IBitmapGenerator.cs" />
+    <Compile Include="Bitmaps\BitmapGenerator.cs" />
     <Compile Include="Bitmaps\InfraredBitmapGenerator.cs" />
-    <Compile Include="Controls\KinectCursor.xaml.cs">
-      <DependentUpon>KinectCursor.xaml</DependentUpon>
+    <Compile Include="Controls\KinectAngle.xaml.cs">
+      <DependentUpon>KinectAngle.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\KinectHoverButton.xaml.cs">
-      <DependentUpon>KinectHoverButton.xaml</DependentUpon>
+    <Compile Include="Controls\KinectJointSelector.xaml.cs">
+      <DependentUpon>KinectJointSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\KinectViewer.xaml.cs">
       <DependentUpon>KinectViewer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Extensions\BitmapExtensions.cs" />
+    <Compile Include="Controls\NamespaceDoc.cs" />
+    <Compile Include="Core\Axis.cs" />
+    <Compile Include="Core\Vector3.cs" />
     <Compile Include="Extensions\BodyExtensions.cs" />
-    <Compile Include="Extensions\CameraExtensions.cs" />
-    <Compile Include="Extensions\CanvasExtensions.cs" />
-    <Compile Include="Extensions\ColorExtensions.cs" />
-    <Compile Include="Bitmaps\Constants.cs" />
-    <Compile Include="Extensions\ControlExtensions.cs" />
-    <Compile Include="Extensions\DepthExtensions.cs" />
-    <Compile Include="Extensions\InfraredExtensions.cs" />
-    <Compile Include="Extensions\JointExtensions.cs" />
+    <Compile Include="Extensions\BitmapExtensions.cs" />
+    <Compile Include="Core\Constants.cs" />
+    <Compile Include="Extensions\SerializationExtensions.cs" />
+    <Compile Include="Extensions\UIExtensions.cs" />
+    <Compile Include="Extensions\MathExtensions.cs" />
     <Compile Include="Gestures\Gesture.cs" />
     <Compile Include="Gestures\GestureController.cs" />
     <Compile Include="Gestures\GestureEventArgs.cs" />
     <Compile Include="Gestures\GesturePartResult.cs" />
     <Compile Include="Gestures\GestureType.cs" />
     <Compile Include="Gestures\IGestureSegment.cs" />
-    <Compile Include="Gestures\JoinedHands\JoinedHandsSegment.cs" />
-    <Compile Include="Gestures\Menu\MenuSegments.cs" />
-    <Compile Include="Gestures\SwipeDown\SwipeDownSegments.cs" />
-    <Compile Include="Gestures\SwipeLeft\SwipeLeftSegments.cs" />
-    <Compile Include="Gestures\SwipeRight\SwipeRightSegments.cs" />
-    <Compile Include="Gestures\SwipeUp\SwipeUpSegments.cs" />
-    <Compile Include="Gestures\WaveLeft\WaveLeftSegments.cs" />
-    <Compile Include="Gestures\WaveRight\WaveRightSegments.cs" />
-    <Compile Include="Gestures\Zoom\ZoomSegments.cs" />
+    <Compile Include="Gestures\NamespaceDoc.cs" />
+    <Compile Include="Gestures\Segments\JoinedHandsSegment.cs" />
+    <Compile Include="Gestures\Segments\MenuSegments.cs" />
+    <Compile Include="Gestures\Segments\SwipeDownSegments.cs" />
+    <Compile Include="Gestures\Segments\SwipeLeftSegments.cs" />
+    <Compile Include="Gestures\Segments\SwipeRightSegments.cs" />
+    <Compile Include="Gestures\Segments\SwipeUpSegments.cs" />
+    <Compile Include="Gestures\Segments\WaveLeftSegments.cs" />
+    <Compile Include="Gestures\Segments\WaveRightSegments.cs" />
+    <Compile Include="Gestures\Segments\ZoomSegments.cs" />
+    <Compile Include="NamespaceDoc.cs" />
+    <Compile Include="Tools\BaseController.cs" />
+    <Compile Include="Tools\PlayersController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Recording\ColorStreamRecorder.cs" />
-    <Compile Include="Recording\DepthStreamRecorder.cs" />
-    <Compile Include="Recording\InfraredStreamRecorder.cs" />
-    <Compile Include="Recording\StreamRecorder.cs" />
-    <Compile Include="Tools\BackgroundRemovalTool.cs" />
-    <Compile Include="Tools\VisualizationMode.cs" />
-    <Compile Include="Voice\VoiceController.cs" />
+    <Compile Include="Video\ColorVideoRecorder.cs" />
+    <Compile Include="Video\DepthVideoRecorder.cs" />
+    <Compile Include="Video\InfraredVideoRecorder.cs" />
+    <Compile Include="Video\FrameVideoRecorder.cs" />
+    <Compile Include="Bitmaps\GreenScreenBitmapGenerator.cs" />
+    <Compile Include="Core\Visualization.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <None Include="Gestures\LICENSE" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="HandTracking\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Controls\KinectCursor.xaml">
+    <Page Include="Controls\KinectAngle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\KinectHoverButton.xaml">
+    <Page Include="Controls\KinectJointSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -179,6 +168,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="Microsoft.Kinect.Face, Version=2.0">
+      <Name>Microsoft.Kinect.Face</Name>
+    </SDKReference>
+    <SDKReference Include="Microsoft.VCLibs, version=12.0">
+      <Name>Microsoft Visual C++ 2013 Runtime Package for Windows</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsPreview.Kinect, Version=2.0">
+      <Name>WindowsPreview.Kinect</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
