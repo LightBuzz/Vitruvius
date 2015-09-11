@@ -147,10 +147,6 @@
     <Compile Include="Tools\BaseController.cs" />
     <Compile Include="Tools\PlayersController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Video\ColorVideoRecorder.cs" />
-    <Compile Include="Video\DepthVideoRecorder.cs" />
-    <Compile Include="Video\InfraredVideoRecorder.cs" />
-    <Compile Include="Video\FrameVideoRecorder.cs" />
     <Compile Include="Bitmaps\GreenScreenBitmapGenerator.cs" />
     <Compile Include="Core\Visualization.cs" />
   </ItemGroup>
