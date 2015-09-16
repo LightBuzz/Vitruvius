@@ -2,8 +2,12 @@
 
 Vitruvius is a set of easy-to-use Kinect utilities that will speed-up the development of your projects. Supports WPF and Windows Store. Requires Kinect 2.
 
-## Installation via NuGet
+## Installation
+Grab the package using NuGet
         PM> Install-Package lightbuzz-vitruvius
+        
+... and import Vitruvius in your project
+        using LightBuzz.Vitruvius;
         
 ## [Academic & Premium Versions](http://vitruviuskinect.com)
 [vitruviuskinect.com](http://vitruviuskinect.com)
