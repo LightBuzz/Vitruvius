@@ -1,176 +1,89 @@
 ![Vitruvius](https://raw.githubusercontent.com/LightBuzz/Vitruvius/master/LOGO.png "Vitruvius")
 
-Vitruvius is a set of easy-to-use Kinect utilities that will speed-up the development of your projects. Supports gesture detection, skeleton drawing, frame capturing, voice recognition and much more.
+Vitruvius is a set of easy-to-use Kinect utilities that will speed-up the development of your projects. Supports WPF and Windows Store. Requires Kinect 2.
 
-Vitruvius works with Kinect SDK version 2 and 1.8.
+## Installation via NuGet
+        PM> Install-Package lightbuzz-vitruvius
+        
+## Academic & Premium Versions
+[vitruviuskinect.com](http://vitruviuskinect.com)
 
 ## Features
 
-### Body extensions (universal)
-* Joint scaling, proper for on-screen display
-* User height
-* Distance between joints
-* One-line body tracking
-* Angle calculations
+### Bitmap Generators
+        var bitmap = colorFrame.ToBitmap();
+        var bitmap = depthFrame.ToBitmap();
+        var bitmap = infraredFrame.ToBitmap();
 
-### WinRT, WPF, & WinForms extensions
-* Project points on screen
-* Easily display color, depth and infrared frames
-* Save Kinect frames as bitmap images
-* One-line skeleton drawing
-* Record color, depth and infrared streams and save into video files (WinRT only)
+### Bitmap Capture
+        bitmap.Save("Capture.png");
 
-### NUI controls (universal)
-* Kinect Smart Viewer
-* Kinect Angle
+### Background Removal
+        var bitmap = colorFrame.GreenScreen(depthFrame, bodyIndexFrame);
 
-### Gestures (universal)
-* WaveLeft
-* WaveRight
-* SwipeLeft
-* SwipeRight
-* JoinedHands
-* SwipeUp
-* SwipeDown
-* ZoomIn
-* ZoomOut
-* Menu
+### Closest Body
+        var body = bodyFrame.Bodies().Closest();
 
-### Voice recognition & text-to-speech (v1 only)
-* Recognize voice commands
-* Speech synthesis
+### Body Height
+        double height = body.Height();
 
-## Prerequisites
-Kinect version 2
-* [Kinect for Windows v2 sensor](http://amzn.to/1DQtBSV) or [Kinect for XBOX sensor](http://amzn.to/1AvdswC) with an [adapter](http://amzn.to/1wPJG55)
-* [Kinect for Windows SDK v2](http://www.microsoft.com/en-us/download/details.aspx?id=44561)
+### Body Visualization
+        viewer.DrawBody(body);
 
-Kinect version 1
-* [Kinect for Windows sensor](http://amzn.to/1k7rquZ) or [Kinect for XBOX](http://amzn.to/1dO0R0s) sensor
-* [Kinect for Windows SDK v1.8](http://go.microsoft.com/fwlink/?LinkID=323588)
+### Angles between joints
+        double angle = elbow.Angle(shoulder, wrist);
+        double angle = elbow.Angle(shoulder, wrist, Axis.Z);
+        double radians = angle.ToRadians();
+        double degrees = radians.ToDegrees();
 
-## Installation
-* Download project's source code and build the solution that matches the version of your sensor. NuGet packages will be available soon.
+### Automatic Coordinate Mapping
+        var point = joint.Position.ToPoint(Visualization.Color);
 
-## Examples
-
-1. Displaying Kinect color frames:
-
-        void Sensor_ColorFrameReady(object sender, ColorImageFrameReadyEventArgs e)
+### Gesture detection
+        void GestureRecognized(object sender, GestureEventArgs e)
         {
-            using (var frame = e.OpenColorImageFrame())
-            {
-                if (frame != null)
-                {
-                    // Display on screen
-                    image.Source = frame.ToBitmap();
-                    
-                    // Save the JPEG file
-                    frame.Save("C:\\ColorFrame.jpg");
-                }
-            }
-        }
+           var gesture = e.GestureType;
         
-2. Displaying Kinect depth frames:
-
-        void Sensor_DepthFrameReady(object sender, DepthImageFrameReadyEventArgs e)
-        {
-            using (var frame = e.OpenDepthImageFrame())
-            {
-                if (frame != null)
-                {
-                    // Display on screen
-                    image.Source = frame.ToBitmap();
-                    
-                    // Save the JPEG file
-                    frame.Save("C:\\DepthFrame.jpg");
-                }
-            }
-        }
-        
-3. Getting the height of a body:
-
-        void Sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
-        {
-            using (var frame = e.OpenSkeletonFrame())
-            {
-                if (frame != null)
-                {
-                    canvas.ClearSkeletons();
-                    
-                    var skeletons = frame.Skeletons().Where(s => s.TrackingState == SkeletonTrackingState.Tracked);
-                    
-                    foreach (var skeleton in skeletons)
-                    {
-                        if (skeleton != null)
-                        {
-                            // Get the skeleton height.
-                            double height = skeleton.Height();
-                        }
-                    }
-                }
-            }
+           switch (gesture)
+           {
+        	   case (GestureType.JointHands): break;
+        	   case (GestureType.Menu): break;
+        	   case (GestureType.SwipeDown): break;
+        	   case (GestureType.SwipeLeft): break;
+        	   case (GestureType.SwipeRight): break;
+        	   case (GestureType.SwipeUp): break;
+        	   case (GestureType.WaveLeft): break;
+        	   case (GestureType.WaveRight): break;
+        	   case (GestureType.ZoomIn): break;
+        	   case (GestureType.ZoomOut): break;
+           }
         }
 
-4. Detecting gestures:
+### XAML Controls
+        KinectViewer		// Displays streams and skeletons.
+        KinectAngle		// Displays an arc.
+        KinectJointSelector	// Allows you to select a joint visually.
 
-        GestureController gestureController = new GestureController();
-        gestureController.GestureRecognized += GestureController_GestureRecognized;
-        
-        // ...
-        
-        void Sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
-        {
-            using (var frame = e.OpenSkeletonFrame())
-            {
-                if (frame != null)
-                {
-                    var skeletons = frame.Skeletons().Where(s => s.TrackingState == SkeletonTrackingState.Tracked);
-                    
-                    foreach (var skeleton in skeletons)
-                    {
-                        if (skeleton != null)
-                        {
-                            // Update skeleton gestures.
-                            gestureController.Update(skeleton);
-                        }
-                    }
-                }
-            }
-        }
-        
-        // ...
-        
-        void GestureController_GestureRecognized(object sender, GestureEventArgs e)
-        {
-            // Display the recognized gesture's name.
-            Debug.WriteLine(e.GestureType);
-        }
+### Avateering ([Academic & Premium Versions](http://vitruviuskinect.com))
+        Avateering.Update(model, body);
 
-5. Recognizing and synthesizing voice:
-
-        VoiceController voiceController = new VoiceController();
-        voiceController.SpeechRecognized += VoiceController_SpeechRecognized;
-        
-        KinectSensor sensor = SensorExtensions.Default();
-        List<string> phrases = new List<string> { "Hello", "Goodbye" };
-        
-        voiceController.StartRecognition(sensor, phrases);
-        
-        // ...
-        
-        void VoiceController_SpeechRecognized(object sender, Microsoft.Speech.Recognition.SpeechRecognizedEventArgs e)
-        {
-            string text = e.Result.Text;
-            
-            voiceController.Speak("I recognized the words: " + text);
-        }
+### HD Face with properties ([Academic & Premium Versions](http://vitruviuskinect.com))
+        Face face = faceFrame.Face();
+        var nose = face.Nose;
+        var mouth = face.Mouth;
+        var chin = face.Chin;
+        var jaw = face.Jaw;
+        var eyeLeft = face.EyeLeft;
+        var eyeRight = face.EyeRight;
+        var cheekLeft = face.CheekLeft;
+        var cheekRight = face.CheekRight;
+        var forehead = face.Forehead;
 
 ## Contributors
 * [Vangos Pterneas](http://pterneas.com) from [LightBuzz](http://lightbuzz.com)
 * [George Karakatsiotis](http://gkarak.com) from [LightBuzz](http://lightbuzz.com)
+* Michael Miropoulos from [LightBuzz](http://lightbuzz.com)
 * George Georgopoulos from [LightBuzz](http://lightbuzz.com)
-* Gesture detection partly based on [Fizbin](https://github.com/EvilClosetMonkey/Fizbin.Kinect.Gestures) library, by [Nicholas Pappas](http://www.exceptontuesdays.com/)
 
 ## License
 You are free to use these libraries in personal and commercial projects by attributing the original creator of Vitruvius. Licensed under [Apache v2 License](https://github.com/LightBuzz/Vitruvius/blob/master/LICENSE).
