@@ -5,7 +5,7 @@ Vitruvius is a set of easy-to-use Kinect utilities that will speed-up the develo
 ## Installation via NuGet
         PM> Install-Package lightbuzz-vitruvius
         
-## Academic & Premium Versions
+## [Academic & Premium Versions](http://vitruviuskinect.com)
 [vitruviuskinect.com](http://vitruviuskinect.com)
 
 ## Features
