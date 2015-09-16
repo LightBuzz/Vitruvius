@@ -5,7 +5,7 @@ Vitruvius is a set of easy-to-use Kinect utilities that will speed-up the develo
 ## Installation
 Grab the package using NuGet
         PM> Install-Package lightbuzz-vitruvius
-        
+
 ... and import Vitruvius in your project
         using LightBuzz.Vitruvius;
         
