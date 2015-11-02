@@ -11,6 +11,8 @@ Grab the package using NuGet
 
         using LightBuzz.Vitruvius;
         
+*You'll also need to set the project configuration to Release and the target processor to x64 (preferred) or x86.*
+
 ## [Academic & Premium Versions](http://vitruviuskinect.com)
 [vitruviuskinect.com](http://vitruviuskinect.com)
 
