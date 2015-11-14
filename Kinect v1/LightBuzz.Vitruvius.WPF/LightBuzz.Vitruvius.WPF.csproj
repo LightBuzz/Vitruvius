@@ -45,9 +45,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\NamespaceDoc.cs" />
     <Compile Include="Extensions\CanvasExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
-    <Compile Include="Extensions\Constants.cs" />
+    <Compile Include="Core\Constants.cs" />
     <Compile Include="Extensions\ControlExtensions.cs" />
     <Compile Include="Controls\KinectCursor.xaml.cs">
       <DependentUpon>KinectCursor.xaml</DependentUpon>
