@@ -92,6 +92,7 @@ Grab the package using NuGet
 * [George Karakatsiotis](http://gkarak.com) from [LightBuzz](http://lightbuzz.com)
 * Michael Miropoulos from [LightBuzz](http://lightbuzz.com)
 * George Georgopoulos from [LightBuzz](http://lightbuzz.com)
+* George Birbilis from [Zoomicon](http://zoomicon.com)
 
 ## License
 You are free to use these libraries in personal and commercial projects by attributing the original creator of Vitruvius. Licensed under [Apache v2 License](https://github.com/LightBuzz/Vitruvius/blob/master/LICENSE).
