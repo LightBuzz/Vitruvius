@@ -1,11 +1,9 @@
-﻿using System;
-using System.Windows.Media;
-using Microsoft.Kinect;
-using System.Windows.Media.Imaging;
-using System.IO;
-using System.Diagnostics;
+﻿using Microsoft.Kinect;
+using System;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace LightBuzz.Vitruvius.WPF
 {
@@ -122,7 +120,7 @@ namespace LightBuzz.Vitruvius.WPF
         private static void GenerateRawFrame()
         {
             // Bgr32  - Blue, Green, Red, empty byte
-            // Bgra32 - Blue, Green, Red, transparency 
+            // Bgra32 - Blue, Green, Red, transparency
             // You must set transparency for Bgra as .NET defaults a byte to 0 = fully transparent
 
             // Loop through all distances and pick a RGB color based on distance
@@ -176,7 +174,7 @@ namespace LightBuzz.Vitruvius.WPF
         private static void GeneratePlayerFrame()
         {
             // Bgr32  - Blue, Green, Red, empty byte
-            // Bgra32 - Blue, Green, Red, transparency 
+            // Bgra32 - Blue, Green, Red, transparency
             // You must set transparency for Bgra as .NET defaults a byte to 0 = fully transparent
 
             // Loop through all distances and pick a RGB color based on distance
@@ -206,27 +204,16 @@ namespace LightBuzz.Vitruvius.WPF
 
         private static void GenerateDarkFrame()
         {
-            int depth;
-            int gray;
             int loThreshold = 1220;
             int hiThreshold = 3048;
 
             for (int i = 0, j = 0; i < _depthData.Length; i++, j += Constants.BYTES_PER_PIXEL)
             {
-                depth = _depthData[i] >> DepthImageFrame.PlayerIndexBitmaskWidth;
+                int depth = _depthData[i] >> DepthImageFrame.PlayerIndexBitmaskWidth;
 
-                if (depth < loThreshold || depth > hiThreshold)
-                {
-                    gray = 0xFF;
-                }
-                else
-                {
-                    gray = (255 * depth / 0xFFF);
-                }
+                int gray = (depth < loThreshold || depth > hiThreshold) ? 0xFF : (255 * depth / 0xFFF);
 
-                _pixels[j] = (byte)gray;
-                _pixels[j + 1] = (byte)gray;
-                _pixels[j + 2] = (byte)gray;
+                _pixels[j] = _pixels[j + 1] = _pixels[j + 2] = (byte)gray;
             }
         }
 
@@ -266,9 +253,9 @@ namespace LightBuzz.Vitruvius.WPF
             double red = 0.0;
             double green = 0.0;
             double blue = 0.0;
-            hue = hue % 360.0;
-            saturation = saturation / 100.0;
-            lightness = lightness / 100.0;
+            hue %= 360.0;
+            saturation /= 100.0;
+            lightness /= 100.0;
 
             if (saturation == 0.0)
             {
