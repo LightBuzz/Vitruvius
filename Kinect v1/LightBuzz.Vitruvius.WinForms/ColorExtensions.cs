@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Microsoft.Kinect;
 using System.Drawing;
 using System.Drawing.Imaging;
-using Microsoft.Kinect;
 
 namespace LightBuzz.Vitruvius.WinForms
 {

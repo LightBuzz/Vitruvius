@@ -1,10 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using Microsoft.Kinect;
+using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
-using Microsoft.Kinect;
 
 namespace LightBuzz.Vitruvius.WinForms
 {
@@ -21,7 +21,7 @@ namespace LightBuzz.Vitruvius.WinForms
         static readonly double DPI = 96;
 
         #endregion
-                
+
         #region Public methods
 
         /// <summary>

@@ -1,9 +1,6 @@
-﻿using System;
-using Microsoft.Kinect;
-using System.Diagnostics;
-using System.IO;
+﻿using Microsoft.Kinect;
+using System;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace LightBuzz.Vitruvius
 {
@@ -68,7 +65,7 @@ namespace LightBuzz.Vitruvius
             int legLeftTrackedJoints = NumberOfTrackedJoints(hipLeft, kneeLeft, ankleLeft, footLeft);
             int legRightTrackedJoints = NumberOfTrackedJoints(hipRight, kneeRight, ankleRight, footRight);
 
-            double legLength = legLeftTrackedJoints > legRightTrackedJoints ? Distance(hipLeft, kneeLeft, ankleLeft, footLeft) : Distance(hipRight, kneeRight, ankleRight, footRight);            
+            double legLength = legLeftTrackedJoints > legRightTrackedJoints ? Distance(hipLeft, kneeLeft, ankleLeft, footLeft) : Distance(hipRight, kneeRight, ankleRight, footRight);
 
             return Distance(head, neck, spine, waist) + legLength + HEAD_DIVERGENCE;
         }
@@ -197,7 +194,7 @@ namespace LightBuzz.Vitruvius
         private static float Scale(double maxPixel, double maxSkeleton, float position)
         {
             float value = (float)((((maxPixel / maxSkeleton) / 2) * position) + (maxPixel / 2));
-            
+
             if (value > maxPixel)
             {
                 return (float)maxPixel;

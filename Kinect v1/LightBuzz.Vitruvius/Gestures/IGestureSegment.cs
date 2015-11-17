@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Kinect;
+﻿using Microsoft.Kinect;
 
 namespace LightBuzz.Vitruvius
 {

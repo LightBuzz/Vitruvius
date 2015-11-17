@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LightBuzz.Vitruvius
+﻿namespace LightBuzz.Vitruvius
 {
     /// <summary>
     /// Represents the gesture part recognition result.

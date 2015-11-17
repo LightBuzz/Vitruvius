@@ -1,10 +1,5 @@
-﻿using LightBuzz.Vitruvius;
-using Microsoft.Kinect;
-using System;
+﻿using Microsoft.Kinect;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -152,7 +147,7 @@ namespace LightBuzz.Vitruvius.WPF
         public static void DrawSkeleton(this Canvas canvas, Skeleton skeleton, Color color)
         {
             if (skeleton == null) return;
-            
+
             foreach (Joint joint in skeleton.Joints)
             {
                 canvas.DrawPoint(joint, color);
@@ -212,7 +207,7 @@ namespace LightBuzz.Vitruvius.WPF
 
             // Clear all items.
             canvas.Children.Clear();
-            
+
             // Add the non-Kinect items.
             foreach (UIElement item in items)
             {

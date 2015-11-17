@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Microsoft.Kinect;
+using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Windows;
-using System.Diagnostics;
-using Microsoft.Kinect;
 
 namespace LightBuzz.Vitruvius.WPF
 {
@@ -82,6 +80,6 @@ namespace LightBuzz.Vitruvius.WPF
             return false;
         }
 
-        #endregion    
+        #endregion
     }
 }

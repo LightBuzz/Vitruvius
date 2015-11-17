@@ -37,12 +37,6 @@
       <HintPath>..\..\..\..\..\Program Files\Microsoft SDKs\Speech\v11.0\Assembly\Microsoft.Speech.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Gestures\Gesture.cs" />
@@ -67,9 +61,7 @@
     <Compile Include="VisualizationMode.cs" />
     <Compile Include="VoiceController.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Postures\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Gestures\LICENSE" />
   </ItemGroup>
