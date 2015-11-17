@@ -1,20 +1,8 @@
 ﻿using LightBuzz.Vitruvius;
 using LightBuzz.Vitruvius.WPF;
 using Microsoft.Kinect;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace VitruviusTest
 {
@@ -23,9 +11,14 @@ namespace VitruviusTest
     /// </summary>
     public partial class MainWindow : Window
     {
-        Mode _mode = Mode.Color;
+        #region --- Fields ---
 
+        Mode _mode = Mode.Color;
         GestureController _gestureController;
+
+        #endregion
+
+        #region --- Initialization ---
 
         public MainWindow()
         {
@@ -50,38 +43,31 @@ namespace VitruviusTest
             }
         }
 
+        #endregion
+
+        #region --- Events ---
+
         void Sensor_ColorFrameReady(object sender, ColorImageFrameReadyEventArgs e)
         {
+            if (_mode != Mode.Color) return;
+
             using (var frame = e.OpenColorImageFrame())
-            {
                 if (frame != null)
-                {
-                    if (_mode == Mode.Color)
-                    {
-                        camera.Source = frame.ToBitmap();
-                    }
-                }
-            }
+                    camera.Source = frame.ToBitmap();
         }
 
         void Sensor_DepthFrameReady(object sender, DepthImageFrameReadyEventArgs e)
         {
+            if (_mode != Mode.Depth) return;
+
             using (var frame = e.OpenDepthImageFrame())
-            {
                 if (frame != null)
-                {
-                    if (_mode == Mode.Depth)
-                    {
-                        camera.Source = frame.ToBitmap();
-                    }
-                }
-            }
+                    camera.Source = frame.ToBitmap();
         }
 
         void Sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
             using (var frame = e.OpenSkeletonFrame())
-            {
                 if (frame != null)
                 {
                     canvas.ClearSkeletons();
@@ -90,7 +76,6 @@ namespace VitruviusTest
                     var skeletons = frame.Skeletons().Where(s => s.TrackingState == SkeletonTrackingState.Tracked);
 
                     foreach (var skeleton in skeletons)
-                    {
                         if (skeleton != null)
                         {
                             // Update skeleton gestures.
@@ -103,8 +88,6 @@ namespace VitruviusTest
                             tblHeights.Text += string.Format("\nUser {0}: {1}cm", skeleton.TrackingId, skeleton.Height());
                         }
                     }
-                }
-            }
         }
 
         void GestureController_GestureRecognized(object sender, GestureEventArgs e)
@@ -149,11 +132,17 @@ namespace VitruviusTest
         {
             _mode = Mode.Depth;
         }
+
+        #endregion
     }
-    
+
+    #region --- Helper Types ---
+
     public enum Mode
     {
         Color,
         Depth
     }
+
+    #endregion
 }

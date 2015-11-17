@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace LightBuzz.Vitruvius
@@ -16,35 +15,49 @@ namespace LightBuzz.Vitruvius
     /// </summary>
     public class VoiceController
     {
-        #region Constants
+        #region --- Constants ---
 
         /// <summary>
         /// The default voice recognition confidence indicator.
         /// </summary>
-        readonly double DEFAULT_RECOGNITION_CONFIDENCE = 0.55;
+        public const double DEFAULT_RECOGNITION_CONFIDENCE = 0.55;
 
         #endregion
 
-        #region Members
+        #region --- Fields ---
 
         /// <summary>
         /// The voice recognition engine.
         /// </summary>
-        SpeechRecognitionEngine _recognizer;
+        protected SpeechRecognitionEngine _recognizer;
 
         /// <summary>
         /// The speech synthesizer engine.
         /// </summary>
-        SpeechSynthesizer _synthesizer;
+        protected SpeechSynthesizer _synthesizer;
 
         /// <summary>
         /// The active Kinect sensor which handles the voice input and output.
         /// </summary>
-        KinectSensor _sensor;
+        protected KinectSensor _sensor;
 
         #endregion
 
-        #region Properties
+        #region --- Initialization ---
+
+        /// <summary>
+        /// Creates a new instance of <see cref="VoiceController"/>.
+        /// </summary>
+        public VoiceController()
+        {
+            RecognitionConfidence = DEFAULT_RECOGNITION_CONFIDENCE;
+
+            InitializeSynthesizer();
+        }
+
+        #endregion
+
+        #region --- Properties ---
 
         /// <summary>
         /// Indicates whether the current voice engine is capable to recognize voice commands (e.g. has a proper input device).
@@ -63,55 +76,14 @@ namespace LightBuzz.Vitruvius
 
         #endregion
 
-        #region Events
+        #region --- Methods ---
 
-        /// <summary>
-        /// Occurs when some voice commands have been recognized.
-        /// </summary>
-        public event EventHandler<SpeechRecognizedEventArgs> SpeechRecognized;
-
-        /// <summary>
-        /// Occurs when some voice commands have been hypothesized.
-        /// </summary>
-        public event EventHandler<SpeechHypothesizedEventArgs> SpeechHypothesized;
-
-        /// <summary>
-        /// Occurs when some voice commands have been detected.
-        /// </summary>
-        public event EventHandler<SpeechDetectedEventArgs> SpeechDetected;
-
-        /// <summary>
-        /// Occurs when some voice commands have been rejected.
-        /// </summary>
-        public event EventHandler<SpeechRecognitionRejectedEventArgs> SpeechRejected;
-
-        /// <summary>
-        /// Occurs after a specified text has been synthesized.
-        /// </summary>
-        public event EventHandler<SpeakCompletedEventArgs> SpeechSynthesized;
-        
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        /// Creates a new instance of <see cref="VoiceController"/>.
-        /// </summary>
-        public VoiceController()
-        {
-            RecognitionConfidence = DEFAULT_RECOGNITION_CONFIDENCE;
-
-            InitializeSynthesizer();
-        }
-
-        #endregion
-
-        #region Private methods
+        #region Protected methods
 
         /// <summary>
         /// Initializes the speech synthesizer.
         /// </summary>
-        private void InitializeSynthesizer()
+        protected void InitializeSynthesizer()
         {
             _synthesizer = new SpeechSynthesizer();
 
@@ -132,7 +104,7 @@ namespace LightBuzz.Vitruvius
         /// Returns the Kinect recognition info.
         /// </summary>
         /// <returns>The <see cref="RecognizerInfo"/>.</returns>
-        private RecognizerInfo GetKinectRecognizer()
+        protected RecognizerInfo GetKinectRecognizer()
         {
             Func<RecognizerInfo, bool> matchingFunc = r =>
             {
@@ -150,7 +122,7 @@ namespace LightBuzz.Vitruvius
         /// </summary>
         /// <param name="phrases">The voice commands to recognize.</param>
         /// <returns>The grammar of the phrases.</returns>
-        private Grammar CreateGrammar(string[] phrases)
+        protected Grammar CreateGrammar(string[] phrases)
         {
             Choices choices = new Choices(phrases);
 
@@ -158,53 +130,6 @@ namespace LightBuzz.Vitruvius
             grammarBuilder.Append(choices);
 
             return new Grammar(grammarBuilder);
-        }
-
-        #endregion
-
-        #region Event handlers
-
-        void Synthesizer_SpeakCompleted(object sender, SpeakCompletedEventArgs e)
-        {
-            if (SpeechSynthesized != null)
-            {
-                SpeechSynthesized(this, e);
-            }
-        }
-
-        void Recognizer_SpeechRecognized(object sender, Microsoft.Speech.Recognition.SpeechRecognizedEventArgs e)
-        {
-            if (e.Result.Confidence > RecognitionConfidence)
-            {
-                if (SpeechRecognized != null)
-                {
-                    SpeechRecognized(this, e);
-                }
-            }
-        }
-
-        void Recognizer_SpeechHypothesized(object sender, SpeechHypothesizedEventArgs e)
-        {
-            if (SpeechHypothesized != null)
-            {
-                SpeechHypothesized(this, e);
-            }
-        }
-
-        void Recognizer_SpeechDetected(object sender, SpeechDetectedEventArgs e)
-        {
-            if (SpeechDetected != null)
-            {
-                SpeechDetected(this, e);
-            }
-        }
-
-        void Recognizer_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
-        {
-            if (SpeechRejected != null)
-            {
-                SpeechRejected(this, e);
-            }
         }
 
         #endregion
@@ -239,9 +164,7 @@ namespace LightBuzz.Vitruvius
             }
 
             if (!IsRecognitionCapable)
-            {
                 throw new Exception("Speech recognition is not supported.");
-            }
 
             var thread = new Thread(() =>
             {
@@ -265,9 +188,7 @@ namespace LightBuzz.Vitruvius
         public void StopRecognition()
         {
             if (!IsRecognitionCapable)
-            {
                 throw new Exception("Speech recognition is not supported.");
-            }
 
             if (_sensor != null && _recognizer != null)
             {
@@ -287,13 +208,77 @@ namespace LightBuzz.Vitruvius
         public void Speak(string text)
         {
             if (!IsSynthesisCapable)
-            {
                 throw new Exception("Speech synthesis is not supported. Verify that you have a valid audio device connected.");
-            }
 
             _synthesizer.SpeakAsync(text);
         }
 
         #endregion
+
+        #endregion
+
+        #region --- Events ---
+
+        /// <summary>
+        /// Occurs when some voice commands have been recognized.
+        /// </summary>
+        public event EventHandler<SpeechRecognizedEventArgs> SpeechRecognized;
+
+        /// <summary>
+        /// Occurs when some voice commands have been hypothesized.
+        /// </summary>
+        public event EventHandler<SpeechHypothesizedEventArgs> SpeechHypothesized;
+
+        /// <summary>
+        /// Occurs when some voice commands have been detected.
+        /// </summary>
+        public event EventHandler<SpeechDetectedEventArgs> SpeechDetected;
+
+        /// <summary>
+        /// Occurs when some voice commands have been rejected.
+        /// </summary>
+        public event EventHandler<SpeechRecognitionRejectedEventArgs> SpeechRejected;
+
+        /// <summary>
+        /// Occurs after a specified text has been synthesized.
+        /// </summary>
+        public event EventHandler<SpeakCompletedEventArgs> SpeechSynthesized;
+
+        #region Event handlers
+
+        protected void Synthesizer_SpeakCompleted(object sender, SpeakCompletedEventArgs e)
+        {
+            if (SpeechSynthesized != null)
+                SpeechSynthesized(this, e);
+        }
+
+        protected void Recognizer_SpeechRecognized(object sender, Microsoft.Speech.Recognition.SpeechRecognizedEventArgs e)
+        {
+            if (SpeechRecognized != null && e.Result.Confidence > RecognitionConfidence)
+                SpeechRecognized(this, e);
+        }
+
+        protected void Recognizer_SpeechHypothesized(object sender, SpeechHypothesizedEventArgs e)
+        {
+            if (SpeechHypothesized != null)
+                SpeechHypothesized(this, e);
+        }
+
+        protected void Recognizer_SpeechDetected(object sender, SpeechDetectedEventArgs e)
+        {
+            if (SpeechDetected != null)
+                SpeechDetected(this, e);
+        }
+
+        protected void Recognizer_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
+        {
+            if (SpeechRejected != null)
+                SpeechRejected(this, e);
+        }
+
+        #endregion
+
+        #endregion
+
     }
 }

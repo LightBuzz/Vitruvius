@@ -1,11 +1,7 @@
-﻿using System;
-using System.Windows.Media;
-using Microsoft.Kinect;
-using System.IO;
-using System.Windows.Media.Imaging;
-using System.Diagnostics;
+﻿using Microsoft.Kinect;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace LightBuzz.Vitruvius.WPF
 {
@@ -35,7 +31,7 @@ namespace LightBuzz.Vitruvius.WPF
         /// The RGB pixel values.
         /// </summary>
         static byte[] _pixels = null;
-        
+
         #endregion
 
         #region Public methods

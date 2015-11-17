@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.Kinect;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using Microsoft.Kinect;
 
 namespace LightBuzz.Vitruvius.WinForms
 {
@@ -95,7 +95,7 @@ namespace LightBuzz.Vitruvius.WinForms
             byte[] pixels = new byte[frame.Height * frame.Width * 4];
 
             // Bgr32  - Blue, Green, Red, empty byte
-            // Bgra32 - Blue, Green, Red, transparency 
+            // Bgra32 - Blue, Green, Red, transparency
             // You must set transparency for Bgra as .NET defaults a byte to 0 = fully transparent
 
             // Loop through all distances and pick a RGB color based on distance

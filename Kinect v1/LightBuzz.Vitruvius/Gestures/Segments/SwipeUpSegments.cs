@@ -1,5 +1,4 @@
 ﻿using Microsoft.Kinect;
-using System.Diagnostics;
 
 namespace LightBuzz.Vitruvius.Gestures
 {
@@ -65,7 +64,7 @@ namespace LightBuzz.Vitruvius.Gestures
             return GesturePartResult.Failed;
         }
     }
-    
+
     /// <summary>
     /// The third part of the swipe up gesture
     /// </summary>
