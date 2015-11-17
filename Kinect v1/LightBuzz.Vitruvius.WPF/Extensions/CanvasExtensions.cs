@@ -8,7 +8,7 @@ using System.Windows.Shapes;
 namespace LightBuzz.Vitruvius.WPF
 {
     /// <summary>
-    /// Provides some common fnctionality for drawing Kinect skeleton data on a WPF canvas element.
+    /// Provides some common functionality for drawing Kinect skeleton data on a WPF canvas element.
     /// </summary>
     public static class CanvasExtensions
     {
@@ -149,9 +149,7 @@ namespace LightBuzz.Vitruvius.WPF
             if (skeleton == null) return;
 
             foreach (Joint joint in skeleton.Joints)
-            {
                 canvas.DrawPoint(joint, color);
-            }
 
             canvas.DrawLine(skeleton.Joints[JointType.Head], skeleton.Joints[JointType.ShoulderCenter], color);
             canvas.DrawLine(skeleton.Joints[JointType.ShoulderCenter], skeleton.Joints[JointType.ShoulderLeft], color);
@@ -194,15 +192,9 @@ namespace LightBuzz.Vitruvius.WPF
 
             foreach (UIElement item in canvas.Children)
             {
-                if (item is Shape)
-                {
-                    Shape shape = item as Shape;
-
-                    if (shape.Tag == null || shape.Tag.ToString() != TAG)
-                    {
-                        items.Add(item);
-                    }
-                }
+                Shape shape = item as Shape; //note: if item is not a Shape, "as" will return null
+                if (shape != null && (shape.Tag == null || shape.Tag.ToString() != TAG))
+                    items.Add(item);
             }
 
             // Clear all items.
@@ -210,9 +202,7 @@ namespace LightBuzz.Vitruvius.WPF
 
             // Add the non-Kinect items.
             foreach (UIElement item in items)
-            {
                 canvas.Children.Add(item);
-            }
         }
 
         #endregion

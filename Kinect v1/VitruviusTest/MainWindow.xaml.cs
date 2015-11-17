@@ -1,4 +1,6 @@
-﻿using LightBuzz.Vitruvius;
+﻿#define USE_KINECTVIEWER //comment this out if you edit the XAML and use instead of KinectViewer control the Viewbox control (that contains a Grid with an Image and a Canvas)
+
+using LightBuzz.Vitruvius;
 using LightBuzz.Vitruvius.WPF;
 using Microsoft.Kinect;
 using System.Linq;
@@ -53,7 +55,11 @@ namespace VitruviusTest
 
             using (var frame = e.OpenColorImageFrame())
                 if (frame != null)
+                    #if USE_KINECTVIEWER
+                    kinectViewer.Update(frame.ToBitmap());
+                    #else
                     camera.Source = frame.ToBitmap();
+                    #endif
         }
 
         void Sensor_DepthFrameReady(object sender, DepthImageFrameReadyEventArgs e)
@@ -62,7 +68,11 @@ namespace VitruviusTest
 
             using (var frame = e.OpenDepthImageFrame())
                 if (frame != null)
+                    #if USE_KINECTVIEWER
+                    kinectViewer.Update(frame.ToBitmap());
+                    #else
                     camera.Source = frame.ToBitmap();
+                    #endif
         }
 
         void Sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
@@ -70,7 +80,12 @@ namespace VitruviusTest
             using (var frame = e.OpenSkeletonFrame())
                 if (frame != null)
                 {
+                    #if USE_KINECTVIEWER
+                    kinectViewer.Clear();
+                    #else
                     canvas.ClearSkeletons();
+                    #endif
+
                     tblHeights.Text = string.Empty;
 
                     var skeletons = frame.Skeletons().Where(s => s.TrackingState == SkeletonTrackingState.Tracked);
@@ -78,13 +93,17 @@ namespace VitruviusTest
                     foreach (var skeleton in skeletons)
                         if (skeleton != null)
                         {
-                            // Update skeleton gestures.
+                            // Update skeleton gestures
                             _gestureController.Update(skeleton);
 
-                            // Draw skeleton.
+                            // Draw skeleton
+                            #if USE_KINECTVIEWER
+                            kinectViewer.DrawBody(skeleton);
+                            #else
                             canvas.DrawSkeleton(skeleton);
+                            #endif
 
-                            // Display user height.
+                            // Display user height
                             tblHeights.Text += string.Format("\nUser {0}: {1}cm", skeleton.TrackingId, skeleton.Height());
                         }
                     }
@@ -92,10 +111,10 @@ namespace VitruviusTest
 
         void GestureController_GestureRecognized(object sender, GestureEventArgs e)
         {
-            // Display the gesture type.
+            // Display the gesture type
             tblGestures.Text = e.Name;
 
-            // Do something according to the type of the gesture.
+            // Do something according to the type of the gesture
             switch (e.Type)
             {
                 case GestureType.JoinedHands:
@@ -133,10 +152,10 @@ namespace VitruviusTest
             _mode = Mode.Depth;
         }
 
-        #endregion
+#endregion
     }
 
-    #region --- Helper Types ---
+#region --- Helper Types ---
 
     public enum Mode
     {
@@ -144,5 +163,5 @@ namespace VitruviusTest
         Depth
     }
 
-    #endregion
+#endregion
 }
