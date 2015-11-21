@@ -27,7 +27,7 @@
             <!--
             <Viewbox Grid.Row="0" Stretch="UniformToFill">
                 <Grid Style="{StaticResource GridStyle}">
-                    <Image Name="camera" />
+                    <Image Name="camera" Stretch="None" />
                     <Canvas Name="canvas" />
                 </Grid>
             </Viewbox>

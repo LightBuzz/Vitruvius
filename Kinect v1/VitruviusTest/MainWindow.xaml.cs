@@ -15,8 +15,7 @@ namespace VitruviusTest
     {
         #region --- Fields ---
 
-        Mode _mode = Mode.Color;
-        GestureController _gestureController;
+        private GestureController _gestureController;
 
         #endregion
 
@@ -47,11 +46,25 @@ namespace VitruviusTest
 
         #endregion
 
+        #region --- Properties ---
+
+        public VisualizationMode Mode
+        {
+            #if USE_KINECTVIEWER
+            get { return kinectViewer.FrameType; }
+            set { kinectViewer.FrameType = value; }
+            #else
+            get; set;
+            #endif
+        }
+
+        #endregion
+
         #region --- Events ---
 
-        void Sensor_ColorFrameReady(object sender, ColorImageFrameReadyEventArgs e)
+        private void Sensor_ColorFrameReady(object sender, ColorImageFrameReadyEventArgs e)
         {
-            if (_mode != Mode.Color) return;
+            if (Mode != VisualizationMode.Color) return;
 
             using (var frame = e.OpenColorImageFrame())
                 if (frame != null)
@@ -62,9 +75,9 @@ namespace VitruviusTest
                     #endif
         }
 
-        void Sensor_DepthFrameReady(object sender, DepthImageFrameReadyEventArgs e)
+        private void Sensor_DepthFrameReady(object sender, DepthImageFrameReadyEventArgs e)
         {
-            if (_mode != Mode.Depth) return;
+            if (Mode != VisualizationMode.Depth) return;
 
             using (var frame = e.OpenDepthImageFrame())
                 if (frame != null)
@@ -75,7 +88,7 @@ namespace VitruviusTest
                     #endif
         }
 
-        void Sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
+        private void Sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
             using (var frame = e.OpenSkeletonFrame())
                 if (frame != null)
@@ -109,7 +122,7 @@ namespace VitruviusTest
                     }
         }
 
-        void GestureController_GestureRecognized(object sender, GestureEventArgs e)
+        private void GestureController_GestureRecognized(object sender, GestureEventArgs e)
         {
             // Display the gesture type
             tblGestures.Text = e.Name;
@@ -144,24 +157,15 @@ namespace VitruviusTest
 
         private void Color_Click(object sender, RoutedEventArgs e)
         {
-            _mode = Mode.Color;
+            Mode = VisualizationMode.Color;
         }
 
         private void Depth_Click(object sender, RoutedEventArgs e)
         {
-            _mode = Mode.Depth;
+            Mode = VisualizationMode.Depth;
         }
 
-#endregion
+        #endregion
     }
 
-#region --- Helper Types ---
-
-    public enum Mode
-    {
-        Color,
-        Depth
-    }
-
-#endregion
 }
