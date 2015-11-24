@@ -183,8 +183,8 @@ namespace LightBuzz.Vitruvius
 
                 Bitmap.Lock();
 
-                Marshal.Copy(Pixels, 0, Bitmap.BackBuffer, _displayPixels.Length);
-                Bitmap.AddDirtyRect(new Int32Rect(0, 0, Width, Height));
+                Marshal.Copy(_displayPixels, 0, Bitmap.BackBuffer, _displayPixels.Length);
+                Bitmap.AddDirtyRect(new Int32Rect(0, 0, depthWidth, depthHeight));
 
                 Bitmap.Unlock();
             }
