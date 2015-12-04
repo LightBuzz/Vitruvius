@@ -2,12 +2,14 @@
     x:Class="VitruviusTest.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vitruvius="clr-namespace:LightBuzz.Vitruvius.Controls;assembly=LightBuzz.Vitruvius.WPF"
 
     Width="920" Height="580"
     Title="MainWindow"
 
     Loaded="Window_Loaded"
     >
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -20,10 +22,16 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Style="{StaticResource GridStyle}">
-                <Image Name="camera" />
-                <Canvas Name="canvas" />
-            </Grid>
+            <!-- You can use either a KinectViewer or the Viewbox here by commenting out one of the two (also set or comment out accordingly the USE_KINECTVIEWER in the codebehind [.xaml.cs] file) -->
+            <vitruvius:KinectViewer x:Name="kinectViewer" Grid.Row="0" />
+            <!--
+            <Viewbox Grid.Row="0" Stretch="UniformToFill">
+                <Grid Style="{StaticResource GridStyle}">
+                    <Image Name="camera" Stretch="None" />
+                    <Canvas Name="canvas" />
+                </Grid>
+            </Viewbox>
+            -->
 
             <StackPanel Grid.Row="1" Style="{StaticResource StackPanelButtonsStyle}">
                 <Button Content="Color" Click="Color_Click" />
