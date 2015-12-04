@@ -38,6 +38,16 @@ namespace LightBuzz.Vitruvius.Controls
         /// </summary>
         protected const double DEFAULT_BONE_THICKNESS = 8;
 
+        /// <summary>
+        /// The default horizontal flipping.
+        /// </summary>
+        protected const bool DEFAULT_FLIPPED_HORIZONTALLY = false;
+
+        /// <summary>
+        /// The default vertical flipping.
+        /// </summary>
+        protected const bool DEFAULT_FLIPPED_VERTICALLY = false;
+
         #endregion
 
         #region --- Fields ---
@@ -55,6 +65,7 @@ namespace LightBuzz.Vitruvius.Controls
         public KinectViewer()
         {
             this.InitializeComponent();
+            SetValue(RenderTransformOriginProperty, new Point(0.5, 0.5)); //this is needed for FlippedHorizontally and FlippedVertically to work, since they set the RenderTransform property
         }
 
         #endregion
@@ -136,6 +147,61 @@ namespace LightBuzz.Vitruvius.Controls
 
         public static readonly DependencyProperty BoneThicknessProperty =
             DependencyProperty.Register("BoneThickness", typeof(double), typeof(KinectViewer), new PropertyMetadata(DEFAULT_BONE_THICKNESS));
+
+        #endregion
+
+        #region FlippedHorizontally
+
+        public bool FlippedHorizontally
+        {
+            get { return (bool)GetValue(FlippedHorizontallyProperty); }
+            set { SetValue(FlippedHorizontallyProperty, value); }
+        }
+
+        public static readonly DependencyProperty FlippedHorizontallyProperty =
+            DependencyProperty.Register("FlippedHorizontally", typeof(bool), typeof(KinectViewer),
+                new PropertyMetadata(DEFAULT_FLIPPED_HORIZONTALLY, OnFlippedHorizontallyPropertyChange));
+
+        private static void OnFlippedHorizontallyPropertyChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            bool flipped = (bool)e.NewValue;
+            KinectViewer viewer = (KinectViewer)d;
+            viewer.SetValue(RenderTransformProperty, viewer.FlipTransform);
+        }
+
+        #endregion
+
+        #region FlippedVertically
+
+        public bool FlippedVertically
+        {
+            get { return (bool)GetValue(FlippedVerticallyProperty); }
+            set { SetValue(FlippedVerticallyProperty, value); }
+        }
+
+        public static readonly DependencyProperty FlippedVerticallyProperty =
+            DependencyProperty.Register("FlippedVertically", typeof(bool), typeof(KinectViewer),
+                new PropertyMetadata(DEFAULT_FLIPPED_VERTICALLY, OnFlippedVerticallyPropertyChange));
+
+        private static void OnFlippedVerticallyPropertyChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            bool flipped = (bool)e.NewValue;
+            KinectViewer viewer = (KinectViewer)d;
+            viewer.SetValue(RenderTransformProperty, viewer.FlipTransform);
+        }
+
+        #endregion
+
+        #region FlipTransform
+
+        public ScaleTransform FlipTransform
+        {
+            //flips around the center point either horizontally, or vertically or both horizontally and vertically
+            get
+            {
+                return (!FlippedHorizontally && !FlippedVertically)? null : new ScaleTransform((FlippedHorizontally) ? -1 : 1, (FlippedVertically) ? -1 : 1); //assumes RenderTransformOrigin property has been set to (0.5, 0.5) at constructor, that is the view center
+            }
+        }
 
         #endregion
 

@@ -24,6 +24,12 @@ namespace VitruviusTest
         public MainWindow()
         {
             InitializeComponent();
+
+            #if USE_KINECTVIEWER
+            /* optional display flipping (vertical flipping may be useful when using a projector) */
+            kinectViewer.FlippedHorizontally = true;
+            kinectViewer.FlippedVertically = false;
+            #endif
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
