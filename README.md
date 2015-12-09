@@ -10,7 +10,7 @@ Grab the package using NuGet
 ... and import Vitruvius in your project
 
         using LightBuzz.Vitruvius;
-        
+
 *You'll also need to set the project configuration to Release and the target processor to x64 (preferred) or x86.*
 
 ## [Academic & Premium Versions](http://vitruviuskinect.com)
@@ -51,7 +51,7 @@ Grab the package using NuGet
         void GestureRecognized(object sender, GestureEventArgs e)
         {
            var gesture = e.GestureType;
-        
+
            switch (gesture)
            {
         	   case (GestureType.JointHands): break;
@@ -92,11 +92,7 @@ Grab the package using NuGet
 * [George Karakatsiotis](http://gkarak.com) from [LightBuzz](http://lightbuzz.com)
 * Michael Miropoulos from [LightBuzz](http://lightbuzz.com)
 * George Georgopoulos from [LightBuzz](http://lightbuzz.com)
-<<<<<<< HEAD
-* George Birbilis from [Zoomicon](http://zoomicon.com) 
-=======
 * George Birbilis from [Zoomicon](http://zoomicon.com)
->>>>>>> 33c72ea4f4c31ece26fa96614043840c2db77708
 
 ## License
 You are free to use these libraries in personal and commercial projects by attributing the original creator of Vitruvius. Licensed under [Apache v2 License](https://github.com/LightBuzz/Vitruvius/blob/master/LICENSE).
