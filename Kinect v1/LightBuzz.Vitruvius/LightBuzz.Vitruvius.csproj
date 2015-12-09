@@ -66,8 +66,8 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="Vitruvius.cd" />
-    <None Include="Gestures\Segments\GestureSegments.cd" />
-    <None Include="Gestures\Gestures.cd" />
+    <None Include="Gestures\Segments\Vitruvius.Gestures_Segments.cd" />
+    <None Include="Gestures\Vitruvius.Gestures.cd" />
     <None Include="Gestures\LICENSE" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

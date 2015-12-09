@@ -79,8 +79,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Vitruvius.WPF_Controls.cd" />
-    <None Include="Vitruvius.WPF_Extensions.cd" />
+    <None Include="Controls\Vitruvius.WPF_Controls.cd" />
+    <None Include="Vitruvius.WPF_ExtensionsEtc.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
