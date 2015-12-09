@@ -71,7 +71,8 @@ namespace Samples
             {
                 if (colorFrame != null && depthFrame != null && bodyIndexFrame != null)
                 {
-                    image.Source = colorFrame.GreenScreen(depthFrame, bodyIndexFrame);
+                    var bmp = colorFrame.GreenScreen(depthFrame, bodyIndexFrame);
+                    image.Source = bmp;
                 }
             }
         }
