@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LightBuzz.Vitruvius.WPF.BitmapExtensions">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Extensions\BitmapExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LightBuzz.Vitruvius.WPF.CanvasExtensions">
+    <Position X="0.5" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>EBAACAAAAAAAAAAAAAAABAAAQAAAAAAAgEAAAAAAABA=</HashCode>
+      <FileName>Extensions\CanvasExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LightBuzz.Vitruvius.WPF.ColorExtensions">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQCCAAAAAAAAAAAAABAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Extensions\ColorExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LightBuzz.Vitruvius.WPF.Constants">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Core\Constants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LightBuzz.Vitruvius.WPF.ControlExtensions">
+    <Position X="3" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgEAAAAAAAAAAUAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Extensions\ControlExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LightBuzz.Vitruvius.WPF.DepthExtensions">
+    <Position X="4.75" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AIEIAAQAAQCCBAAAAAAAAgAADBAAQQAEAAABgAAAQAA=</HashCode>
+      <FileName>Extensions\DepthExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

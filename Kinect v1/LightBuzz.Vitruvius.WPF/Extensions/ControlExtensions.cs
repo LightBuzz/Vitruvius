@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace LightBuzz.Vitruvius
+namespace LightBuzz.Vitruvius.WPF
 {
     public static class ControlExtensions
     {
