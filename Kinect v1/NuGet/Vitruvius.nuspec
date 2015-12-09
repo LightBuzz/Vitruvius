@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Vitruvius</id>
+        <version>1.1.0</version>
+        <title>Vitruvius</title>
+        <authors>Vangos Pterneas</authors>
+        <owners>LightBuzz</owners>
+        <licenseUrl>https://github.com/LightBuzz/Vitruvius/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/LightBuzz/Vitruvius</projectUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>
+        A set of easy-to-use Kinect utilities that will speed-up the development of your projects.
+
+        Skeletal extensions
+
+        Joint scaling, proper for on-screen display
+        User height
+        Distance between joints
+        WPF extensions
+
+        Easily display color and depth frames in WPF
+        Save Kinect frames as bitmap images
+        Coming soon
+
+        Kinect for Windows v2 support
+        Gesture support
+        Posture support
+        </description>
+        <summary>A set of easy-to-use Kinect utilities that will speed-up the development of your projects.</summary>
+        <copyright>LightBuzz</copyright>
+        <tags>Kinect, Vitruvius, LightBuzz, WPF</tags>
+        <dependencies />
+    </metadata>
+    <files>
+        <file src="..\LightBuzz.Vitruvius\bin\Release\LightBuzz.Vitruvius.dll" target="lib\net40\LightBuzz.Vitruvius.dll" />
+        <file src="..\LightBuzz.Vitruvius.WinForms\bin\Release\LightBuzz.Vitruvius.WinForms.dll" target="lib\net40\LightBuzz.Vitruvius.WinForms.dll" />
+        <file src="..\LightBuzz.Vitruvius.WPF\bin\Release\LightBuzz.Vitruvius.WPF.dll" target="lib\net40\LightBuzz.Vitruvius.WPF.dll" />
+    </files>
+</package>
