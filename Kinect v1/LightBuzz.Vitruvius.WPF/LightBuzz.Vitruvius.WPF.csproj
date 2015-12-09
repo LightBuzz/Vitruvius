@@ -55,6 +55,7 @@
     </Compile>
     <Compile Include="Extensions\DepthExtensions.cs" />
     <Compile Include="Extensions\BitmapExtensions.cs" />
+    <Compile Include="Extensions\NamespaceDoc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +77,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Vitruvius.WPF_Controls.cd" />
+    <None Include="Vitruvius.WPF_Extensions.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

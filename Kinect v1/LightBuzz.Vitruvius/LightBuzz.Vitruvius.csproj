@@ -39,6 +39,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\DepthImageMode.cs" />
     <Compile Include="Gestures\Gesture.cs" />
     <Compile Include="Gestures\GestureController.cs" />
     <Compile Include="Gestures\GesturePartResult.cs" />
@@ -55,14 +56,18 @@
     <Compile Include="Gestures\Segments\WaveLeftSegments.cs" />
     <Compile Include="Gestures\Segments\WaveRightSegments.cs" />
     <Compile Include="Gestures\Segments\ZoomSegments.cs" />
+    <Compile Include="NamespaceDoc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SensorExtensions.cs" />
-    <Compile Include="SkeletonExtensions.cs" />
-    <Compile Include="VisualizationMode.cs" />
-    <Compile Include="VoiceController.cs" />
+    <Compile Include="Extensions\SensorExtensions.cs" />
+    <Compile Include="Extensions\SkeletonExtensions.cs" />
+    <Compile Include="Core\VisualizationMode.cs" />
+    <Compile Include="Controllers\VoiceController.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Vitruvius.cd" />
+    <None Include="Gestures\Segments\GestureSegments.cd" />
+    <None Include="Gestures\Gestures.cd" />
     <None Include="Gestures\LICENSE" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
