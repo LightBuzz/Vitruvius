@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightBuzz.Vitruvius.WPF", "LightBuzz.Vitruvius.WPF\LightBuzz.Vitruvius.WPF.csproj", "{8BAE0B01-2DD9-44AD-824E-5FE63C0F64D0}"
 EndProject
@@ -10,6 +10,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VitruviusTest", "VitruviusTest\VitruviusTest.csproj", "{0D503AEB-8658-4031-86E5-B460986E7179}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightBuzz.Vitruvius.WinForms", "LightBuzz.Vitruvius.WinForms\LightBuzz.Vitruvius.WinForms.csproj", "{4E33A969-0CB9-46CE-A530-1F5C3E9D6847}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{609C6EC8-87BB-41D8-A960-3CF0AEEF8BD0}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet\Vitruvius.nuspec = NuGet\Vitruvius.nuspec
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
