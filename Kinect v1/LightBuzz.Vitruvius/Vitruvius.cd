@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="LightBuzz.Vitruvius.SkeletonExtensions">
-    <Position X="2.25" Y="0.5" Width="2" />
+    <Position X="0.5" Y="2.25" Width="2" />
     <TypeIdentifier>
       <HashCode>EEAABAAABAAAAAAAAgIAIAAAAAAAAABAgACAAAAAAAA=</HashCode>
       <FileName>Extensions\SkeletonExtensions.cs</FileName>
@@ -15,21 +15,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="LightBuzz.Vitruvius.VoiceController">
-    <Position X="4.5" Y="0.5" Width="3" />
+    <Position X="2.75" Y="0.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AgAAAAAIAAAAAQIQABgCAAAgABAEMAAAACIApCIAAAg=</HashCode>
       <FileName>Controllers\VoiceController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="LightBuzz.Vitruvius.VisualizationMode">
-    <Position X="7.75" Y="0.5" Width="1.75" />
+    <Position X="6" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAAgAAAAgAAAAAA=</HashCode>
       <FileName>Core\VisualizationMode.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="LightBuzz.Vitruvius.DepthImageMode">
-    <Position X="7.75" Y="2" Width="1.5" />
+    <Position X="6" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAABAAAAAgQAAAAA=</HashCode>
       <FileName>Core\DepthImageMode.cs</FileName>
