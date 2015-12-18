@@ -1,11 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightBuzz.Vitruvius", "LightBuzz.Vitruvius\LightBuzz.Vitruvius.csproj", "{89E39683-D56D-4604-971B-587C22C62934}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples", "Samples\Samples.csproj", "{0D503AEB-8658-4031-86E5-B460986E7179}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Diagrams", "Diagrams", "{B3CBE529-7E32-4BDE-A732-1E1FD999DAEC}"
+	ProjectSection(SolutionItems) = preProject
+		LightBuzz.Vitruvius\Controls\Vitruvius.Controls.cd = LightBuzz.Vitruvius\Controls\Vitruvius.Controls.cd
+		LightBuzz.Vitruvius\Bitmaps\Vitruvius_Bitmaps.cd = LightBuzz.Vitruvius\Bitmaps\Vitruvius_Bitmaps.cd
+		LightBuzz.Vitruvius\Core\Vitruvius_Core.cd = LightBuzz.Vitruvius\Core\Vitruvius_Core.cd
+		LightBuzz.Vitruvius\Extensions\Vitruvius_Extensions.cd = LightBuzz.Vitruvius\Extensions\Vitruvius_Extensions.cd
+		LightBuzz.Vitruvius\Gestures\Vitruvius_Gestures.cd = LightBuzz.Vitruvius\Gestures\Vitruvius_Gestures.cd
+		LightBuzz.Vitruvius\Gestures\Segments\Vitruvius_GestureSegments.cd = LightBuzz.Vitruvius\Gestures\Segments\Vitruvius_GestureSegments.cd
+		LightBuzz.Vitruvius\Tools\Vitruvius_Tools.cd = LightBuzz.Vitruvius\Tools\Vitruvius_Tools.cd
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
