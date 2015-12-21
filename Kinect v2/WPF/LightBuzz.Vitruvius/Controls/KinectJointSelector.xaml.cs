@@ -84,7 +84,7 @@ namespace LightBuzz.Vitruvius.Controls
         /// </summary>
         public static readonly DependencyProperty JointsVisibilityProperty =
             DependencyProperty.Register("JointsVisibility", typeof(Visibility), typeof(KinectJointSelector),
-                new FrameworkPropertyMetadata(Visibility.Visible));
+                new PropertyMetadata(Visibility.Visible));
 
         #endregion
 
@@ -109,7 +109,8 @@ namespace LightBuzz.Vitruvius.Controls
         /// The <see cref="BodyBackground"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty BodyBackgroundProperty =
-            DependencyProperty.Register("BodyBackground", typeof(Brush), typeof(KinectJointSelector), new FrameworkPropertyMetadata(new SolidColorBrush(Colors.Black)));
+            DependencyProperty.Register("BodyBackground", typeof(Brush), typeof(KinectJointSelector),
+                new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         #endregion
 
@@ -167,6 +168,5 @@ namespace LightBuzz.Vitruvius.Controls
         }
 
         #endregion
-
     }
 }

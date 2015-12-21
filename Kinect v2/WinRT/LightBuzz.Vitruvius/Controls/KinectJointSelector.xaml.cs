@@ -45,7 +45,7 @@ namespace LightBuzz.Vitruvius.Controls
     /// </summary>
     public sealed partial class KinectJointSelector : UserControl
     {
-        #region Constructor
+        #region --- Initialization ---
 
         /// <summary>
         /// Creates a new instance of <see cref="KinectJointSelector"/>.
@@ -59,7 +59,9 @@ namespace LightBuzz.Vitruvius.Controls
 
         #endregion
 
-        #region Dependency properties
+        #region --- Properties ---
+
+        #region JointsVisibility
 
         /// <summary>
         /// Determines whether the User Interface will display the joints.
@@ -80,41 +82,14 @@ namespace LightBuzz.Vitruvius.Controls
         /// The <see cref="JointsVisibility"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty JointsVisibilityProperty =
-            DependencyProperty.Register("JointsVisibility", typeof(Visibility), typeof(KinectJointSelector), new PropertyMetadata(Visibility.Visible));
+            DependencyProperty.Register("JointsVisibility", typeof(Visibility), typeof(KinectJointSelector),
+                new PropertyMetadata(Visibility.Visible));
 
         #endregion
 
-        #region Events
-
-        /// <summary>
-        /// Raised when a joint is selected.
-        /// </summary>
-        public event EventHandler<JointType> JointSelected;
-
         #endregion
 
-        #region Event handlers
-
-        private void Joint_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            foreach (var item in joints.Children)
-            {
-                Ellipse element = item as Ellipse;
-            }
-
-            Ellipse ellipse = sender as Ellipse;
-
-            JointType joint = (JointType)int.Parse(ellipse.Tag.ToString());
-
-            if (JointSelected != null)
-            {
-                JointSelected(this, joint);
-            }
-        }
-
-        #endregion
-
-        #region Public methods
+        #region --- Methods ---
 
         /// <summary>
         /// Selects the specified joint.
@@ -124,7 +99,7 @@ namespace LightBuzz.Vitruvius.Controls
         {
             string tag = ((int)joint).ToString();
 
-            foreach (var item in joints.Children)
+            foreach (var item in joints.Children) //TODO: is this really doing something?
             {
                 Ellipse element = item as Ellipse;
             }
@@ -135,11 +110,35 @@ namespace LightBuzz.Vitruvius.Controls
         /// </summary>
         public void Clear()
         {
-            foreach (var item in joints.Children)
+            foreach (var item in joints.Children) //TODO: is this really doing something?
             {
                 Ellipse element = item as Ellipse;
             }
         }
+
+        #endregion
+
+        #region --- Events ---
+
+        /// <summary>
+        /// Raised when a joint is selected.
+        /// </summary>
+        public event EventHandler<JointType> JointSelected;
+
+        private void Joint_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            foreach (var item in joints.Children) //TODO: is this really doing something?
+            {
+                Ellipse element = item as Ellipse;
+            }
+
+            Ellipse ellipse = sender as Ellipse;
+
+            JointType joint = (JointType)int.Parse(ellipse.Tag.ToString());
+
+            if (JointSelected != null)
+                JointSelected(this, joint);
+            }
 
         #endregion
     }
