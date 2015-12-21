@@ -3,9 +3,10 @@
   <Class Name="LightBuzz.Vitruvius.BitmapGenerator&lt;T&gt;">
     <Position X="3.75" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAABAAAAAAAAAgBAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAQAAAAABAAAAAAAAAgBAEAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Bitmaps\BitmapGenerator.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="LightBuzz.Vitruvius.ColorBitmapGenerator">
     <Position X="4" Y="3.25" Width="2" />
@@ -17,7 +18,7 @@
   <Class Name="LightBuzz.Vitruvius.DepthBitmapGenerator">
     <Position X="8.75" Y="3.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAIAAIQAgAAAAAAA=</HashCode>
+      <HashCode>AAQAAAAAAAAAgAAAAAAAAAAAAAAAAIAAIQAgAAAAAAA=</HashCode>
       <FileName>Bitmaps\DepthBitmapGenerator.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -35,5 +36,12 @@
       <FileName>Bitmaps\InfraredBitmapGenerator.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Interface Name="LightBuzz.Vitruvius.IBitmapGenerator&lt;T&gt;">
+    <Position X="5.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAABAAAAAAAAAgBAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Bitmaps\IBitmapGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
