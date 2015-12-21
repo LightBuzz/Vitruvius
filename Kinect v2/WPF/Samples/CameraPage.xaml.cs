@@ -97,6 +97,7 @@ namespace Samples
         private void Skeleton_Unchecked(object sender, RoutedEventArgs e)
         {
             _displaySkeleton = false;
+            viewer.Clear(); //calling this after setting _displaySkeleton=false to clear any previously drawn skeleton
         }
 
         void Reader_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
