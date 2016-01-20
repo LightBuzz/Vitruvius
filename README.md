@@ -74,6 +74,15 @@ Grab the package using NuGet
 
 ### Avateering ([Academic & Premium Versions](http://vitruviuskinect.com))
         Avateering.Update(model, body);
+        
+### Recording & Playback ([Academic & Premium versions](http://vitruviuskinect.com))
+        // Recording
+        recorder = new VitruviusRecorder(path);
+        recorder.RecordFrame(imageFrame, frameEffect, bodyFrame, faceFrame);
+        
+        // Playback
+        player = new VitruviusPlayer(this, StreamFromPlayback, path));
+        player.SeekFrame(seekDelta);
 
 ### HD Face with properties ([Academic & Premium Versions](http://vitruviuskinect.com))
         Face face = faceFrame.Face();
