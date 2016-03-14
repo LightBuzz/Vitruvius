@@ -97,7 +97,7 @@ Grab the package using NuGet
         var forehead = face.Forehead;
 
 ## Contributors
-* [Vangos Pterneas](http://pterneas.com) from [LightBuzz](http://lightbuzz.com)
+* [Vangos Pterneas](http://pterneas.com) from [LightBuzz](http://lightbuzz.com) - Microsoft Kinect MVP
 * [George Karakatsiotis](http://gkarak.com) from [LightBuzz](http://lightbuzz.com)
 * Michael Miropoulos from [LightBuzz](http://lightbuzz.com)
 * George Georgopoulos from [LightBuzz](http://lightbuzz.com)
