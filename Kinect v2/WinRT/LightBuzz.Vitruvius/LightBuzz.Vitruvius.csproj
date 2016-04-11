@@ -104,6 +104,7 @@
     <DocumentationFile>bin\x86\Release\LightBuzz.Vitruvius.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Bitmaps\IBitmapGenerator.cs" />
     <Compile Include="Core\FrameCapture.cs" />
     <Compile Include="Bitmaps\ColorBitmapGenerator.cs" />
     <Compile Include="Bitmaps\DepthBitmapGenerator.cs" />
@@ -150,7 +151,15 @@
     <Compile Include="Bitmaps\GreenScreenBitmapGenerator.cs" />
     <Compile Include="Core\Visualization.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Bitmaps\Vitruvius_Bitmaps.cd" />
+    <None Include="Controls\Vitruvius.Controls.cd" />
+    <None Include="Core\Vitruvius_Core.cd" />
+    <None Include="Extensions\Vitruvius_Extensions.cd" />
+    <None Include="Gestures\Segments\Vitruvius_GestureSegments.cd" />
+    <None Include="Gestures\Vitruvius_Gestures.cd" />
+    <None Include="Tools\Vitruvius_Tools.cd" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\KinectAngle.xaml">
       <SubType>Designer</SubType>

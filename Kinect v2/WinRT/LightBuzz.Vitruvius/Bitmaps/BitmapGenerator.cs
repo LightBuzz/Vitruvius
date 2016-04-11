@@ -39,7 +39,7 @@ namespace LightBuzz.Vitruvius
     /// Describes a generic bitmap generator.
     /// </summary>
     /// <typeparam name="T">The type of frame (<see cref="ColorFrame"/>, <see cref="DepthFrame"/>, <see cref="InfraredFrame"/>, <see cref="BodyIndexFrame"/>, etc).</typeparam>
-    public abstract class BitmapGenerator<T>
+    public abstract class BitmapGenerator<T> : IBitmapGenerator<T>
     {
         /// <summary>
         /// Returns the RGB pixel values.

@@ -60,6 +60,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bitmaps\IBitmapGenerator.cs" />
     <Compile Include="Core\FrameCapture.cs" />
     <Compile Include="Bitmaps\BitmapGenerator.cs" />
     <Compile Include="Bitmaps\ColorBitmapGenerator.cs" />

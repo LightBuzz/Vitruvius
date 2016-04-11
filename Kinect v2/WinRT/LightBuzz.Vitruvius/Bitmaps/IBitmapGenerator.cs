@@ -29,43 +29,40 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 
-using Microsoft.Kinect;
-using System.Windows.Media.Imaging;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace LightBuzz.Vitruvius
 {
     /// <summary>
-    /// Describes a generic bitmap generator.
+    /// Interface describing a bitmap creation tool.
     /// </summary>
-    /// <typeparam name="T">The type of frame (<see cref="ColorFrame"/>, <see cref="DepthFrame"/>, <see cref="InfraredFrame"/>, <see cref="BodyIndexFrame"/>, etc).</typeparam>
-    public abstract class BitmapGenerator<T> : IBitmapGenerator<T>
+    /// <typeparam name="T">The type of frame (Color, Depth, Infrared).</typeparam>
+    public interface IBitmapGenerator<T>
     {
         /// <summary>
         /// Returns the RGB pixel values.
         /// </summary>
-        public byte[] Pixels { get; protected set; }
+        byte[] Pixels { get; }
 
         /// <summary>
         /// Returns the width of the bitmap.
         /// </summary>
-        public int Width { get; protected set; }
+        int Width { get; }
 
         /// <summary>
         /// Returns the height of the bitmap.
         /// </summary>
-        public int Height { get; protected set; }
+        int Height { get; }
 
         /// <summary>
         /// Returns the actual bitmap.
         /// </summary>
-        public WriteableBitmap Bitmap { get; protected set; }
+        WriteableBitmap Bitmap { get; }
 
         /// <summary>
         /// Updates the bitmap with new frame data.
         /// </summary>
         /// <param name="frame">The specified Kinect frame.</param>
-        public virtual void Update(T frame)
-        {
-        }
+        void Update(T frame);
     }
 }
