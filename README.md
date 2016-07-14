@@ -54,7 +54,7 @@ Grab the package using NuGet
 
            switch (gesture)
            {
-        	   case (GestureType.JointHands): break;
+        	   case (GestureType.JoinedHands): break;
         	   case (GestureType.Menu): break;
         	   case (GestureType.SwipeDown): break;
         	   case (GestureType.SwipeLeft): break;
