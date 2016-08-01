@@ -39,6 +39,9 @@ Grab the package using NuGet
         viewer.DrawBody(body);
 
 ### Angles between joints
+
+![Angles](http://i2.wp.com/vitruviuskinect.com/wp-content/uploads/2015/05/vitruvius-mathematics.jpg?resize=600%2C403 "Vitruvius Angles")
+
         double angle = elbow.Angle(shoulder, wrist);
         double angle = elbow.Angle(shoulder, wrist, Axis.Z);
         double radians = angle.ToRadians();
@@ -73,6 +76,9 @@ Grab the package using NuGet
         KinectJointSelector	// Allows you to select a joint visually.
 
 ### Avateering ([Academic & Premium Versions](http://vitruviuskinect.com))
+
+![Avateering](http://i2.wp.com/vitruviuskinect.com/wp-content/uploads/2015/10/vitruvius-kinect-body-models.jpg?w=1080 "Vitruvius Avateering")
+
         Avateering.Update(model, body);
         
 ### Recording & Playback ([Academic & Premium versions](http://vitruviuskinect.com))
