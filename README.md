@@ -40,7 +40,7 @@ Grab the package using NuGet
 
 ### Angles between joints
 
-![Angles](http://i2.wp.com/vitruviuskinect.com/wp-content/uploads/2015/05/vitruvius-mathematics.jpg?resize=600%2C403 "Vitruvius Angles")
+![Angles](http://i2.wp.com/vitruviuskinect.com/wp-content/uploads/2015/05/vitruvius-mathematics.jpg "Vitruvius Angles")
 
         double angle = elbow.Angle(shoulder, wrist);
         double angle = elbow.Angle(shoulder, wrist, Axis.Z);
@@ -77,7 +77,7 @@ Grab the package using NuGet
 
 ### Avateering ([Academic & Premium Versions](http://vitruviuskinect.com))
 
-![Avateering](http://i2.wp.com/vitruviuskinect.com/wp-content/uploads/2015/10/vitruvius-kinect-body-models.jpg?w=1080 "Vitruvius Avateering")
+![Avateering](http://i2.wp.com/vitruviuskinect.com/wp-content/uploads/2015/10/vitruvius-kinect-body-models.jpg "Vitruvius Avateering")
 
         Avateering.Update(model, body);
         
@@ -91,6 +91,9 @@ Grab the package using NuGet
         player.SeekFrame(seekDelta);
 
 ### HD Face with properties ([Academic & Premium Versions](http://vitruviuskinect.com))
+
+![Face](http://vitruviuskinect.com/wp-content/uploads/2015/10/vitruvius-kinect-face-cover.svg "Vitruvius HD Face")
+
         Face face = faceFrame.Face();
         var nose = face.Nose;
         var mouth = face.Mouth;
